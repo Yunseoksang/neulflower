@@ -1,0 +1,28 @@
+th.column-title{
+  min-width: 200px;
+  text-align: center;
+}
+
+
+
+/* th.th_long{
+  min-width: 130px !important;
+} */
+
+.th_product_name{
+  min-width: 400px !important;
+}
+
+
+
+.datatable_wrap{
+  /*overflow:auto;*/
+  max-height: 800px;
+}
+
+
+
+
+table.dataTable thead .sorting:after {
+   content:unset !important;
+}

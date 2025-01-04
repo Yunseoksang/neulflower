@@ -1,0 +1,72 @@
+.btn_delete{
+    margin-left:unset !important;
+  }
+  
+  .page-title .title_right .pull-right {
+    margin: 10px 0;
+    margin-left: 30px;
+  }
+  
+  .dataTables_filter input{
+    height:34px;
+  }
+  
+  .font_size_10{
+     font-size:10px;
+  }
+  .font_size_11{
+     font-size:11px;
+  }
+  
+  ul.toggle_temp{
+    border:1px dotted #4FB5D3;
+    list-style-type:none;
+    padding:12px !important;
+    border-radius: 5px;
+    background:#ffffff;
+    margin:0px;
+  }
+
+
+
+  .select2-container{
+    max-width:150px;
+  }
+
+
+  .img_file{
+    color: #333;
+    background-color: #fff;
+    border-color: #73879C;
+    border-radius: 3px;
+    padding: 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border:1px solid #bbc5ce;
+  }
+
+
+  th input{
+    max-width: 120px;
+  }
+
+
+  .brand_ex textarea{
+    min-width:350px;
+    min-height:300px;
+  }
+
+
+  td.brand_name input{
+    max-width:100px;
+  }
+
+  
+  td.brand_display_order input{
+    max-width:100px;
+  }
+
+  td.cache_img_url input{
+    max-width:190px;
+  }
+

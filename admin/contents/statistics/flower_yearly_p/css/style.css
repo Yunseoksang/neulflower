@@ -1,0 +1,14 @@
+div.yyyymm_div{
+    float:left !important;
+}
+
+#yyyy{
+    text-align: center;
+    background-color: #7a4040;
+    color: white;
+    font-size: 18pt;
+    width: 150px;
+    padding: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}

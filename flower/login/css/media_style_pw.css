@@ -1,0 +1,75 @@
+@media only screen and (max-width: 640px) {
+  
+
+}
+
+
+
+
+@media only screen and (max-width: 480px) {
+
+    .neulflower{
+      /*display:none;*/
+	  margin-top:-80px;
+	}
+
+    .main_title{
+      font-size:18pt !important;
+	}
+
+	.container{
+       padding:40px 0;
+	}
+
+	.wrapper {
+        height:440px;
+		top:unset !important;  /*�Ӽ������*/
+		margin-top:unset !important;   /*�Ӽ������*/
+		/*position:absolute;
+		bottom:0px;
+		*/
+	}
+    
+	.input_row{
+        max-width: 85%;
+		margin: 0 auto;
+	}
+
+
+
+	form input.input{
+        width: 200px;
+	}
+
+	form button.button3{
+       width:150px;
+	}
+
+	.agree_row{
+       font-size:10pt;
+	}
+
+	.form5 h2 {
+       font-size:11pt;
+	}
+
+	#neulflower img{
+		max-width: 50%;
+        margin-bottom: 30px;
+	}
+
+	.exp_pw{
+		padding:0px 20px;
+	}
+}
+
+
+
+
+@media only screen and (max-width: 400px) {
+
+
+}
+
+
+

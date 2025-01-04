@@ -1,0 +1,41 @@
+.form-inline .form-control {
+  /*width:100%;*/
+}
+
+input.to_place_name, input.to_name, input.to_hp, input.to_receiver_name{
+  width: unset !important;
+  width:50px !important;
+}
+
+
+
+
+td.io_status .btn{
+  min-width:110px;
+}
+
+
+td.exec_td .btn{
+  min-width:90px;
+}
+
+input[name="to_place_name"]{
+  max-width:100px;
+}
+
+
+input[name="to_name"]{
+  max-width:100px;
+}
+
+input[name="receiver_name"]{
+  max-width:100px;
+}
+
+input[name="to_hp"]{
+  max-width:120px;
+}
+
+textarea[name="admin_memo"]{
+  max-width:120px;
+}

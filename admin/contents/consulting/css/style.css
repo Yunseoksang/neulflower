@@ -1,0 +1,357 @@
+
+.sky{
+  color:#00b8ff;
+}
+
+.input_area{
+    max-width:1000px;
+}
+
+.input_area .x_title h2{
+   margin-top:30px;
+}
+.control-label {
+    text-align: left !important;
+}
+
+
+h2{
+    color: #00b8ff;
+}
+
+
+
+.big_title {
+    text-align:center;
+    color: #00b8ff;
+    font-size: 18pt;
+    height: 100px;
+    vertical-align: middle  !important;
+    background-color: #2a3f5417;
+}
+
+
+.tr_title th{
+    text-align:center;
+    background: rgba(52, 73, 94, 0.94);
+    color:white
+}
+
+
+.tr_value td{
+    text-align:center;
+}
+
+
+.mtitle{
+    background-color: #2a3f5417;
+    color: #00b8ff;
+}
+
+.mth{
+    width:100px;
+    background-color:#2a3f5417;
+    text-align: center;
+}
+
+.mth_x{
+    width:30px;
+    background-color:#2a3f5417;
+    text-align: center;
+}
+
+
+.fa-save, .fa-undo, .fa-close{
+    cursor:pointer;
+}
+.fa-save:hover, .fa-undo:hover{
+   color:#d9534f
+}
+
+.fa-undo{
+    margin-top:10px;
+}
+
+.consulting_history{
+    background: rgba(52, 73, 94, 0.94);
+    color:white;
+}
+
+.consulting_docu{
+    background-color: #2a3f5417;
+}
+
+.tag_red{
+    background: #d9534f;
+}
+
+.tag_red:after{
+    border-left: 11px solid #d9534f;
+}
+
+.tag_blue{
+    background: #5bc0de;
+}
+
+.tag_blue:after{
+    border-left: 11px solid #5bc0de;
+}
+
+.tag_warning{
+    background: #f0ad4e;
+}
+
+.tag_warning:after{
+    border-left: 11px solid #f0ad4e;
+}
+
+
+.tag_primary{
+    background: #337ab7;
+}
+.tag_primary:after{
+    border-left: 11px solid #337ab7;
+}
+
+
+#datatable-main td.company_name{
+    color:#00b8ff;
+
+}
+
+#datatable-main td.company_name:hover{
+
+    text-decoration: underline;
+}
+
+
+.table_company_info td,.table_manager_info td,.settlement_info td{
+    width:40%;
+}
+
+.table_company_key_info th{
+    width:15%;
+}
+
+.x_panel_memo_history{
+    min-height: unset;
+}
+
+a.tag:hover{
+    text-decoration: none;
+    color:dodgerblue;
+}
+
+li.memo_li .excerpt{
+    padding-top:20px;
+}
+
+.ellipsis{
+padding: 10px !important;
+}
+
+
+
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.glyphicon-file:before {
+    content: "\e022";
+}
+
+
+
+.th_num{
+    width:50px;
+}
+
+.td_x{
+    width:50px;
+}
+td.td_x{
+
+    color:dodgerblue;
+}
+
+td.td_x{
+
+   cursor:pointer;
+}
+
+.dataTables_filter{
+    width:100%;
+}
+
+.datatable_btn_search {
+    padding-bottom: 8px;
+
+}
+
+td.consulting_status button.io_status{
+    min-width:110px;
+}
+
+thead th.consulting_status{
+    min-width:150px;
+}
+
+.table_manager_info tbody td{
+    width:10%;
+    text-align: center;
+}
+.table_company_info tbody th{
+   min-width:100px;
+}
+
+.settlement_info tbody th{
+    min-width:100px;
+ }
+ 
+
+
+th.manager_th_email,td.manager_email{
+    min-width:200px;
+}
+
+#detail_section{
+    max-width:1440px;
+}
+
+#main_list{
+    max-width:1440px;
+}
+
+
+
+#memo_history{
+
+    margin-top: 60px;
+}
+
+#myTab{
+    padding-left:0px;
+}
+
+ul.bar_tabs > li
+{
+ margin-left:0px;
+}
+
+
+ul.bar_tabs > li.active{
+
+    margin-top: -26px;
+    border-right: unset;
+    border-top: unset;
+    padding-top: 10px;
+    border-radius: 5pt;
+    
+
+}
+
+ul.bar_tabs > li.active a{
+
+    font-size:14pt;
+    margin-top:-10px;
+    border-color:#E6E9ED;
+    border-radius: 5pt;
+    color: #00b8ff !important;
+
+}
+
+ul.bar_tabs > li
+
+{
+    margin-top:-20px;
+    border-radius: 5pt;
+
+}
+
+ul.bar_tabs > li > a
+
+{
+
+    border-radius: 5pt;
+
+}
+
+
+
+.nav-tabs>li.active>a,ul.bar_tabs > li.active a{
+    background: unset;
+    border-color:#E6E9ED;
+
+}
+
+
+#product_type{
+   height:30px;
+
+   border:1px solid #E6E9ED;
+
+}
+
+#memo_title{
+    height:30px;
+    width:90%;
+    min-width:300px;
+    max-width:100%;
+    border:1px solid #E6E9ED;
+
+
+}
+
+.type_filter{
+    padding-left:0px !important;
+}
+
+.type_filter_wrap{
+    padding-left:0px !important;
+
+}
+
+
+#attatchTab li{
+    cursor:pointer;
+}
+
+#single_cal1,#single_cal2{
+    width:224px;
+}
+
+#attachment_tabs{
+    margin-top:100px;
+}
+
+input[type=date]{
+    border: 1px solid #e5e5e5;
+    height: 30px;
+    font-size: 9pt;
+    width: 100px;
+    text-align: center;
+    color: unset;
+    margin-bottom:5px;
+}
+
+
+h2 .atitle{
+    margin-left:10px;
+}
+
+.td_filename a{
+    cursor:pointer;
+}
+
+.scom{
+    font-style: italic;
+    color:grey;
+    font-size:10pt;
+}

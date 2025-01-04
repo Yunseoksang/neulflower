@@ -1,0 +1,28 @@
+
+.rl_unit_price,.rl_vat,.ll_client_tax,.ll_client_price{
+    text-align: right;
+  }
+  
+  .li_right_header,.li_left_header{
+    background-color: #357a6a29 !important;
+    padding-top: 15px !important;
+    font-weight: bold !important;
+  }
+  
+  .li_right_header .rl_input{
+    text-align: center !important;
+  }
+
+  .won{
+    margin:unset !important;
+  }
+
+  .ul_product_list_right .pull-right input{
+    width: 60px !important;
+    display: inline !important;
+    padding-right:0px !important;
+  }
+
+  .ul_product_list_right select.form-control{
+    padding:0px !important;
+  }

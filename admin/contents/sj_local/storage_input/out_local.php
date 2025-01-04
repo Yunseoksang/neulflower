@@ -1,0 +1,344 @@
+
+<?php
+
+
+$folder_name = "sj_local/storage_input";
+
+
+$sel_storage = mysqli_query($dbcon, "select * from storage order by storage_name ") or die(mysqli_error($dbcon));
+$sel_storage_num = mysqli_num_rows($sel_storage);
+
+
+
+
+?>
+
+
+<link href="./contents/<?=$folder_name?>/css/style.css?ver=<?=time()?>" rel="stylesheet">
+<script src="./contents/<?=$folder_name?>/js/page.js?ver=<?=time()?>"></script> <!-- 페이지별 개별 jquery 기능 정의 -->
+
+
+<div class="right_col" role="main" style="min-height: 527px;">
+
+
+
+        <div class="right_set" mode='minus'>
+          <div class="page-title">
+            <div class="title_left">
+              <h3>
+                    출고서 작성  : <?=$admin_info['t_storage_sangjo']?>
+                    <small>
+                        
+                    </small>
+                    
+                </h3>
+                <hr>
+            </div>
+
+
+            <div class="title_right">
+            <div class="col-md-6 col-sm-6 col-xs-12 form-group pull-right">
+                      <label class="control-label col-md-4 col-sm-4 col-xs-12" style='text-align:right;'></label>
+                      <div class="col-md-8 col-sm-8 col-xs-12">
+                       
+                      </div>
+                    </div>
+
+            </div>
+          </div>
+          <div class="clearfix"></div>
+
+
+
+
+
+  
+          <div class="row">
+
+
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <div class="x_panel x_panel_minium">
+                <div class="x_title">
+                  <h2>제품 선택<small></small></h2>
+                    <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                      <input type="text" class="form-control has-feedback-left" id="product_filter" placeholder="상품명 검색">
+                      <span class="fa fa-search form-control-feedback left" aria-hidden="true"></span>
+                    </div>
+                  
+                  <ul class="nav navbar-right panel_toolbox simple_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content product_x_content">
+
+                  <div class="">
+                    <ul class="to_do ul_product_list">
+
+<?php
+
+$base_output_product_query = "select a.*,b.current_count as sum_current_count,c.sum_out_count from product a
+left join (
+
+    select * from in_out where io_idx in (select max(io_idx) as max_io_idx from in_out where storage_idx='".$admin_info['storage_sangjo']."' group by product_idx)
+) b
+on a.product_idx=b.product_idx 
+
+left join (
+    select *,sum(out_count) as sum_out_count from in_out where io_status='이동출고완료' and to_storage_idx='".$admin_info['storage_sangjo']."' group by product_idx
+) c
+on a.product_idx=c.product_idx
+
+
+where a.category_idx=4 
+
+and b.current_count > 0 
+
+
+order by (b.current_count+c.sum_out_count) desc,a.product_name ";
+
+
+
+$sel = mysqli_query($dbcon, $base_output_product_query) or die(mysqli_error($dbcon));
+
+
+
+$sel_num = mysqli_num_rows($sel);
+
+
+$product_list = array();
+if ($sel_num > 0) {
+  //$data = mysqli_fetch_assoc($sel);
+  while($data = mysqli_fetch_assoc($sel)) {?>
+      
+
+      <li product_idx='<?=$data['product_idx']?>'>
+              <input type="checkbox" class="flat icheckbox" name='product' value=''>
+              <span class='li_product_name'><?=$data['product_name']?></span>
+              
+              <div class="form-group pull-right">
+                    <span class='current_storage_cnt'><?=$data['sum_current_count']?></span>
+                    <br>
+                    <span class='plus_storage_cnt_minus hide'>+1</span>
+                    
+              </div>
+              <div style='clear:right;'></div>
+          </li>
+  
+  <?}
+}
+
+
+
+?>
+
+
+
+
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+
+
+            <div class="col-md-6 col-xs-12">
+              <div class="x_panel x_panel_minium">
+                <div class="x_title">
+                  <h2>출고 제품<small></small></h2>
+                  <ul class="nav navbar-right panel_toolbox simple_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content product_right_content">
+                    
+                  <div class="">
+                      <ul class="to_do ul_product_list_right ">
+
+
+                      </ul>
+
+
+
+                      <ul class="to_do selected_total_ul">
+                        <li>
+                          <span class='grey total'>Total</span> <span class=''>품목수:</span>  <span class='selected_product_num'>0</span> 
+                          
+                            <div class="form-group pull-right ">
+                              <span class='total_selected_cnt'>총수량:</span> <span class='plus_storage_cnt_minus'>-0</span>
+                          </div>
+                        </li>
+                      </ul>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            
+
+
+
+
+
+
+
+
+          </div>
+        </div>
+
+
+
+        <div class="clear"></div>
+
+
+
+        <div class="row">
+
+
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="x_panel x_panel_minium">
+              <div class="x_title">
+                <h2>배송지 입력<small></small></h2>
+                <ul class="nav navbar-right panel_toolbox simple_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                  </ul>
+                
+                <div class="clearfix"></div>
+              </div>
+
+
+              <div class="x_content ">
+                <div class="" id="out_form">
+                        <label for="to_place_name">배송지 명 :</label>
+                        <input type="text" id="to_place_name" class="form-control input_normal" name="to_place_name" >
+
+                        <label for="address">배송지 주소 * :</label>
+                        <input type="text" id="address" class="form-control" name="address" >
+
+                        <label for="to_name">받는분 이름 * :</label>
+                        <input type="text" id="to_name" class="form-control input_normal" name="to_name" >
+
+                        <label for="hp">전화번호 * :</label>
+                        <input type="text" id="hp" class="form-control input_normal" name="hp" >
+
+                        <label for="memo">메모 :</label>
+                        <textarea id="memo" required="required" class="form-control" name="memo" ></textarea>
+
+                        <br>
+                        <div class="checkbox">
+                          <label class="">
+                            <div class="icheckbox_flat-green " style="position: relative;">
+                            <input type="checkbox" id='move_check' class="flat"  style="position: absolute; opacity: 0;">
+                            </div> <span> 이동지시서 동시 작성</span>
+                          </label>
+                        </div>
+                        <br>
+
+                        <button  class="btn btn-primary btn_cancel">취소</button>
+                        <button  class="btn btn-success btn_save_out">저장하기</button>
+                  
+
+
+
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+        <!-- footer content -->
+        <footer>
+          <div class="copyright-info">
+            <p class="pull-right">
+            </p>
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+
+      </div>
+
+
+      <div class='hide' id='product_li_sample'>
+          
+          <li product_idx=''>
+              <input type="checkbox" class="flat icheckbox" name='product' value=''>
+              <span class='li_product_name'>제품명</span>
+              
+              <div class="form-group pull-right">
+                    <span class='current_storage_cnt'>14</span>
+                    <br>
+                    <span class='plus_storage_cnt_minus hide'>+1</span>
+                    
+              </div>
+              <div style='clear:right;'></div>
+          </li>
+          
+      </div>
+
+
+      <div class='hide' id='product_li_add_sample'>
+          <li product_idx=''>
+            <input class="flat icheckbox " type=checkbox checked="checked" name='product_idx' value='' ><span class='li_product_name'>추가할 제품명</span>
+            
+              <div class="form-group pull-right">
+                <input type=number name='cnt' value='1' class='input_cnt'>
+                <i class='fa fa-minus-circle red btn_x_circle'></i>
+            </div>
+          </li>
+      </div>
+
+
+<!-- daterangepicker -->
+<script type="text/javascript" src="js/moment/moment.min.js"></script>
+<script type="text/javascript" src="js/datepicker/daterangepicker.js"></script>
+
+<!-- Autocomplete -->
+<script type="text/javascript" src="js/autocomplete/countries.js"></script>
+
+
+<!-- select2 -->
+<script>
+  $(document).ready(function() {
+    $("#out_storage.select2_single").select2({
+      placeholder: "출고지 선택",
+      allowClear: true
+    });
+    $(".select2_group").select2({});
+
+
+    $("input").iCheck({
+      checkboxClass: 'icheckbox_flat'
+    });
+
+  });
+</script>
+<!-- /select2 -->

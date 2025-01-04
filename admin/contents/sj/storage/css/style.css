@@ -1,0 +1,53 @@
+th.column-title{
+  min-width: 50px;
+  text-align: center;
+}
+
+
+.th_filter_bg{
+  background-color: rgb(40, 60, 68);
+}
+.td_filter_bg{
+  background-color: rgb(194 226 255);
+  /*color:rgb(255, 255, 255) !important;*/
+}
+
+.td_safe_alert{
+  background-color: #5bc0de;
+}
+
+/* th.th_long{
+  min-width: 130px !important;
+} */
+
+.th_product_name{
+  min-width: 200px !important;
+}
+
+
+
+.datatable_wrap{
+  /*overflow:auto;*/
+  max-height: 800px;
+}
+
+
+#datatable_static th,#datatable_static td{
+  width:30px;
+  border-right:1px solid #ddd;
+}
+
+
+table.dataTable thead .sorting:after {
+   content:unset !important;
+}
+
+td.delivery_unit, th.delivery_unit{
+  width: 80px;
+}
+
+
+td.td_sum{
+    border-right: 2px solid rgb(155, 152, 152) !important; /* 우측 셀에만 두꺼운 테두리를 추가합니다. */
+
+}

@@ -1,0 +1,30 @@
+div.yyyymm_div{
+    float:left !important;
+}
+
+#yyyy{
+    text-align: center;
+    background-color: #407a6b;
+    color: white;
+    font-size: 18pt;
+    width: 150px;
+    padding: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
+#datatable-main td{
+    text-align: right;
+    width:70px;
+
+}
+
+#datatable-main th{
+    text-align: center;
+    width:70px;
+}
+
+.span_cnt{
+   color:#2ac6ff;
+}

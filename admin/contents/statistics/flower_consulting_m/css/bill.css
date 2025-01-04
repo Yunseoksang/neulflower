@@ -1,0 +1,251 @@
+.bill_table{
+    border-collapse:collapse;
+
+}
+
+
+.head_td{
+    padding:0px !important;
+    border-top:2px solid #7c7c7c8c !important;
+    border-bottom:2px solid #7c7c7c8c !important;
+}
+
+.bill_table_head{
+    width:100%;
+    
+
+}
+
+.bill_table th,.bill_table td{
+    text-align: center;
+    border:1px solid #ddd;
+}
+
+
+
+.bill_table_head { border-collapse:collapse; }  
+.bill_table_head th, .bill_table_head td { border:1px solid #ddd; }
+
+
+
+
+.bth_col1{
+    background-color: #d9e2f3;
+}
+
+.bth_col3{
+    background-color: #e2efd9
+
+}
+
+
+.bth_col2{
+    font-size: 20pt;
+    padding:10px 0px;
+}
+
+/*   공급자  공급받는자 */
+
+.bill_table_body_td{
+    padding: 0px !important;
+}
+
+.bill_table_body{
+    border:0px;
+    padding:0px;
+}
+
+.m_td{
+    width:15px;
+}
+
+
+
+.bill_table table{
+    width:100%;
+}
+
+.td_sender,.td_receiver{
+    width:500px;
+}
+
+#bill_table_body .sth{
+    width:100px;
+    background-color:#f2f2f2;
+    height:25px;
+    text-align: left !important;
+    padding-left:10px;
+}
+
+#bill_table_body .std{
+    width:150px;
+    text-align: left !important;
+    padding-left:20px;
+}
+
+
+.bill_table_body_td{
+    border:0px !important;
+}
+
+
+.sender_title{
+  padding-left: 10px;
+  text-align: left !important;
+  background-color: #d9e2f3;
+  height:25px;
+}
+
+.receiver_title{
+    padding-left: 10px;
+
+    text-align: left !important;
+    background-color: #e2efd9;
+    height:25px;
+}
+
+#bill_list_table tr th, #bill_list_table tr td{
+    height:30px;
+}
+
+.bill_list_table_td{
+    padding:0px !important
+}
+
+#bill_list_table tbody td.blt_price_sum,#bill_list_table tbody td.blt_vat, #bill_list_table tfoot td{
+  background-color:#ffffe1;
+}
+
+#bill_list_table thead th,#bill_list_table tfoot td{
+
+    border-top:2px solid #7c7c7c8c !important;
+    border-bottom:2px solid #7c7c7c8c !important;
+}
+
+
+.total_tr_table_td{
+    padding:0px !important;
+}
+
+.total_tr_table_td table tr th{
+    height:30px;
+    background-color: #d9e2f3;
+    padding:5px;
+    border:0px !important;
+}
+
+#bill_list_table tbody tr td{
+
+    padding-left:10px;
+    padding-right:10px;
+
+
+}
+
+
+
+#total_tr_table tr th.ttt_1{
+    width:300px;
+    text-align: left !important;
+    padding-left:10px !important;
+    border-bottom:2px solid #d9e2f3 !important;
+
+}
+#total_tr_table tr th.ttt_2{
+    width:50px;
+    text-align: right !important;
+    border-bottom:2px solid #d9e2f3 !important;
+
+}
+#total_tr_table tr th.ttt_3{
+    width:300px;
+    border-bottom:2px solid #7c7c7c8c !important;
+}
+#total_tr_table tr th.ttt_4{
+    width:50px;
+    text-align: left !important;
+    border-bottom:2px solid #d9e2f3 !important;
+}
+#total_tr_table tr th.ttt_5{
+    width:300px;
+    border-bottom:2px solid #7c7c7c8c !important;
+}
+
+.blt_mm        {
+    width:30px;
+
+}
+.blt_dd        {
+    width:30px;
+
+}
+.blt_product   {
+    width:200px;
+
+}
+td.blt_product   {
+    text-align: left !important;
+
+}
+
+
+
+.blt_package   {
+    width:150px;
+
+}
+.blt_unit      {
+    width:80px;
+
+}
+
+.blt_amount    {
+    width:80px;
+
+}
+
+
+.blt_price{
+    width:100px;
+
+}
+td.blt_price{
+    text-align: right !important;
+
+}
+.blt_price_sum     {
+    width:120px;
+
+}
+td.blt_price_sum     {
+    text-align: right !important;
+
+}
+
+.blt_vat       {
+    width:120px;
+
+}
+td.blt_vat       {
+    text-align: right !important;
+
+}
+
+
+
+.blt_etc       {
+    width:150px;
+
+}
+
+.title_left{
+    width:unset !important;
+    float:unset !important
+ }
+
+ 
+.ui-icon-circle-triangle-w,.ui-icon-circle-triangle-e{
+    margin-top:-20px;
+    margin-left:-10px;
+}
+

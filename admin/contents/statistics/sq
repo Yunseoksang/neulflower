@@ -1,0 +1,57 @@
+insert into ".$db_statistics.".sj_daily (ymd,ym,product_idx,product_name,input_amount)
+
+select 
+date_format(input_datetime,'%Y-%m-%d'),
+date_format(input_datetime,'%Y-%m-01'),
+product_idx,
+t_product_name,
+sum(in_count) 
+from ".$db_sangjo.".in_out 
+where io_status='입고완료'
+group by date_format(input_datetime,'%Y-%m-%d'),product_idx 
+order by date_format(input_datetime,'%Y-%m-%d');
+
+
+
+insert into ".$db_statistics.".sj_daily_group (ymd,ym,input_amount)
+
+select 
+date_format(input_datetime,'%Y-%m-%d'),
+date_format(input_datetime,'%Y-%m-01'),
+sum(in_count) 
+from ".$db_sangjo.".in_out 
+where io_status='입고완료'
+group by date_format(input_datetime,'%Y-%m-%d')
+order by date_format(input_datetime,'%Y-%m-%d');
+
+
+
+update ".$db_statistics.".sj_daily_group a , 
+(select 
+date_format(output_datetime,'%Y-%m-%d') b_ymd,
+date_format(output_datetime,'%Y-%m-01') b_ym,
+sum(out_count) b_cnt
+from ".$db_sangjo.".in_out 
+where io_status='출고완료'
+group by date_format(output_datetime,'%Y-%m-%d')
+order by date_format(output_datetime,'%Y-%m-%d')
+) b 
+
+
+set a.output_amount=b.b_cnt 
+
+where a.ymd=b.b_ymd
+
+
+
+
+
+
+
+
+update in_out set input_datetime=regist_datetime where io_status='입고완료';
+update in_out set output_datetime=regist_datetime where io_status='출고완료';
+update in_out set moveout_datetime=regist_datetime where io_status='이동출고완료';
+update in_out set movein_datetime=regist_datetime where io_status='이동입고완료';
+
+update in_out set cancel_datetime=regist_datetime where io_status like '%취소%';

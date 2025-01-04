@@ -1,0 +1,29 @@
+#datatable-main input.form-control{
+  width:100% ;
+}
+
+input[name='admin_name']{
+  min-width: 80px;
+}
+input[name='admin_hp']{
+  min-width: 110px;
+}
+
+
+button.io_status{
+   min-width:82px;
+}
+
+
+#modal-admin-permission select {
+  max-width: 250px;
+}
+
+
+#modal-admin-permission td {
+  max-width: 240px;
+}
+
+.td_start {
+  border: 1px solid #dddddd !important;
+}

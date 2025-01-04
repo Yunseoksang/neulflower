@@ -1,0 +1,356 @@
+/* div.yyyymm_div{
+    float:left !important;
+} */
+
+
+#datatable-main tr td:hover{
+  cursor:pointer;
+  color:#00b8ff;
+}
+
+.dataTables_length{
+    width:30% !important;
+}
+.dataTables_filter {
+    width:100% !important;
+
+}
+#yyyy{
+    text-align: center;
+    background-color: #7a4068;
+    color: white;
+    font-size: 18pt;
+    width: 150px;
+    padding: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
+#yyyymm{
+    width: 110px;
+    display:inline-block;
+    border-radius:unset !important;
+    border: 1px solid #ccc;
+    color:#00b8ff;
+    font-size:10pt;
+  }
+
+  #yyyymm::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #00b8ff;
+    opacity: 1; /* Firefox */
+    font-size:10pt;
+  }
+  
+  #MonthPicker_Button_yyyymm{
+    display:inline-block;
+  }
+  
+  .yyyymm_div{
+    white-space: nowrap;
+  }
+  
+
+  .price{
+    font-size: unset !important;
+    font-weight: unset !important;
+    color: unset !important;
+    margin: unset !important;
+  }
+
+
+  .right_company_name{
+    color:#00b8ff;
+  }
+
+
+  #datatable-bill-popup td.sender_name{
+    width:200px !important;
+  }
+
+  #datatable-bill-popup td.product_name{
+    width:200px !important;
+  }
+
+
+
+
+  
+#yyyymm_right{
+    width: 110px;
+    display:inline-block;
+    border-radius:unset !important;
+    border: 1px solid #ccc;
+    color:#00b8ff;
+    font-size:10pt;
+  }
+
+  #yyyymm_right::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #00b8ff;
+    opacity: 1; /* Firefox */
+    font-size:10pt;
+  }
+  
+
+  .x_panel{
+    min-height:unset !important;
+  }
+
+  #detail_section{
+    min-height:400px;
+  }
+
+
+  /* ----------------------- */
+
+
+
+  
+#yyyymm_right_bill{
+    width: 110px;
+    display:inline-block;
+    border-radius:unset !important;
+    border: 1px solid #ccc;
+    color:#00b8ff;
+    font-size:10pt;
+  }
+
+  #yyyymm_right_bill::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #00b8ff;
+    opacity: 1; /* Firefox */
+    font-size:10pt;
+  }
+  
+
+  #detail_section_bill{
+    min-height:400px;
+  }
+
+  
+.ui-icon-circle-triangle-w,.ui-icon-circle-triangle-e{
+  margin-top:-20px;
+  margin-left:-10px;
+}
+
+
+/* .title_left hr{
+  width:350px;
+} */
+
+
+.dataTables_info {
+  width:unset !important;
+}
+
+.page-title{
+  height: unset !important;
+}
+
+
+
+/* 정산일 선택 달력선택창 */
+.input-container {
+  position: relative;
+  display: inline-block;
+  z-index: 1000;
+}
+
+#calendar_dom {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 400px;
+
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.hidden {
+  display: none;
+}
+
+.row_c {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.row_c button {
+  flex-grow: 1;
+  margin-right: 5px;
+  border:1px solid #ccc;
+  background-color: #fff;
+  width:30px;
+  padding-top:5px;
+  padding-bottom:5px;
+  margin-top:0px;
+  margin-bottom:0px;
+  transition: background-color 0.5s,color 0.5s;
+  position: relative; /* Add position: relative to the existing button styles */
+}
+
+
+.row_c button:hover{
+  background-color: #00b7ff48;
+  color:#ff4700;
+}
+
+.row_c button:last-child {
+  margin-right: 0;
+}
+
+#sdate{
+  cursor:pointer;
+}
+
+
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: #e0e0e076;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  width: 0%;
+  background-color: #5cb85c;
+}
+
+#xtitle_yyyymm{
+  color:#00b8ff;
+}
+
+.icheckbox {
+  display:inline-block;
+}
+
+.info{
+  color:#5bc0de;
+}
+
+.readonly-input[readonly] {
+  background-color: white;
+}
+
+#right_category1_name {
+  color:#00b8ff;
+  
+}
+.right_company_name{
+  
+}
+
+table.dataTable thead th.exec_checkbox.sorting_desc:after {
+
+  content:unset !important;
+
+}
+
+
+.bill_month{
+  color: #337ab7;
+}
+
+
+#detail_section, #detail_section_bill {
+  width: 70%; /* 기본적으로 너비를 100%로 하고, */
+  min-width: 1038px; /* 최소 너비를 1038px로 설정 */
+  height: auto; /* 기본적으로 높이는 내용에 맞게 조절하되, */
+  max-height: 90vh; /* 화면 높이의 90%로 최대 높이 설정 */
+  min-height: 270px; /* 최소 높이는 270px로 설정 */
+  position: fixed; /* 팝업 형태로 중앙에 띄우기 위해 fixed position 사용 */
+  top: 50%; /* 상단에서 50% 위치에 띄움 (이후 transform을 사용하여 정확하게 중앙에 배치) */
+  left: calc(50% + 115px); /* 50%에 왼쪽 메뉴의 절반(115px)을 더한 값 */
+  transform: translate(-50%, -50%); /* 정확하게 화면 중앙에 배치 */
+  background-color: white; /* 배경색 설정 (필요에 따라 변경 가능) */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 팝업에 그림자 효과 추가 */
+  z-index: 2000; /* 다른 요소 위에 표시되도록 z-index 설정 */
+  overflow-y: auto; /* 내용이 #detail_section을 넘어서면 스크롤 추가 */
+  padding-bottom: 5px; /* 컨텐츠의 내용보다 20px 더 크게 높이를 만들기 위한 패딩 추가 */
+}
+
+
+#overlay {
+  position: fixed;      /* 전체 화면에 고정된 위치로 배치 */
+  top: 0;               /* 화면 상단에서 시작 */
+  left: 0;              /* 화면 왼쪽에서 시작 */
+  width: 100%;          /* 전체 화면 너비로 확장 */
+  height: 100%;         /* 전체 화면 높이로 확장 */
+  background-color: rgba(0, 0, 0, 0.7);  /* 반투명한 검은색 배경 */
+  z-index: 1999;         /* 팝업 바로 아래에 위치하도록 z-index 설정 */
+  display: none;        /* 기본적으로는 표시하지 않음 */
+}
+
+
+#yyyymm_popup,#yyyymm_bill {
+  width: 110px;
+  display: inline-block;
+  border-radius: unset !important;
+  border: 1px solid #ccc;
+  color: #00b8ff;
+  font-size: 10pt;
+}
+
+
+#detail_section .yyyymm_div, #detail_section_bill .yyyymm_div{
+  color:white;
+}
+
+.btn-view-bill{
+  width:100%;
+  max-width: 100px;
+}
+
+td.exec_view{
+  max-width: 100px;
+
+}
+
+
+.red{
+  color:#d9534f;
+}
+
+.blue{
+  color: #00b8ff;
+}
+
+.btn_bigo_edit{
+
+  color: #337ab7;
+  margin-left:10px;
+
+}
+
+input.input_bigo{
+  margin-bottom: 5px;
+}
+
+.red_border{
+  outline: 1px solid red;
+}
+
+/* .btn-bill-tax{
+  width:100px;
+}
+
+.btn-bill-send{
+  width:100px;
+}
+.btn-bill-approve{
+  width:100px;
+} */
+
+td.exec_view button {
+  width:100px;
+}
+
+.m_email{
+  width: 155px;
+}

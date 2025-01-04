@@ -1,0 +1,127 @@
+/* div.yyyymm_div{
+    float:left !important;
+} */
+
+
+#datatable-main tr td:hover{
+  cursor:pointer;
+  color:#00b8ff;
+}
+
+.dataTables_length{
+    width:30% !important;
+}
+.dataTables_filter {
+    width:100% !important;
+
+}
+#yyyy{
+    text-align: center;
+    background-color: #7a4068;
+    color: white;
+    font-size: 18pt;
+    width: 150px;
+    padding: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
+#yyyymm{
+    width: 110px;
+    display:inline-block;
+    border-radius:unset !important;
+    border: 1px solid #ccc;
+    color:#00b8ff;
+    font-size:10pt;
+  }
+
+  #yyyymm::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #00b8ff;
+    opacity: 1; /* Firefox */
+    font-size:10pt;
+  }
+  
+  #MonthPicker_Button_yyyymm{
+    display:inline-block;
+  }
+  
+  .yyyymm_div{
+    white-space: nowrap;
+  }
+  
+
+  .price{
+    font-size: unset !important;
+    font-weight: unset !important;
+    color: unset !important;
+    margin: unset !important;
+  }
+
+
+  .right_company_name{
+    color:#00b8ff;
+  }
+
+
+  #datatable-bill-popup td.sender_name{
+    width:200px !important;
+  }
+
+  #datatable-bill-popup td.product_name{
+    width:200px !important;
+  }
+
+
+
+
+  
+#yyyymm_right{
+    width: 110px;
+    display:inline-block;
+    border-radius:unset !important;
+    border: 1px solid #ccc;
+    color:#00b8ff;
+    font-size:10pt;
+  }
+
+  #yyyymm_right::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #00b8ff;
+    opacity: 1; /* Firefox */
+    font-size:10pt;
+  }
+  
+
+  .x_panel{
+    min-height:unset !important;
+  }
+
+  #detail_section{
+    min-height:400px;
+  }
+
+
+  /* ----------------------- */
+
+
+
+  
+#yyyymm_right_bill{
+    width: 110px;
+    display:inline-block;
+    border-radius:unset !important;
+    border: 1px solid #ccc;
+    color:#00b8ff;
+    font-size:10pt;
+  }
+
+  #yyyymm_right_bill::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #00b8ff;
+    opacity: 1; /* Firefox */
+    font-size:10pt;
+  }
+  
+
+  #detail_section_bill{
+    min-height:400px;
+  }

@@ -1,0 +1,97 @@
+.input_area{
+    max-width:1440px;
+}
+
+.input_area .x_content{
+    max-width:1000px;
+}
+
+.input_area .x_content_manager{
+    max-width:1440px !important;
+}
+
+
+.input_area .x_title h2{
+   margin-top:30px;
+}
+.control-label {
+
+    text-align: left !important;
+
+}
+
+
+h2{
+    color: #00b8ff;
+}
+
+.td_x{
+    width:50px;
+}
+td.td_x{
+
+    color:dodgerblue;
+}
+
+td.td_x{
+
+   cursor:pointer;
+}
+
+.btn_manager_add{
+    cursor:pointer;
+
+}
+.btn_manager_add:hover{
+   color:#00d9ff;
+
+}
+
+
+
+th.manager_th_email,td.manager_email{
+    min-width:200px;
+}
+
+
+.td_manager_department,.td_manager_position{
+   max-width: 100px;
+}
+
+.th_manager_department,.th_manager_position{
+    max-width: 100px;
+ }
+
+ .td_manager_name,.th_manager_name{
+    max-width: 150px;
+ }
+ 
+
+
+ #settlement_setting th,#table_manager th{
+ background-color: #2a3f5417;
+
+ }
+
+
+ .manager_settlement{
+    min-width:100px;
+    padding-top:15px !important;
+    text-align: center;
+ }
+ .manager_settlement .fa{
+    margin-right:8px;
+    font-size: 14pt;
+    cursor:pointer;
+ }
+
+
+ .manager_settlement .fa{
+    margin-right:8px;
+    font-size: 14pt;
+    cursor:pointer;
+ }
+
+ .mgreen{
+    color:rgba(38, 185, 154, 0.88);
+ }

@@ -1,0 +1,478 @@
+.input_area{
+  max-width:1000px;
+}
+
+.input_area .x_title h2{
+ margin-top:30px;
+}
+.control-label {
+  text-align: left !important;
+}
+
+
+h2{
+  color: #00b8ff;
+}
+
+
+
+.big_title {
+  text-align:center;
+  color: #00b8ff;
+  font-size: 18pt;
+  height: 100px;
+  vertical-align: middle  !important;
+  background-color: #2a3f5417;
+}
+
+
+.tr_title th{
+  text-align:center;
+  background: rgba(52, 73, 94, 0.94);
+  color:white
+}
+
+
+.tr_value td{
+  text-align:center;
+}
+
+
+.mtitle{
+  background-color: #2a3f5417;
+  color: #00b8ff;
+}
+
+.mth{
+  width:100px;
+  background-color:#2a3f5417;
+  text-align: center;
+}
+
+.consulting_history{
+  background: rgba(52, 73, 94, 0.94);
+  color:white;
+}
+
+.consulting_docu{
+  background-color: #2a3f5417;
+}
+
+.tag_red{
+  background: #d9534f;
+}
+
+.tag_red:after{
+  border-left: 11px solid #d9534f;
+}
+
+.tag_blue{
+  background: #5bc0de;
+}
+
+.tag_blue:after{
+  border-left: 11px solid #5bc0de;
+}
+
+
+#datatable-main td.company_name{
+  color:#478199;
+  font-size: 9pt;
+
+}
+
+/* #datatable-main td.company_name:hover{
+
+  text-decoration: underline;
+  cursor:pointer;
+} */
+
+/* #datatable-main td.product_name:hover{
+
+  text-decoration: underline;
+  cursor:pointer;
+} */
+
+
+a.tag:hover{
+  text-decoration: none;
+  color:dodgerblue;
+}
+
+li.memo_li .excerpt{
+  padding-top:20px;
+}
+
+.ellipsis{
+padding: 10px !important;
+}
+
+
+
+.glyphicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.glyphicon-file:before {
+  content: "\e022";
+}
+
+
+
+.th_num{
+  width:50px;
+}
+
+.td_x{
+  width:50px;
+}
+td.td_x{
+
+  color:dodgerblue;
+}
+
+td.td_x{
+
+ cursor:pointer;
+}
+
+.dataTables_filter{
+  width:100%;
+}
+
+.datatable_btn_search {
+  padding-bottom: 8px;
+
+}
+
+td.consulting_status button.io_status{
+  min-width:82px;
+}
+
+.table_company_info tbody th{
+ min-width:100px;
+}
+
+
+.table_delivery_info .mth{
+  width:100px;
+}
+
+.div_button{
+  text-align: center;
+}
+
+
+.info_td_right{
+  width:150px;
+}
+
+.unit_price,.price_calcu{
+  text-align: right;
+  padding-right:20px !important;
+}
+
+.select2-container{
+  min-width:200px !important;
+}
+
+
+
+#admin_notice{
+  width:100%;
+  height:50px;
+  border-color: #c5c5c5;;
+  margin-left:10px;
+}
+
+
+#datatable-main .reg_date{
+  font-size: 9pt;
+  color: #a6a6a6;
+  font-style: italic;
+
+}
+
+#datatable-main .today{
+  font-weight: bold;
+  font-size:11pt;
+  color:#1ABB9C;
+}
+
+#datatable-main .r_hour{
+  font-size: 9pt;
+}
+
+
+#datatable-main .address{
+  font-size: 9pt;
+  color: #a6a6a6;
+
+}
+
+
+#datatable-main .sender_name{
+  font-size: 9pt;
+  color: #00b8ff;
+
+}
+
+#datatable-main{
+  border-collapse: collapse;
+  min-width:600px;
+}
+
+#datatable-main tr:hover{
+  cursor:pointer;
+  background-color:#357a6a0f;
+
+}
+
+.card-box.table-responsive{
+  height:860px;
+}
+
+.table_delivery_info textarea{
+  margin-left:0px !important;
+  margin-right:0px !important;
+}
+
+.attatch_img{
+  width:80px;
+
+}
+
+
+
+.table_order_info td.product_number,.table_order_info td.order_count{
+  width:50px;
+}
+
+.table_order_info .unit_price, .table_order_info .price_calcu{
+   width:150px;
+
+}
+
+.table_order_info td.product_name{
+   width:300px;
+}
+
+.table_order_info td.order_count,.table_order_info td.product_number{
+  text-align: right;
+}
+
+.table_order_info td.bigo,.table_order_info td.product_number{
+  text-align:center;
+}
+
+
+.mth_s{
+  background-color: #87daff30;
+  width:100px;
+  text-align: center;
+}
+
+
+.out_storage .select2{
+  width:100% !important;
+}
+
+.blue_color{
+  color: #3498DB;
+
+}
+
+
+.mth{
+  width:100px;
+  background-color: #3b542a17;
+  text-align: center;
+}
+
+.dataTables_wrapper {
+  padding-right:10px;
+}
+
+.r_hour{
+  margin-left:10px;
+}
+
+.tr_sangjo td{
+  background-color: #1b5d5f1f;
+}
+
+#datatable-main td span {
+  font-size: 9pt;
+}
+
+.order_product_edit_td{
+  width:20px;
+}
+
+span.order_total_price{
+  color:#73879C;
+}
+.table_order_info .order_product_list{
+  padding-right: 30px;
+
+}
+
+input[name='cnt']{
+  width:80px;
+}
+
+div.jconfirm-box{
+  width:300px;
+}
+
+td.io_status ul li{
+  background-color:#eee;
+}
+
+div.btn-group[col_name='io_status']{
+   width:120px;
+}
+div.btn-group[col_name='io_status'] button.io_status{
+  width:85px;
+}
+
+
+td span{
+  line-height:unset;
+}
+
+.group-span-filestyle{
+  line-height:unset;
+}
+
+.btn-group button:nth-child(1){
+  width:82px;
+}
+
+
+td.receiver_name{
+  padding-left: 17px;
+  padding-right: 17px;
+
+}
+
+.table_delivery_info td{
+  width:35%;
+}
+
+.img_photo{
+  height:80px;
+  margin-right:10px;
+  margin-bottom:10px;
+}
+
+div.tr_complete{
+  text-align: center;
+}
+
+.tr_req{
+  text-align: center;
+}
+
+
+img.photo_list{
+  width:20px;
+  height:20px;
+  margin-right:2px;
+}
+
+#yyyymm{
+  width: 110px;
+  display:inline-block;
+  border-radius:unset !important;
+  border: 1px solid #ccc;
+  color:#00b8ff;
+  font-size:10pt;
+}
+
+#MonthPicker_Button_yyyymm{
+  display:inline-block;
+}
+
+.yyyymm_div{
+  white-space: nowrap;
+}
+
+/* #table_sms input[type=text]{
+  max-width:100px;
+} */
+
+.modal_sms .modal-content{
+  width:600px;
+}
+
+.tr_message textarea{
+  height:150px;
+}
+
+.btn_modal_save,.btn_modal_dismiss{
+  margin-bottom:unset !important;
+}
+
+#table_sms th{
+  background-color: #eee;
+}
+
+.border_blue{
+  border:1px solid #00b8ff !important;
+}
+
+#sms_message,#sms_subject{
+  background-color: #fffcf3;
+}
+
+
+
+
+/* --- 날짜 범위 검색에 아이콘 이미지가 째지는 현상 복구 시작 ----*/
+#reportrange .glyphicon-calendar{
+  background-image: unset !important;
+  background: unset !important;
+  font: unset !important;
+  
+}
+
+#reportrange .glyphicon{
+  background-image: unset !important;
+  background: unset !important;
+  font: unset !important;
+
+}
+#reportrange .fa{
+    font: normal normal normal 14px/1 FontAwesome !important;
+}
+
+/* --- 날짜 범위 검색에 아이콘 이미지가 째지는 현상 복구 끝 ----*/
+
+
+.tile_stats_count .left {
+  border:0px;
+}
+
+.dataTables_filter {
+width: unset !important;
+}
+
+.top .dataTables_paginate{
+  display:none;
+}
+
+.tile_count {
+   margin:0px !important;
+}
+
+.today_count{
+  color: #e35858;
+}

@@ -1,0 +1,56 @@
+@media only screen and (max-width: 640px) {
+  
+
+}
+
+
+
+
+@media only screen and (max-width: 480px) {
+    .main_title{
+      font-size:20pt !important;
+	}
+
+	.container{
+       padding:40px 0;
+	}
+
+	.wrapper {
+        height:350px;
+		top:unset !important;  /*�Ӽ������*/
+		margin-top:unset !important;   /*�Ӽ������*/
+		/*position:absolute;
+		bottom:0px;*/
+	}
+    
+	.input_row{
+        max-width: 80%;
+		margin: 0 auto;
+	}
+
+
+
+	form input.input{
+        width: 200px;
+
+
+	}
+
+
+	#neulflower img{
+		max-width: 50%;
+        margin-bottom: 30px;
+	}
+
+}
+
+
+
+
+@media only screen and (max-width: 400px) {
+
+
+}
+
+
+
