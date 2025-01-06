@@ -10,7 +10,7 @@ if($admin_info['pm_super'] == "종합관리자" || $admin_info['pm_hrm'] != null
 $folder_name = "hrm/organization";  //폴더명
 $title ="소속기관 목록";
 
-$table_name ="organization";
+$table_name ="hrm.organization";
 $key_column_name ="organization_idx";
 
 $function_date_search  = "off";   // 날짜검색기능 on ,off

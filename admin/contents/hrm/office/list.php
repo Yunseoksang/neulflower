@@ -10,7 +10,7 @@ if($admin_info['pm_super'] == "종합관리자" || $admin_info['pm_hrm'] != null
 $folder_name = "hrm/office";  //폴더명
 $title ="근무지 목록";
 
-$table_name ="office";
+$table_name ="hrm.office";
 $key_column_name ="office_idx";
 
 $function_date_search  = "off";   // 날짜검색기능 on ,off

@@ -1,4 +1,3 @@
-
 <style>
 
 </style>
@@ -82,6 +81,7 @@
     </div>
     <div class="clearfix"></div>
 
+
     <div class="row">
 
       <div class="col-md-12 col-sm-12 col-xs-12">
@@ -90,148 +90,30 @@
           
           
           <?
-            if( isset( $title_bar_ratio) && $title_bar_ratio  == ""){
+            if(!isset($title_bar_ratio) || $title_bar_ratio == ""){
               if($function_add == "on"){ //새로추가하기 버튼 있으면
-                  $title_bar_ratio = [2,8,2];
-
+                  $title_bar_ratio = [2,6,4];
               }else{  //추가버튼 없으면, 우측 공간 거의 없애도 됨
                 $title_bar_ratio = [2,10];
-
               }
             }
           ?>
           <div class="x_title">
             <div class="col-md-<?=isset($title_bar_ratio[0])?$title_bar_ratio[0]:''?>">
-                <h2 style="padding:10px;">목록<small id="total_list_cnt"> 총: 0 건</small> </h2>
+              <h2><?=$title?></h2>
             </div>
-            <div class="col-md-<?=isset($title_bar_ratio[1])?$title_bar_ratio[1]:''?> filter_box <?=$process_search_display?>"  style="text-align:center;">
-
-              <? if($function_multi_search == "on"){?>
-                <?
-                  for ($i=0;$i<count($multi_search_list);$i++ )
-                  {
-                    $val  = $multi_search_list[$i];
-                    $type = $val[0];
-                    $col  = $val[1];
-                    $txt  = $val[2];
-                    $query_arr = $val[3];
-
-                    $mm = $type;
-                    switch ($mm)
-                    {
-                       case "button":?>
-                          <div class="left" style="margin-top:10px !important;">
-                             <label class="filter_element">
-                                  <button name='<?=$col?>' class="left" style="margin-left:15px !important;"><?=$txt?></button>
-                             </label>
-                          </div>
-                          <?break;
-                       case "checkbox":?>
-                          <div class="checkbox left" style="margin-top:10px !important;">
-                            <label class="filter_element">
-                              <div class="icheckbox_flat-green " style="position: relative;background:white;">
-                                <input type="checkbox" name="<?=$col?>"  <?=$val[4]?> query="<?=$val[3]?>" class="flat" style="position: absolute; opacity: 0;">
-                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-                              </div>
-                               <?=$txt?>
-                            </label>
-                          </div>
-                          <?break;
-                       case "radio":?>
-                          <div class="btn-group left <?=$col?> <?=$val[5]?>" data-toggle="buttons"  style="margin-left:15px !important;margin-top:5px;">
-
-                          <?
-                          $selected_index = $val[4];
-
-                          for ($j=0;$j<count($txt);$j++ )
-                          {?>
-                              <label style="padding:5px;" class="filter_element btn btn-xs <? if($j == $selected_index && $selected_index != ""){echo "btn-success active";}else{echo "btn-default";}?>">
-                                <input type="radio" name="<?=$col?>"  value="<?=$txt[$j]?>" query="<?=$query_arr[$j]?>"> <?=$txt[$j]?>
-                              </label>
-                          <?}
-                          ?>
-                          </div>
-                          <?break; 
-                        default:
-                           break;
-
-                    }
-                    
-                  }
-
-                ?>
-                  
-              <?}else{?>
-                  <div class="btn-group main_process_menu  <?=$process_search_display?>  <? if($function_multi_search != "on"){echo "hide";}?>" data-toggle="buttons">
-
-
-                  <?
-                  //print_r($process_option);
-                     //print_r($process_option);
-                     for ($i=0;$i<count($process_option);$i++ )
-                     {
-                       $key = $process_option[$i][0][0];  //value 
-                       $value = $process_option[$i][0][1];    //text
-                       $condition = $process_option[$i][1];
-                       if($condition == ""){
-                          if($key != ""){
-                              if($key == "전체"){
-                                $condition_query = "";
-                              }else{
-                                $condition_query = $function_process_column."='".$key."'";
-                              }
-                              
-                          }else{
-                            $condition_query = "";
-                          }
-                       }else{
-                          $condition_query = $condition;
-                      }
-                       ?>
-                          <label class="btn btn-default <? if($process_option[$i][0][2] == "selected"){echo "active";}?>"  condition="<?=$condition_query?>" >
-                            <input type="radio" name="options" value="<?=$key?>"  > <?=$value?>
-                          </label> 
-                     <?}
-
-                  ?>
-
-
-
-                  </div>
-
+            <div class="col-md-<?=isset($title_bar_ratio[1])?$title_bar_ratio[1]:''?>">
+              <!-- 중간 영역 -->
+            </div>
+            <div class="col-md-<?=isset($title_bar_ratio[2])?$title_bar_ratio[2]:''?> text-right">
+              <?
+                if($function_add == "on"){?>
+                  <button class="btn btn-default btn_add">추가하기</button>
               <?}?>
-
-            </div>
-            <div class="col-md-<?=isset($title_bar_ratio[2])?$title_bar_ratio[2]:''?> title_right_col" style="text-align:right; padding-right:0px;">
-            
-
-            <?  
-            if($function_add_html != ""){?>
-
-              <?=$function_add_html?>
-
-            <?}
-            ?>
-
-
-            <?
-              if($function_add == "on"){?>
-                <button class="btn btn-default btn_add">추가하기</button>
-
-              <?}else{
-                  if($function_add_custom[0] == "on"){?>
-                    <button class="btn btn-primary btn_add_custom <?=$function_add_custom[1]?>"><?=$function_add_custom[2]?></button>
-                  <?}
-              
-                }
-            ?>
             </div>
             
             <div class="clearfix"></div>
           </div>
-
-
-
 
 
           <div class="x_content">
@@ -383,8 +265,6 @@
 
   <?}?>
 
-
-
   <div id="add_form" style="display:none;">
     <div class="form_area form-horizontal form-label-left" novalidate="">
     </div>
@@ -414,6 +294,7 @@
 
             $mm = $edit_array[$i][1];
 
+            
             if(is_iterable($edit_array[$i])){
                 
               for ($j=2;$j<count($edit_array[$i]);$j++ ) //옵션 사항 검토
@@ -451,6 +332,8 @@
               }
             }
 
+            
+
 
 
             
@@ -475,18 +358,20 @@
                           ?>
                       </select>
                   <?break;
-                  
                 case "select2":?>
                     <div class="<?=$this_colname?>">
                       <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                        <select class="select2_single form-control"   <? if($same != ""){?>same="<?=$same?>"<?}?>  tabindex="-1" name="<?=$this_colname?>" >
+                        <select class="select2_single form-control" <? if($same != ""){?>same="<?=$same?>"<?}?> tabindex="-1" name="<?=$this_colname?>" >
                             <?
-                            for ($j=0;$j<count($options);$j++ )
-                            {
-
+                            if(is_iterable($options)) {
+                              for ($j=0; $j<count($options); $j++) {
+                                if(!empty($options[$j])) {
                               ?>
-                                <option value="<?=$options[$j][0]?>"  <? if($options[$j][2] == "SELECTED"){?>selected<?}?> ><?=$options[$j][1]?></option>
-                            <?}
+                                <option value="<?=$options[$j][0]?>" <? if(!empty($options[$j][2]) && $options[$j][2] == "SELECTED"){?>selected<?}?>><?=$options[$j][1]?></option>
+                              <?
+                                }
+                              }
+                            }
                             ?>
                         </select>
                       </div>
@@ -558,6 +443,8 @@
                   break;
 
             }
+
+            
         }
       }
       

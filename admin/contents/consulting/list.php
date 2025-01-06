@@ -11,7 +11,7 @@ if($_REQUEST['part'] == "sp"){
 
 }
 
-$table_name ="consulting";
+$table_name ="consulting.consulting";
 $key_column_name ="consulting_idx";
 
 $function_date_search  = "off";   // 날짜검색기능 on ,off

@@ -4,7 +4,7 @@
 $folder_name = "sfullfillment/storage_out";  //폴더명
 $title ="출고지시서 목록";
 
-$table_name ="in_out";
+$table_name ="fullfillment.in_out";
 $key_column_name ="io_idx";
 
 $function_date_search  = "on";   // 날짜검색기능 on ,off

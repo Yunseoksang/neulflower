@@ -15,55 +15,10 @@ $db_framework = "framework";
 
 
 
-if(isset($_POST['mode']) && $_POST['mode'] == "smart"){
-
-	require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Class_S.php'; //DB 클래스 정의
-	$db_admin = "s_admin";
-	$db_admin = "s_admin";
-	$db_client = "s_client";
-	$db_consulting = "s_consulting";
-	$db_flower = "s_flower";
-	$db_fullfillment = "s_fullfillment";
-	$db_sangjo = "s_sangjo";
-	$db_statistics = "s_statistics";
+require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Class.php'; //DB 클래스 정의
 
 
 
-
-}else{
-
-	if(isset($_COOKIE['admin_info'])){
-		$admin_info = json_decode($_COOKIE['admin_info'], true);
-	
-		if(isset($admin_info['admin_mode']) && $admin_info['admin_mode'] == "smart"){ 
-			require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Class_S.php'; //DB 클래스 정의
-	
-	
-			$db_admin = "s_admin";
-			$db_client = "s_client";
-			$db_consulting = "s_consulting";
-			$db_flower = "s_flower";
-			$db_fullfillment = "s_fullfillment";
-			$db_sangjo = "s_sangjo";
-			$db_statistics = "s_statistics";
-			
-			
-			
-	
-	
-	
-		}else{
-			require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Class.php'; //DB 클래스 정의
-		
-		}
-		
-	}else{
-		require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Class.php'; //DB 클래스 정의
-	
-	}
-	
-	
-}
 
 
 

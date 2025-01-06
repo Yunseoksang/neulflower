@@ -11,7 +11,7 @@ if($admin_info['super_flower_permission'] == 1 ){
 $folder_name = "flower/storage_list";  //폴더명
 $title ="협력사 관리";
 
-$table_name ="storage";
+$table_name ="flower.storage";
 $key_column_name ="storage_idx";
 
 $function_date_search  = "on";   // 날짜검색기능 on ,off

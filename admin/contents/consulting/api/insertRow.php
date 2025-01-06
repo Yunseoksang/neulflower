@@ -1,26 +1,98 @@
 <?
+// 에러 로깅 설정
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+ini_set('error_log', $_SERVER['DOCUMENT_ROOT'].'/php_errors.log');
+
 require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect.php'; //DB 접속
 require($_SERVER["DOCUMENT_ROOT"].'/lib/lib.php');
-//session_start();
+
+// DB 연결 체크
+if (!$dbcon) {
+    error_log("Database connection failed: " . mysqli_connect_error());
+    die("DB connection failed");
+}
+
 admin_check_ajax();
 
-
+// 원본 POST 데이터 로깅
+error_log("Raw POST data: " . file_get_contents("php://input"));
 
 $post_data = file_get_contents("php://input");
+$arr = json_decode($post_data, true);
 
-$arr = json_decode($post_data , true); //배열
+// 디코딩된 데이터 로깅
+error_log("Decoded data: " . print_r($arr, true));
+
+// JSON 디코딩 에러 체크
+if (json_last_error() !== JSON_ERROR_NONE) {
+    $result = array();
+    $result['status'] = 0;
+    $result['msg'] = "JSON 파싱 오류: " . json_last_error_msg();
+    error_log("JSON Parse Error: " . json_last_error_msg());
+    echo json_encode($result);
+    exit;
+}
+
+// admin_info 체크
+if (!isset($admin_info) || empty($admin_info)) {
+    $result = array();
+    $result['status'] = 0;
+    $result['msg'] = "관리자 정보가 없습니다.";
+    error_log("Admin info missing");
+    echo json_encode($result);
+    exit;
+}
+
+
+
+
+
+
+
+// 전역 함수로 선언
+function e($value, $allowNull = false) {
+    global $dbcon;
+    // 숫자형 필드의 빈 값을 NULL로 처리
+    if ($allowNull && ($value === null || $value === '' || $value === 'null')) {
+        return 'NULL';
+    }
+    // 숫자형 필드에 숫자가 들어온 경우 따옴표 없이 반환
+    if (is_numeric($value)) {
+        return mysqli_real_escape_string($dbcon, $value);
+    }
+    return isset($value) ? mysqli_real_escape_string($dbcon, $value) : '';
+}
+
+
+
+
+
+
+
+
+
 
 
 
 if($arr['mode'] == "input"){
-
-
+    error_log("Starting input mode processing");
+    
     /** 필수 요소 누락 체크 시작 */
     if($arr['company_name'] == ""){
+        error_log("Company name is empty");
         error_json(0,"회사명은 필수입니다.");
         exit;
     }
 
+    // 쿼리 실행 전 변수값 확인
+    error_log("Input variables: " . print_r([
+        'company_name' => $arr['company_name'],
+        'input_part' => $arr['input_part'],
+        'admin_idx' => $admin_info['admin_idx'],
+        'admin_name' => $admin_info['admin_name']
+    ], true));
 
     # $arr['head_office'] - 트리거에서 자동 설정 
 
@@ -32,12 +104,25 @@ if($arr['mode'] == "input"){
 
 
     /** 키데이터 중복여부 체크 */
-    $sel = mysqli_query($dbcon, "select * from consulting where company_name='".$arr['company_name']."' ") or die(mysqli_error($dbcon));
+    $check_query = "select * from consulting where company_name='".$arr['company_name']."'";
+    error_log("Executing query: " . $check_query);
+    
+    $sel = mysqli_query($dbcon, $check_query);
+    if (!$sel) {
+        $result = array();
+        $result['status'] = 0;
+        $result['msg'] = "중복체크 쿼리 오류: " . mysqli_error($dbcon);
+        $result['query'] = $check_query;
+        error_log("Duplicate Check Error: " . mysqli_error($dbcon));
+        error_log("Query: " . $check_query);
+        echo json_encode($result);
+        exit;
+    }
     $sel_num = mysqli_num_rows($sel);
 
     if ($sel_num > 0) {
-    error_json(0,"이미 등록되어있는 회사명 입니다.");
-    exit;
+        error_json(0,"이미 등록되어있는 회사명 입니다.");
+        exit;
     }
     /** 키데이터 중복여부 체크 시작 끝 */
 
@@ -46,78 +131,107 @@ if($arr['mode'] == "input"){
 
 
 
-    // //폼 요소 중에서 key_table에 insert 되는 칼럼이 아닌경우를 제외하고 쿼리문 완성하기.
-    // $set_sql = "";
-    // foreach($_REQUEST as $key => $val) {
 
-    //     //칼럼명이 아닌것은 제외
-    //     if($key == "table_name"){ //칼럼목록이 아닌 테이블명 지명용도 라서 제외
-    //         $table_name = $val;
-    //         continue;
-    //     }
-    //     if($key == "key_column_name"){  //칼럼목록이 아닌 키칼럼 지명용도 라서 제외
-    //         $key_column_name = $val;
-    //         continue;
-    //     }
+    // 회사 정보 데이터
+    $company_data = [
+        'part'            => e($arr['input_part']),
+        'company_name'    => e($arr['company_name']),
+        'employees'       => e($arr['employees']),
+        'employment_fee'  => e($arr['employment_fee']),
+        'trading_items'   => e($arr['trading_items']),
+        'contract_date'   => e($arr['contract_date'])
+    ];
 
-    //     if($key == "mode"){
-    //         continue;
-    //     }
+    // 사업자 정보
+    $business_data = [
+        'biz_num'        => e($arr['biz_num']),
+        'corp_num'       => e($arr['corp_num']),
+        'biz_part'       => e($arr['biz_part']),
+        'biz_type'       => e($arr['biz_type'])
+    ];
+
+    // 조직 정보
+    $org_data = [
+        'office_type'    => e($arr['office_type']),
+        'head_office_consulting_idx' => e($arr['head_office_consulting_idx'], true),
+        'head_office'    => e($arr['head_office'], true)
+    ];
+
+    // 연락처 정보
+    $contact_data = [
+        'ceo_name'       => e($arr['ceo_name']),
+        'tel'            => e($arr['tel']),
+        'fax'            => e($arr['fax']),
+        'address'        => e($arr['address']),
+        'homepage'       => e($arr['homepage'])
+    ];
+
+    // 기타 정보
+    $etc_data = [
+        'memo'           => e($arr['memo']),
+        'meeting'        => e($arr['meeting']),
+        'meeting_person' => e($arr['meeting_person']),
+        'payment_date'   => e($arr['payment_date']),
+        'admin_idx'      => e($admin_info['admin_idx']),
+        'admin_name'     => e($admin_info['admin_name'])
+    ];
+
+    // 모든 데이터 병합
+    $insert_data = array_merge(
+        $company_data,
+        $business_data, 
+        $org_data,
+        $contact_data,
+        $etc_data
+    );
+
+    // INSERT 쿼리 생성
+    $columns = implode(", ", array_keys($insert_data));
+    $values = implode(", ", array_map(function($val) {
+        return $val === 'NULL' ? $val : "'$val'";
+    }, array_values($insert_data)));
+    $query_insert = "INSERT INTO consulting.consulting ($columns) VALUES ($values)";
+
+
+    //echo $query_insert;
+    // 쿼리 실행 전 로깅
+    error_log("About to execute query: " . $query_insert);
+
+
+    $in = mysqli_query($dbcon, $query_insert);
+    if (!$in) {
+        $result = array();
+        $result['status'] = 0;
+        $result['msg'] = "SQL 오류: " . mysqli_error($dbcon);
+        $result['query'] = $query_insert;
+        echo json_encode($result);
+        exit;
+    }
 
 
 
-    //     //칼럼명과 value 를 inset 쿼리에 세팅
-    //     if($val != "" && $val != "undefined" && $val != null){
-    //         if($set_sql == ""){
-    //             $set_sql = " ".$key."='".mysqli_real_escape_string($dbcon,$val)."'";
-    //         }else{
-    //             $set_sql .= ", ".$key."='".mysqli_real_escape_string($dbcon,$val)."'";
-    //         }
-    //     }
 
 
-    // }
-    // $set_sql .= ", admin_idx='".$admin_info['admin_idx']."',admin_name='".$admin_info['admin_name']."'";
+    // 쿼리 실행 결과 로깅
+    if (!$in) {
+        error_log("Query execution failed. Error: " . mysqli_error($dbcon));
+        error_log("SQL State: " . mysqli_sqlstate($dbcon));
+        error_log("Error number: " . mysqli_errno($dbcon));
+    } else {
+        error_log("Query executed successfully");
+    }
 
-
-
-    //insert 문이 2개 이상 일때 트랜젝션 삽입 권장.
-    mysqli_query($dbcon, "START TRANSACTION") or die(mysqli_error($dbcon));
-
-
-    $query_insert = "insert into consulting set 
-    part           = '".$arr['input_part']."',
-    company_name   = '".$arr['company_name']."',
-    employees      = '".$arr['employees']."',
-    employment_fee = '".$arr['employment_fee']."',
-    trading_items  = '".$arr['trading_items']."',
-    contract_date  = '".$arr['contract_date']."',
-
-    biz_num        = '".$arr['biz_num']."',
-    corp_num       = '".$arr['corp_num']."',
-    office_type       = '".$arr['office_type']."',
-    head_office_consulting_idx       = '".$arr['head_office_consulting_idx']."',
-    head_office       = '".$arr['head_office']."',
-
-
-
-    ceo_name       = '".$arr['ceo_name']."',
-    tel            = '".$arr['tel']."',
-    fax            = '".$arr['fax']."',
-    biz_part       = '".$arr['biz_part']."',
-    biz_type       = '".$arr['biz_type']."',
-    address        = '".$arr['address']."',
-    homepage       = '".$arr['homepage']."',
-    memo           = '".$arr['memo']."',
-    meeting        = '".$arr['meeting']."',
-    meeting_person = '".$arr['meeting_person']."',
-    payment_date      = '".$arr['payment_date']."',
-
-    admin_idx      = '".$admin_info['admin_idx']."',
-    admin_name     = '".$admin_info['admin_name']."'
-
-    ";
-    $in = mysqli_query($dbcon, $query_insert) or die(mysqli_error($dbcon));
+    if (!$in) {
+        mysqli_query($dbcon, "ROLLBACK");
+        $result = array();
+        $result['status'] = 0;
+        $result['msg'] = "회사정보 입력 오류: " . mysqli_error($dbcon);
+        $result['query'] = $query_insert;
+        error_log("Company Insert Error: " . mysqli_error($dbcon));
+        error_log("Query: " . $query_insert);
+        echo json_encode($result);
+        exit;
+    }
     $consulting_idx = mysqli_insert_id($dbcon);
     if($consulting_idx){//쿼리성공
 
@@ -125,7 +239,19 @@ if($arr['mode'] == "input"){
         if($arr['office_type'] == "계열사"){
 
 
-            $sel_jisa = mysqli_query($dbcon, "select count(*) as cnt from consulting where office_type='계열사' and head_office_consulting_idx='".$arr['head_office_consulting_idx']."'") or die(mysqli_error($dbcon));
+            $jisa_query = "select count(*) as cnt from consulting where office_type='계열사' and head_office_consulting_idx='".$arr['head_office_consulting_idx']."'";
+            $sel_jisa = mysqli_query($dbcon, $jisa_query);
+            if (!$sel_jisa) {
+                mysqli_query($dbcon, "ROLLBACK");
+                $result = array();
+                $result['status'] = 0;
+                $result['msg'] = "계열사 조회 오류: " . mysqli_error($dbcon);
+                $result['query'] = $jisa_query;
+                error_log("Jisa Select Error: " . mysqli_error($dbcon));
+                error_log("Query: " . $jisa_query);
+                echo json_encode($result);
+                exit;
+            }
             $sel_jisa_num = mysqli_num_rows($sel_jisa);
             
             if ($sel_jisa_num > 0) {
@@ -143,9 +269,10 @@ if($arr['mode'] == "input"){
 
         $result = array();
         $result['status'] = 0;
-        $result['msg'] = "쿼리 입력오류:1 입니다.";
-        //$result['data']['query_insert']=$query_insert;
-        
+        $result['msg'] = "쿼리 입력오류:1 입니다. - " . mysqli_error($dbcon);
+        $result['query'] = $query_insert;  // 실행된 쿼리 확인용
+        error_log("Insert Error: " . mysqli_error($dbcon));
+        error_log("Query: " . $query_insert);
         
         echo json_encode($result);
         
@@ -187,15 +314,14 @@ if($arr['mode'] == "input"){
         if($manager_idx){//쿼리성공
            //
         }else{//쿼리실패
-            //
             mysqli_query($dbcon, "ROLLBACK") or die(mysqli_error($dbcon));
-
            
             $result = array();
             $result['status'] = 0;
-            $result['msg'] = "쿼리 입력오류:2 입니다.";
-            //$result['data']['query_insert']=$query_insert;
-            
+            $result['msg'] = "쿼리 입력오류:2 입니다. - " . mysqli_error($dbcon);
+            $result['query'] = "insert into manager..."; // 실행된 쿼리 일부 표시
+            $result['manager_data'] = $manager_list[$i];  // 문제가 된 데이터 확인용
+            error_log("Manager Insert Error: " . mysqli_error($dbcon));
             
             echo json_encode($result);
             
@@ -224,7 +350,6 @@ if($arr['mode'] == "input"){
 
     echo json_encode($result);
 
-
 ///////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -240,133 +365,135 @@ if($arr['mode'] == "input"){
 ///////////////////////////////////////////////////////////////////////////////////////
 
 }else if($arr['mode'] == "edit"){
+    error_log("Starting edit mode processing");
 
     /** 필수 요소 누락 체크 시작 */
     if($arr['company_name'] == ""){
+        error_log("Company name is empty");
         error_json(0,"회사명은 필수입니다.");
         exit;
     }
     if($arr['consulting_idx'] > 0){
-
+        error_log("Processing consulting_idx: " . $arr['consulting_idx']);
     }else{
+        error_log("Invalid consulting_idx");
         error_json(0,"IDX 정보 에러입니다.");
         exit;
     }
 
 
 
-    /** 필수 요소 누락 체크 끝 */
-
-
 
     /** 키데이터 중복여부 체크 */
-    $sel = mysqli_query($dbcon, "select * from consulting where company_name='".$arr['company_name']."' and consulting_idx != '".$arr['consulting_idx']."' ") or die(mysqli_error($dbcon));
-    $sel_num = mysqli_num_rows($sel);
-
-    if ($sel_num > 0) {
-    error_json(0,"이미 등록되어있는 회사명 입니다.");
-       exit;
-    }
-    /** 키데이터 중복여부 체크 시작 끝 */
-
-
-
-
-
-
-    //insert 문이 2개 이상 일때 트랜젝션 삽입 권장.
-    mysqli_query($dbcon, "START TRANSACTION") or die(mysqli_error($dbcon));
-
-
-
-
-    if($arr['office_type'] == "계열사"){
-      $ot_sql = "jisa_count=0,";
-    }else{ //본사
-        $sel_jisa = mysqli_query($dbcon, "select count(*) as cnt from consulting where office_type='계열사' and head_office_consulting_idx='".$arr['consulting_idx']."'") or die(mysqli_error($dbcon));
-        $sel_jisa_num = mysqli_num_rows($sel_jisa);
-        
-        if ($sel_jisa_num > 0) {
-           $data_jisa = mysqli_fetch_assoc($sel_jisa);
-
-           $ot_sql = "jisa_count=".$data_jisa['cnt'].", ";
-
-       }else{
-          $ot_sql = "jisa_count=0,";
-       }
-    }
-
-
-    $up = mysqli_query($dbcon, "update consulting set 
-    company_name   = '".$arr['company_name']."',
-    ".$ot_sql."
-    employees      = '".$arr['employees']."',
-    employment_fee = '".$arr['employment_fee']."',
-    trading_items  = '".$arr['trading_items']."',
-    contract_date  = '".$arr['contract_date']."',
-
-    biz_num        = '".$arr['biz_num']."',
-    corp_num       = '".$arr['corp_num']."',
-
-    office_type       = '".$arr['office_type']."',
-    head_office_consulting_idx       = '".$arr['head_office_consulting_idx']."',
-    head_office       = '".$arr['head_office']."',
-
-    ceo_name       = '".$arr['ceo_name']."',
-    tel            = '".$arr['tel']."',
-    fax            = '".$arr['fax']."',
-    biz_part       = '".$arr['biz_part']."',
-    biz_type       = '".$arr['biz_type']."',
-    address        = '".$arr['address']."',
-    homepage       = '".$arr['homepage']."',
-    memo           = '".$arr['memo']."',
-    meeting        = '".$arr['meeting']."',
-    meeting_person = '".$arr['meeting_person']."',
-
-    payment_date      = '".$arr['payment_date']."',
-
-    update_admin_idx      = '".$admin_info['admin_idx']."',
-    update_admin_name     = '".$admin_info['admin_name']."'
-    
-    where consulting_idx='".$arr['consulting_idx']."'") or die(mysqli_error($dbcon));
-    $up_num = mysqli_affected_rows($dbcon);
-    if($up_num >= 0){ //업데이트 성공 // 0이면 쿼리성공이지만 변경데이터 없음.
-     
-
-        if($arr['office_type'] == "계열사"){
-
-
-            $sel_jisa = mysqli_query($dbcon, "select count(*) as cnt from consulting where office_type='계열사' and head_office_consulting_idx='".$arr['head_office_consulting_idx']."'") or die(mysqli_error($dbcon));
-            $sel_jisa_num = mysqli_num_rows($sel_jisa);
-            
-            if ($sel_jisa_num > 0) {
-               $data_jisa = mysqli_fetch_assoc($sel_jisa);
-
-               $up = mysqli_query($dbcon, "update consulting set jisa_count='".$data_jisa['cnt']."'  where consulting_idx='".$arr['head_office_consulting_idx']."' ") or die(mysqli_error($dbcon));
-
-           }
-
-        }else{ //본사
-           //앞에서 이미처리
-            
-        }
-
-
-    }else{ //쿼리실패
-        mysqli_query($dbcon, "ROLLBACK") or die(mysqli_error($dbcon));
-
+    $check_query = "SELECT * FROM consulting.consulting WHERE company_name='".e($arr['company_name'])."' AND consulting_idx != '".e($arr['consulting_idx'])."'";
+    $sel = mysqli_query($dbcon, $check_query);
+    if (!$sel) {
         $result = array();
         $result['status'] = 0;
-        $result['msg'] = "쿼리 실행오류:3 입니다.";
-        //$result['data']['query_insert']=$query_insert;
-        
-        
+        $result['msg'] = "중복체크 쿼리 오류: " . mysqli_error($dbcon);
+        $result['query'] = $check_query;
         echo json_encode($result);
-        
+        exit;
+    }
+    $sel_num = mysqli_num_rows($sel);
+
+
+    if ($sel_num > 0) {
+        error_json(0,"이미 등록되어있는 회사명 입니다.");
         exit;
     }
 
+    //트랜잭션 시작
+    if (!mysqli_query($dbcon, "START TRANSACTION")) {
+        $result = array();
+        $result['status'] = 0;
+        $result['msg'] = "트랜잭션 시작 오류: " . mysqli_error($dbcon);
+        echo json_encode($result);
+        exit;
+    }
 
+    // 계열사 정보 처리
+    $ot_sql = "";
+    if($arr['office_type'] == "계열사"){
+        $ot_sql = "jisa_count=0,";
+    }else{
+        $jisa_query = "SELECT count(*) as cnt FROM consulting WHERE office_type='계열사' AND head_office_consulting_idx='".e($arr['consulting_idx'])."'";
+        $sel_jisa = mysqli_query($dbcon, $jisa_query);
+        if (!$sel_jisa) {
+            mysqli_query($dbcon, "ROLLBACK");
+            $result = array();
+            $result['status'] = 0;
+            $result['msg'] = "계열사 조회 오류: " . mysqli_error($dbcon);
+            $result['query'] = $jisa_query;
+            echo json_encode($result);
+            exit;
+        }
+        $sel_jisa_num = mysqli_num_rows($sel_jisa);
+        
+        if ($sel_jisa_num > 0) {
+            $data_jisa = mysqli_fetch_assoc($sel_jisa);
+            $ot_sql = "jisa_count=".$data_jisa['cnt'].", ";
+        }else{
+            $ot_sql = "jisa_count=0,";
+        }
+    }
+
+    // UPDATE 데이터 준비 (insert와 동일한 방식으로)
+    $update_data = array(
+        'company_name'    => e($arr['company_name']),
+        'employees'       => e($arr['employees'], true),  // 숫자형 필드
+        'employment_fee'  => e($arr['employment_fee'], true),  // 숫자형 필드
+        'trading_items'   => e($arr['trading_items']),
+        'contract_date'   => e($arr['contract_date']),
+        'biz_num'        => e($arr['biz_num']),
+        'corp_num'       => e($arr['corp_num']),
+        'biz_part'       => e($arr['biz_part']),
+        'biz_type'       => e($arr['biz_type']),
+        'office_type'       => e($arr['office_type']),
+        'head_office_consulting_idx'       => e($arr['head_office_consulting_idx'], true),  // 숫자형 필드, NULL 허용
+        'head_office'       => e($arr['head_office']),
+        'ceo_name'       => e($arr['ceo_name']),
+        'tel'            => e($arr['tel']),
+        'fax'            => e($arr['fax']),
+        'address'        => e($arr['address']),
+        'homepage'       => e($arr['homepage']),
+        'memo'           => e($arr['memo']),
+        'meeting'        => e($arr['meeting']),
+        'meeting_person' => e($arr['meeting_person']),
+        'payment_date'   => e($arr['payment_date']),
+        'update_admin_idx'      => e($admin_info['admin_idx']),
+        'update_admin_name'     => e($admin_info['admin_name'])
+    );
+
+    // UPDATE 쿼리 생성
+    $update_sets = array();
+    foreach($update_data as $key => $value) {
+        // 숫자형 필드나 NULL은 따옴표 없이, 문자열은 따옴표 추가
+        $update_sets[] = "$key = " . ($value === 'NULL' || is_numeric($value) ? $value : "'$value'");
+    }
+    $update_query = "UPDATE consulting SET " . $ot_sql . implode(", ", $update_sets) . 
+                    " WHERE consulting_idx = '" . e($arr['consulting_idx']) . "'";
+
+
+    // $result = array();
+    // $result['status'] = 1;
+    // $result['query'] = $update_query;
+    // echo json_encode($result);
+    // exit;
+
+    
+
+
+    // 쿼리 실행 및 에러 처리
+    if (!mysqli_query($dbcon, $update_query)) {
+        mysqli_query($dbcon, "ROLLBACK");
+        $result = array();
+        $result['status'] = 0;
+        $result['msg'] = "SQL 오류: " . mysqli_error($dbcon);
+        $result['query'] = $update_query;
+        echo json_encode($result);
+        exit;
+    }
 
     $manager_list = $arr['manager_list'];
     for ($i=0;$i<count($manager_list);$i++ )
@@ -485,4 +612,5 @@ if($arr['mode'] == "input"){
 
 
 }
+
 

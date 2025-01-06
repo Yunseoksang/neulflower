@@ -14,25 +14,17 @@
               </li> -->
               <li><a href="dashboard_sffm.php" target="_blank"><i class="fa fa-laptop"></i> 종합물류관리<span class="label label-success pull-right">Link</span></a>
               </li>
-              <?
-              if($admin_info['admin_mode'] != "smart"){ ?>
+
               <li><a href="dashboard_flower.php" target="_blank"><i class="fa fa-laptop"></i> 화훼관리 <span class="label label-success pull-right">Link</span></a>
               </li>
-              <?}
-              ?>
+
 
               <li><a href="dashboard_sj.php" target="_blank"><i class="fa fa-laptop"></i> 상조물류관리 <span class="label label-success pull-right">Link</span></a>
               </li>
 
-              <?php
-              if(isset($admin_info['admin_mode']) && $admin_info['admin_mode'] == "smart"){ ?>
-              <li><a href="dashboard_cnst.php" target="_blank"><i class="fa fa-laptop"></i> 고객사 상담관리 <span class="label label-success pull-right">Link</span></a>
+              <li><a href="dashboard_cnst.php" target="_blank"><i class="fa fa-laptop"></i> 계약업체관리 <span class="label label-success pull-right">Link</span></a>
               </li>
-              <?}else{?>
-                <li><a href="dashboard_cnst.php" target="_blank"><i class="fa fa-laptop"></i> 계약업체관리 <span class="label label-success pull-right">Link</span></a>
-              </li>
-              <?}
-              ?>
+
 
               <li><a href="dashboard_hrm.php" target="_blank"><i class="fa fa-laptop"></i> 인사총무관리 <span class="label label-success pull-right">Link</span></a>
               </li>
@@ -47,22 +39,17 @@
 
 
 
-
+<!-- 
               <ul class="nav child_menu">
 
                 <li><a  href="<?=$PHP_SELF?>?page=admin_list/admin_login_history/list"><i class="fa fa-user"></i> 관리자 로그인 이력 </a>
                 </li>
-              </ul>
+              </ul> -->
 
 
 
 
 
-              <?php
-              if((isset($admin_info['admin_mode']) && $admin_info['admin_mode'] == "smart") || $admin_info['admin_id'] == "triplen123@naver.com"){ ?>
-
-              <?}
-              ?>
 
               <?php
             if($admin_info['admin_id'] == "triplen123@naver.com"){?>

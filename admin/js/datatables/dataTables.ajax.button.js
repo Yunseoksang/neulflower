@@ -1752,16 +1752,50 @@ function insertRow($tr){
 //새로등록하기 모달창 열기
 function openModal(modalName){
     //modalName == "new" : 새로추가하기, 기타->url에 따름
-    //window.alert("new");
     var $add_form = $("div[modal_name='"+modalName+"']").find(".form_area").clone(true);
 
     //console.log($("#add_form").find(".form_area").html());
     $("#modal_add .modal_add_content").empty().append($add_form);
     $('#modal_add').toggleClass('is-visible');
 
-    $('#modal_add').find("select.select2_single").select2({
-        allowClear: true
-    });
+    // 모달이 완전히 열린 후 select2 초기화
+    setTimeout(function() {
+        if(typeof $.fn.select2 !== 'undefined') {
+            $('#modal_add').find("select.select2_single").select2({
+                allowClear: true
+            });
+        } else {
+            // select2 라이브러리가 없을 경우 동적으로 로드
+            loadSelect2(function() {
+                $('#modal_add').find("select.select2_single").select2({
+                    allowClear: true
+                });
+            });
+        }
+    }, 100);
+}
+
+// select2 라이브러리 동적 로드 함수
+function loadSelect2(callback) {
+    // CSS 로드
+    if (!$('link[href*="select2.min.css"]').length) {
+        $('<link>')
+            .appendTo('head')
+            .attr({
+                type: 'text/css', 
+                rel: 'stylesheet',
+                href: 'js/select/select2.min.css'
+            });
+    }
+    
+    // JS 로드
+    if (typeof $.fn.select2 === 'undefined') {
+        $.getScript('js/select/select2.full.js', function() {
+            if (callback) callback();
+        });
+    } else {
+        if (callback) callback();
+    }
 }
 
 

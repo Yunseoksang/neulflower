@@ -6,7 +6,7 @@
 $folder_name = "flower/out_order";  //폴더명
 $title ="주문내역";
 
-$table_name ="out_order";
+$table_name ="flower.out_order";
 
 $key_column_name ="out_order_idx";
 
@@ -55,7 +55,7 @@ if($admin_info['pm_flower'] == "화훼지점관리자"){
 
 
 
-$order_by_column = "regist_datetime";
+$order_by_column = "r_date";
 $order_by_sort = "desc";
 
 
@@ -64,10 +64,10 @@ $order_by_sort = "desc";
 $date_search_display = "hide";//수정없음
 if($function_date_search == "on"){
   //날짜검색 옵션 넣을 경우
-  $function_date_column['regist_datetime'] = "접수일";      //날짜 검색 옵션칼럼 + 보여지는문구
+  $function_date_column['r_date'] = "배달요청일";      //날짜 검색 옵션칼럼 + 보여지는문구
   //$function_date_column['r_date'] = "내용변경일";  //날짜 검색 옵션칼럼 + 보여지는문구
   //-------------------------------------------------------------------------
-  $function_date_column_selected = "regist_datetime";      //기본 선택옵션 value
+  $function_date_column_selected = "r_date";      //기본 선택옵션 value
   $date_search_display = "";//수정없음
 }
 

@@ -14,7 +14,13 @@ class DB_Connect{
 		// $this->close();
 	}
 
+	public function sj_connect(){
 
+		$con = mysqli_connect('alwaysflower.sldb.iwinv.net' , 'root' , 'r42kTwGYuF97') or die("Failed to connect database"); 		
+		mysqli_select_db($con, "sangjo" );
+
+		return $con;
+	}
 	public function connect(){
 
 		$con = mysqli_connect('alwaysflower.sldb.iwinv.net' , 'root' , 'r42kTwGYuF97') or die("Failed to connect database"); 		
@@ -166,25 +172,11 @@ date_default_timezone_set('Asia/Seoul');
 
 if(isset($_COOKIE['admin_info'])){
 	$admin_info = json_decode($_COOKIE['admin_info'], true);
-
-	if(isset($admin_info['admin_mode']) && $admin_info['admin_mode'] == "smart"){ 
-		$db = new DB_S_Connect();
-		//print("DB_S_Connect");
-	
-		$db_connect_option = "SMART FACTORY";
-	}else{
-		$db = new DB_Connect();
-		$db_connect_option = "BASIC";
-	
-	}
-	
-}else{
-	$db = new DB_Connect();
-	$db_connect_option = "BASIC";
-
 }
 
 
+$db = new DB_Connect();
+$db_connect_option = "BASIC";
 
 
 

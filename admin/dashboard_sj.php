@@ -23,7 +23,7 @@ header('Content-Type: text/html; charset=utf-8');
 //session_start();
 
 
-require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect.php'; //NEULFLOWER DB 접속
+require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect.php'; //THE HUE DB 접속
 //dbcon = $db->connect();
 require($_SERVER["DOCUMENT_ROOT"].'/lib/lib.php');
 require($_SERVER["DOCUMENT_ROOT"].'/lib/config.php');
@@ -31,7 +31,7 @@ require($_SERVER["DOCUMENT_ROOT"].'/lib/config.php');
 
 
 if($admin_info['admin_uuid'] == ""){
-   header('Location:./login/'.$admin_info['admin_login_page']);
+   header('Location:./login1/'.$admin_info['admin_login_page']);
    exit;
 }
 
@@ -40,7 +40,7 @@ if(strpos($_SERVER['QUERY_STRING'],"sangjo/") || strpos($_SERVER['QUERY_STRING']
   if($admin_info['pm_sangjo'] == "종합관리자" || $admin_info['pm_sangjo'] != null){
     //
   }else{
-    header('Location:./login/'.$admin_info['admin_login_page']);
+    header('Location:./login1/'.$admin_info['admin_login_page']);
     exit;  
   }
 }
@@ -52,7 +52,7 @@ if(strpos($_SERVER['QUERY_STRING'],"sangjo/") || strpos($_SERVER['QUERY_STRING']
 //$_GET['link']
 
 
-// require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect.php'; //NEULFLOWER DB 접속
+// require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect.php'; //THE HUE DB 접속
 // $dbcon = $db->connect_mk_fmoney();
 
 
@@ -66,7 +66,7 @@ if(strpos($_SERVER['QUERY_STRING'],"sangjo/") || strpos($_SERVER['QUERY_STRING']
 //    $data = mysqli_fetch_assoc($sel);
 //    $admin_name = $data['admin_name'];
 // }else{
-//    header('Location:./login/'.$admin_info['admin_login_page']);
+//    header('Location:./login1/'.$admin_info['admin_login_page']);
 //    exit;
 // }
 
@@ -92,7 +92,7 @@ if(strpos($_SERVER['QUERY_STRING'],"sangjo/") || strpos($_SERVER['QUERY_STRING']
   <link rel="shortcut icon" href="/favicon_32.ico">
   <link rel="icon" type="image/png" href="/favicon_32.ico">
 
-  <title>(주)늘 물류생산관리 시스템</title>
+  <title>더휴 물류생산관리 시스템</title>
 
   <!-- Bootstrap core v3.3.6 CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -127,7 +127,7 @@ if(strpos($_SERVER['QUERY_STRING'],"sangjo/") || strpos($_SERVER['QUERY_STRING']
 
 	<link rel="stylesheet" type="text/css" href="js/datatables//fixedColumns.dataTables.min.css">
 
-  <!--- (주)늘 CSS ---->
+  <!--- 더휴 CSS ---->
   <link href="css/main.css?time=?ver=<?=time()?>" rel="stylesheet">
   <link href="css/modal_add.css?time=?ver=<?=time()?>" rel="stylesheet">
 

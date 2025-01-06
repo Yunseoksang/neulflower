@@ -4,7 +4,7 @@
 $folder_name = "flower/category1";  //폴더명
 $title ="대분류 관리";
 
-$table_name ="category1";
+$table_name ="flower.category1";
 $key_column_name ="category1_idx";
 
 $function_date_search  = "on";   // 날짜검색기능 on ,off

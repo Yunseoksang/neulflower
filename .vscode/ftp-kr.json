@@ -1,0 +1,16 @@
+{
+    "host": "neulflower.iwinv.net",
+    "username": "neulflower",
+    "password": "Cheonji5",
+    "remotePath": "/public_html",
+    "protocol": "sftp",
+    "port": 0,
+    "fileNameEncoding": "utf8",
+    "autoUpload": true,
+    "autoDelete": false,
+    "autoDownload": false,
+    "ignore": [
+        ".git",
+        "/.vscode"
+    ]
+}

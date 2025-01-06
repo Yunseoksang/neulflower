@@ -90,8 +90,6 @@ if($function_keyword_search == "on"){
 
 
 
-
-
 /*th 헤더 정보 입력 */
 $th_info = [];
 
@@ -224,8 +222,6 @@ array_push($css_array,["sum_current_count",["min-width","100px"]]);
 /******************수정모드 설정************************************************************************************************************* */
 
 
-
-
 //수정모드 설정
 $edit_array = [];
 
@@ -257,8 +253,6 @@ if ($sel_num0 > 0) {
 array_push($edit_array,["base_storage_idx","select2",["options",$storage_idx_array],["direct_save","1"],["same","N"]]);
 
 
-
-
 //기본출고지는 DB에서 가져오기
 $sel0 = mysqli_query($dbcon, "select consulting_idx,company_name from consulting.consulting where ( consulting_status='계약완료' or consulting_status='계약종료') order by company_name") or die(mysqli_error($dbcon));
 $sel_num0 = mysqli_num_rows($sel0);
@@ -276,8 +270,6 @@ if ($sel_num0 > 0) {
 }
 
 array_push($edit_array,["consulting_idx","select2",["options",$consulting_idx_array],["direct_save","1"],["same","N"]]);
-
-
 
 
 array_push($edit_array,["delivery_unit","배송단위","","text"]);
@@ -356,18 +348,9 @@ $filter = [];
 /************* *///보기 그룹이 선언된 경우 보기그룹별 배열 정리 시작 *****************************/
 
 
-
-
-
 require('./contents/common/column_array.php');
 
-
-
 require('./contents/common/datatable_html.php');
-
-
-
-
 
 
 

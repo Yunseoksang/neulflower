@@ -19,7 +19,7 @@ $folder_name = "cmu";  //폴더명
 $title ="총무관리";
 
 
-$table_name ="cmu";
+$table_name ="cmu.cmu";
 $key_column_name ="cmu_idx";
 
 $function_date_search  = "off";   // 날짜검색기능 on ,off

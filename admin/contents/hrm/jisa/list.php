@@ -10,7 +10,7 @@ if($admin_info['pm_super'] == "종합관리자" || $admin_info['pm_hrm'] != null
 $folder_name = "hrm/jisa";  //폴더명
 $title ="지사 목록";
 
-$table_name ="jisa";
+$table_name ="hrm.jisa";
 $key_column_name ="jisa_idx";
 
 $function_date_search  = "off";   // 날짜검색기능 on ,off

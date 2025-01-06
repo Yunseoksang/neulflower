@@ -22,7 +22,7 @@ $folder_name = "hrm";  //폴더명
 $title ="인사관리";
 
 
-$table_name ="hrm";
+$table_name ="hrm.hrm";
 $key_column_name ="hrm_idx";
 
 $function_date_search  = "off";   // 날짜검색기능 on ,off

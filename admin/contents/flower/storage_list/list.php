@@ -4,7 +4,7 @@
 $folder_name = "flower/storage_list";  //폴더명
 $title ="지점 관리";
 
-$table_name ="storage";
+$table_name ="flower.storage";
 $key_column_name ="storage_idx";
 
 $function_date_search  = "on";   // 날짜검색기능 on ,off

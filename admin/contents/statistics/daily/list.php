@@ -52,7 +52,7 @@ $folder_name = "statistics/daily";  //폴더명
 $title = "일별 생산량";
 
 
-$table_name ="sj_daily";
+$table_name ="statistics.sj_daily";
 $key_column_name ="sj_daily_idx";
 
 $function_date_search  = "on";   // 날짜검색기능 on ,off
