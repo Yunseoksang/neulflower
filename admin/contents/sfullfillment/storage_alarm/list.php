@@ -3,7 +3,7 @@
 $folder_name = "sfullfillment/storage_alarm";  //폴더명
 $title ="안전재고 알림";
 
-$table_name ="storage_safe";
+$table_name ="fullfillment.storage_safe";
 $key_column_name ="st_safe_idx";
 
 $function_date_search  = "off";   // 날짜검색기능 on ,off

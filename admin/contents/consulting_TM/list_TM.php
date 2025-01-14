@@ -4,7 +4,7 @@
 $folder_name = "consulting_TM";  //폴더명
 $title ="TM 영업관리";
 
-$table_name ="consulting";
+$table_name ="consulting.consulting";
 $key_column_name ="consulting_idx";
 
 $function_date_search  = "off";   // 날짜검색기능 on ,off

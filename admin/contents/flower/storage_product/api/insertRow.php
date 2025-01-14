@@ -32,12 +32,11 @@ if($_POST['product_name'] == ""){
 
 
 
-
 /** 필수 요소 누락 체크 끝 */
 
 
 /** 키데이터 중복여부 체크 */
-$sel = mysqli_query($dbcon, "select * from product where category1_idx='".$_POST['category1_idx']."' and category2_idx='".$_POST['category2_idx']."' and product_name='".$_POST['product_name']."' ") or die(mysqli_error($dbcon));
+$sel = mysqli_query($dbcon, "select * from flower.product where category1_idx='".$_POST['category1_idx']."' and category2_idx='".$_POST['category2_idx']."' and product_name='".$_POST['product_name']."' ") or die(mysqli_error($dbcon));
 $sel_num = mysqli_num_rows($sel);
 
 if ($sel_num > 0) {
@@ -46,27 +45,32 @@ if ($sel_num > 0) {
 }
 /** 키데이터 중복여부 체크 시작 끝 */
 
-
-
-
-$in = mysqli_query($dbcon, "insert into product
+$in_sql = "insert into flower.product
 set
 category1_idx='".$_POST['category1_idx']."',
 category2_idx='".$_POST['category2_idx']."',
-base_storage_idx='".$_POST['base_storage_idx']."',
-product_name='".$_POST['product_name']."',
-product_price='".$_POST['product_price']."',
-display_order='".$_POST['display_order']."',
-display_group='".$_POST['display_group']."'
+product_name='".$_POST['product_name']."'";
+
+if($_POST['base_storage_idx']) $in_sql .= ",base_storage_idx='".$_POST['base_storage_idx']."'";
+if($_POST['product_price']) $in_sql .= ",product_price='".$_POST['product_price']."'";
+if($_POST['display_order']) $in_sql .= ",display_order='".$_POST['display_order']."'";
+if($_POST['display_group']) $in_sql .= ",display_group='".$_POST['display_group']."'";
+// echo $in_sql;
+
+// exit;
+$in = mysqli_query($dbcon, $in_sql) or die(mysqli_error($dbcon));
 
 
-") or die(mysqli_error($dbcon));
 $product_idx = mysqli_insert_id($dbcon);
+
+
+
+
 if($product_idx){//쿼리성공
 
 
 
-   $sel = mysqli_query($dbcon, "select * from product where product_idx='".$product_idx."' ") or die(mysqli_error($dbcon));
+   $sel = mysqli_query($dbcon, "select * from flower.product where product_idx='".$product_idx."' ") or die(mysqli_error($dbcon));
    $sel_num = mysqli_num_rows($sel);
    
    if ($sel_num > 0) {

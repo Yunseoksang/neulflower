@@ -4,7 +4,7 @@
 $folder_name = "flower/storage_product";  //폴더명
 $title ="제품관리";
 
-$table_name ="product";
+$table_name ="flower.product";
 $key_column_name ="product_idx";
 
 $function_date_search  = "on";   // 날짜검색기능 on ,off
@@ -427,14 +427,15 @@ function datatableRender(column,data,full){
         break;
 
     case "options":
-        if (data != ""){
+        if (data != null && data != ""){
             if(data.length <= 20){
-              rValue= data;
+              rValue = data;
             }else{
               rValue = data.slice(0, 20) + '...';
-
             }
             rValue = "<a title='"+data+"'>"+rValue+"</a>";
+        } else {
+            rValue = "";
         }
         break;
 

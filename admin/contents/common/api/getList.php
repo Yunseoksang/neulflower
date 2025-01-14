@@ -42,12 +42,17 @@ $start_check_time = microtime(true);
 $time_check .= "show columns from ".$table_name.":".microtime(true).":".(microtime(true) - $start_check_time);
 $time_check .= "\n";
 
+
 //칼럼별 검색을 위해 칼럼 이름이 어느 테이블에 속해있는 것인지 배열에 담기
 $sql_check = "show columns from ".$table_name;
+
+//이유없이 이부분에서 500 internal server error 발생하는 경우. list.php 파일에서 테이블명 앞에 db명을 명시해주면 해결됨.
 
 
 $sel = mysqli_query($dbcon, $sql_check) or die(mysqli_error($dbcon));
 $sel_num = mysqli_num_rows($sel);
+
+
 
 
 $column_list = [];

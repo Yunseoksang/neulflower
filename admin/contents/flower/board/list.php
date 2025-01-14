@@ -4,7 +4,7 @@
 $folder_name = "flower/board";  //폴더명
 $title ="배송상황판";
 
-$table_name ="out_order";
+$table_name ="flower.out_order";
 
 $key_column_name ="out_order_idx";
 

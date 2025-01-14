@@ -1075,11 +1075,14 @@ $(document).ready(function(){
             
                     }else{
                         var msg = result.msg;
+                        toast(msg);
                         //console.log(msg);
                     }
                 }, //success
                 error : function( jqXHR, textStatus, errorThrown ) {
                     alert( "jqXHR.status: " + jqXHR.status + "\n"+"jqXHR.statusText: " +jqXHR.statusText + "\n" + "jqXHR.responseText: " +  jqXHR.responseText + "\n" + "jqXHR.readyState:" + jqXHR.readyState + "\n" );
+                    console.log(jqXHR);
+                
                 }
         }); //ajax
 

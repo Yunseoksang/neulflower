@@ -4,7 +4,7 @@
 $folder_name = "sfullfillment/storage_list";  //폴더명
 $title ="창고관리";
 
-$table_name ="storage";
+$table_name ="fullfillment.storage";
 $key_column_name ="storage_idx";
 
 $function_date_search  = "on";   // 날짜검색기능 on ,off
