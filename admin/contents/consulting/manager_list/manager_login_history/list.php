@@ -252,7 +252,7 @@ $edit_array = [];
 
 
 //근무지는 DB에서 가져오기
-// $sel0 = mysqli_query($dbcon, "select * from ".$db_sangjo.".storage order by storage_name  ") or die(mysqli_error($dbcon));
+// $sel0 = mysqli_query($dbcon, "select * from ".$db_sj.".storage order by storage_name  ") or die(mysqli_error($dbcon));
 // $sel_num0 = mysqli_num_rows($sel0);
 
 // $storage_idx_array = [];

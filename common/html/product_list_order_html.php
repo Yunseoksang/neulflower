@@ -5,7 +5,7 @@
 <div class="row">
 
 
-<div class="col-md-6 col-sm-6 col-xs-12">
+<div class="col-md-5 col-sm-5 col-xs-12">
   <div class="x_panel x_panel_minium">
     <div class="x_title">
       <h2>제품 선택<small></small></h2>
@@ -50,7 +50,7 @@
 </div>
 
 
-<div class="col-md-6 col-sm-6 col-xs-12">
+<div class="col-md-7 col-sm-7 col-xs-12">
   <div class="x_panel x_panel_minium">
     <div class="x_title">
       <h2>주문 제품<small></small></h2>
@@ -87,11 +87,11 @@
                   <span>추가금액 </span>
               </div>
 
-              <div class="col-md-3 col-sm-3 col-xs-4 rl_options">
+              <div class="col-md-2 col-sm-2 col-xs-4 rl_options">
                   <span>옵션선택 </span>
               </div>
 
-              <div class="col-md-1 col-sm-1 col-xs-4 rl_vat hide">
+              <div class="col-md-1 col-sm-1 col-xs-4 rl_vat">
                   <span>부가세 </span>
               </div>
               <div class="col-md-2 col-sm-2 col-xs-6 pull-right rl_input">
@@ -102,7 +102,7 @@
             <?}else{?>
 
             <li class="li_right_header" >
-              <div class="col-md-4 col-sm-5 col-xs-12 rl_product_name">
+              <div class="col-md-3 col-sm-4 col-xs-12 rl_product_name">
                   <input class="icheck select-all" type=checkbox checked="checked" name='product_idx' value='' >
                   <span class='li_product_name'>상품명</span>
 
@@ -232,13 +232,13 @@
 
               </select>
             </div>
-            <div class="col-md-3 col-sm-3 col-xs-3 rl_options">
+            <div class="col-md-2 col-sm-2 col-xs-3 rl_options">
                 <select name="options" class="form-control"> 
                   <option>옵션선택</option>
                 </select>
             </div>
 
-            <div class="col-md-1 col-sm-1 col-xs-3 rl_vat hide">
+            <div class="col-md-1 col-sm-1 col-xs-3 rl_vat">
                 <span class="client_price_tax" client_price_tax="11000">11,00</span><span  class="won"> 원</span>
             </div>
 

@@ -15,7 +15,7 @@ require($_SERVER["DOCUMENT_ROOT"].'/lib/lib.php');
 //session_start();
 // if(isset($admin_info['admin_uuid'])){
 // 	if($admin_info['admin_uuid'] != ""){
-// 	header('Location:../dashboard_sj.php');
+// 	header('Location:../dashboard_sangjo.php');
 // 	exit;
 // 	}
 // }
@@ -248,7 +248,7 @@ $("#pw_link").click(function(){
 
 
 						if(result.start_page == "상조물류관리"){
-							window.location.href='../dashboard_sj.php';
+							window.location.href='../dashboard_sangjo.php';
 
 						}else if(result.start_page == "계약업체관리"){
 							window.location.href='../dashboard_cnst.php';

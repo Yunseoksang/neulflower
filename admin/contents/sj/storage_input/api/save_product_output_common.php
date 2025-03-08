@@ -7,7 +7,7 @@ for ($i=0;$i<count($product_list);$i++ )
 {
 
     //$sel = mysqli_query($dbcon, "select * from in_out where storage_idx='".$arr['storage_idx']."' and product_idx='".$product_list[$i]['product_idx']."' order by io_idx desc limit 1") or die(mysqli_error($dbcon));
-    $sel = mysqli_query($dbcon, "select * from ".$db_sangjo.".storage_safe where storage_idx='".$arr['storage_idx']."' and product_idx='".$product_list[$i]['product_idx']."' ") or die(mysqli_error($dbcon));
+    $sel = mysqli_query($dbcon, "select * from ".$db_sj.".storage_safe where storage_idx='".$arr['storage_idx']."' and product_idx='".$product_list[$i]['product_idx']."' ") or die(mysqli_error($dbcon));
 
     
     $sel_num = mysqli_num_rows($sel);
@@ -67,7 +67,7 @@ for ($i=0;$i<count($product_list);$i++ )
     //
 
 
-    $sel_oocp = mysqli_query($dbcon, "select * from ".$db_sangjo.".out_order where oocp_idx='".$product_list[$i]['oocp_idx']."'  ") or die(mysqli_error($dbcon));
+    $sel_oocp = mysqli_query($dbcon, "select * from ".$db_sj.".out_order where oocp_idx='".$product_list[$i]['oocp_idx']."'  ") or die(mysqli_error($dbcon));
     $sel_oocp_num = mysqli_num_rows($sel_oocp);
     
     if ($sel_sel_oocp_num > 0) {
@@ -84,7 +84,7 @@ for ($i=0;$i<count($product_list);$i++ )
 
 
 
-    $in = mysqli_query($dbcon, "insert into ".$db_sangjo.".out_order
+    $in = mysqli_query($dbcon, "insert into ".$db_sj.".out_order
     set 
     ".$oocp_idx_sql."
     storage_idx='".$arr['storage_idx']."',
@@ -116,7 +116,7 @@ for ($i=0;$i<count($product_list);$i++ )
 
 
 
-        $in = mysqli_query($dbcon, "insert into ".$db_sangjo.".in_out 
+        $in = mysqli_query($dbcon, "insert into ".$db_sj.".in_out 
         set
         storage_idx='".$arr['storage_idx']."',
         out_order_idx='".$out_order_idx."',
@@ -140,7 +140,7 @@ for ($i=0;$i<count($product_list);$i++ )
 
 
             //안전재고 테이블 합계 저장 업데이트
-            $in = mysqli_query($dbcon, "insert into ".$db_sangjo.".storage_safe (storage_idx,product_idx,current_count) values ('".$arr['storage_idx']."','".$product_list[$i]['product_idx']."','".$next_count."')
+            $in = mysqli_query($dbcon, "insert into ".$db_sj.".storage_safe (storage_idx,product_idx,current_count) values ('".$arr['storage_idx']."','".$product_list[$i]['product_idx']."','".$next_count."')
             ON DUPLICATE KEY UPDATE current_count='".$next_count."'
             
             ") or die(mysqli_error($dbcon));
@@ -177,7 +177,7 @@ for ($i=0;$i<count($product_list);$i++ )
         //이동지시서 자동 작성을 위해서는 제품 최초 등록시 지정창고가 있어야 함.
 
 
-        $sel = mysqli_query($dbcon, "select * from ".$db_sangjo.".product where product_idx='".$product_list[$i]['product_idx']."' ") or die(mysqli_error($dbcon));
+        $sel = mysqli_query($dbcon, "select * from ".$db_sj.".product where product_idx='".$product_list[$i]['product_idx']."' ") or die(mysqli_error($dbcon));
         $sel_num = mysqli_num_rows($sel);
         
         if ($sel_num > 0) {
@@ -197,7 +197,7 @@ for ($i=0;$i<count($product_list);$i++ )
 
         //기본출고 창고의 재고량 파악
         //$sel = mysqli_query($dbcon, "select * from in_out where storage_idx='".$base_storage_idx."' and product_idx='".$product_list[$i]['product_idx']."' order by io_idx desc limit 1 ") or die(mysqli_error($dbcon));
-        $sel = mysqli_query($dbcon, "select * from ".$db_sangjo.".storage_safe where storage_idx='".$base_storage_idx."' and product_idx='".$product_list[$i]['product_idx']."'  ") or die(mysqli_error($dbcon));
+        $sel = mysqli_query($dbcon, "select * from ".$db_sj.".storage_safe where storage_idx='".$base_storage_idx."' and product_idx='".$product_list[$i]['product_idx']."'  ") or die(mysqli_error($dbcon));
 
         
         $sel_num = mysqli_num_rows($sel);
@@ -223,7 +223,7 @@ for ($i=0;$i<count($product_list);$i++ )
 
         //$base_next_count = $base_current_count - $product_list[$i]['cnt'];
 
-        $in = mysqli_query($dbcon, "insert into ".$db_sangjo.".in_out 
+        $in = mysqli_query($dbcon, "insert into ".$db_sj.".in_out 
         set
         storage_idx='".$base_storage_idx."',
         product_idx='".$product_list[$i]['product_idx']."',

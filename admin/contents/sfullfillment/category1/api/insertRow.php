@@ -9,7 +9,7 @@ admin_check_ajax();
 $dbcon = $db->fullfillment_connect();
 
 
-$sel = mysqli_query($dbcon, "select * from category1 where category1_name='".$_POST['category1_name']."' ") or die(mysqli_error($dbcon));
+$sel = mysqli_query($dbcon, "select * from fullfillment.category1 where category1_name='".$_POST['category1_name']."' ") or die(mysqli_error($dbcon));
 $sel_num = mysqli_num_rows($sel);
 
 if ($sel_num > 0) {
@@ -21,13 +21,13 @@ if ($sel_num > 0) {
 }
 
 
-$in = mysqli_query($dbcon, "insert into category1 (category1_name) values ('".$_POST['category1_name']."') ") or die(mysqli_error($dbcon));
+$in = mysqli_query($dbcon, "insert into fullfillment.category1 (category1_name) values ('".$_POST['category1_name']."') ") or die(mysqli_error($dbcon));
 $in_id = mysqli_insert_id($dbcon);
 if($in_id){//쿼리성공
 
 
 
-    $sel = mysqli_query($dbcon, "select * from category1 where category1_idx='".$in_id."' ") or die(mysqli_error($dbcon));
+    $sel = mysqli_query($dbcon, "select * from fullfillment.category1 where category1_idx='".$in_id."' ") or die(mysqli_error($dbcon));
     $sel_num = mysqli_num_rows($sel);
     
     if ($sel_num > 0) {

@@ -3,7 +3,7 @@
 $folder_name = "sfullfillment/out_order";  //폴더명
 $title ="주문내역";
 
-$table_name ="out_order_client_product";
+$table_name ="fullfillment.out_order_client_product";  // DB명 추가
 
 $key_column_name ="oocp_idx";
 

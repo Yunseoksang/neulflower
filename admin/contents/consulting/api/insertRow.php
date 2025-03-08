@@ -65,6 +65,13 @@ function e($value, $allowNull = false) {
     return isset($value) ? mysqli_real_escape_string($dbcon, $value) : '';
 }
 
+// 빈 값이 아닌 데이터만 필터링하는 함수
+function filterEmptyValues($data) {
+    return array_filter($data, function($value) {
+        return $value !== '' && $value !== 'NULL' && $value !== null;
+    });
+}
+
 
 
 
@@ -131,50 +138,49 @@ if($arr['mode'] == "input"){
 
 
 
-
     // 회사 정보 데이터
-    $company_data = [
+    $company_data = filterEmptyValues([
         'part'            => e($arr['input_part']),
         'company_name'    => e($arr['company_name']),
         'employees'       => e($arr['employees']),
         'employment_fee'  => e($arr['employment_fee']),
         'trading_items'   => e($arr['trading_items']),
         'contract_date'   => e($arr['contract_date'])
-    ];
+    ]);
 
     // 사업자 정보
-    $business_data = [
+    $business_data = filterEmptyValues([
         'biz_num'        => e($arr['biz_num']),
         'corp_num'       => e($arr['corp_num']),
         'biz_part'       => e($arr['biz_part']),
         'biz_type'       => e($arr['biz_type'])
-    ];
+    ]);
 
     // 조직 정보
-    $org_data = [
+    $org_data = filterEmptyValues([
         'office_type'    => e($arr['office_type']),
         'head_office_consulting_idx' => e($arr['head_office_consulting_idx'], true),
         'head_office'    => e($arr['head_office'], true)
-    ];
+    ]);
 
     // 연락처 정보
-    $contact_data = [
+    $contact_data = filterEmptyValues([
         'ceo_name'       => e($arr['ceo_name']),
         'tel'            => e($arr['tel']),
         'fax'            => e($arr['fax']),
         'address'        => e($arr['address']),
         'homepage'       => e($arr['homepage'])
-    ];
+    ]);
 
     // 기타 정보
-    $etc_data = [
+    $etc_data = filterEmptyValues([
         'memo'           => e($arr['memo']),
         'meeting'        => e($arr['meeting']),
         'meeting_person' => e($arr['meeting_person']),
         'payment_date'   => e($arr['payment_date']),
         'admin_idx'      => e($admin_info['admin_idx']),
         'admin_name'     => e($admin_info['admin_name'])
-    ];
+    ]);
 
     // 모든 데이터 병합
     $insert_data = array_merge(
@@ -193,12 +199,17 @@ if($arr['mode'] == "input"){
     $query_insert = "INSERT INTO consulting.consulting ($columns) VALUES ($values)";
 
 
+
     //echo $query_insert;
     // 쿼리 실행 전 로깅
     error_log("About to execute query: " . $query_insert);
 
 
+
     $in = mysqli_query($dbcon, $query_insert);
+
+
+
     if (!$in) {
         $result = array();
         $result['status'] = 0;

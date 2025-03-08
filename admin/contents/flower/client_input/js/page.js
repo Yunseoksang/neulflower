@@ -295,7 +295,7 @@ $(document).ready(function(){
         }
 
         var out_order_idx     = checkNull($("button.btn_save_client_order").attr("out_order_idx"));
-
+        var order_date        = checkNull($("#order_date").val());
         var order_name        = checkNull($("#order_name").val());
         var order_tel         = checkNull($("#order_tel").val());
         var order_company_tel = checkNull($("#order_company_tel").val());
@@ -334,10 +334,10 @@ $(document).ready(function(){
         }
 
 
-        if(address1 == ""){
-            showToast("배달장소를 입력해주세요");
-            return;
-        }
+        // if(address1 == ""){
+        //     showToast("배달장소를 입력해주세요");
+        //     return;
+        // }
 
 
 
@@ -352,6 +352,8 @@ $(document).ready(function(){
         $("ul.ul_product_list_right").find("li[product_part='flower']").each(function(index) {
 
             var client_product_idx = $(this).attr("client_product_idx");
+            var product_idx = $(this).attr("product_idx");
+            
             var cnt = parseInt($(this).find("input[name='cnt']").val());
             var product_name = $(this).find(".li_product_name .pn").text();
 
@@ -400,7 +402,7 @@ $(document).ready(function(){
             total_flower_price_tax = total_flower_price_tax + client_price_tax_calcu;
             total_flower_price_sum_calcu = total_flower_price_sum_calcu + client_price_calcu + client_price_tax_calcu;
 
-            var pcnt = {client_product_idx,cnt,product_name,option_name,option_price,client_price_sum,client_price,client_price_tax,client_price_sum_calcu};
+            var pcnt = {client_product_idx, product_idx, cnt, product_name, option_name, option_price, client_price_sum, client_price, client_price_tax, client_price_sum_calcu};
             if(cnt > 0){
                 flower_product_list.push(pcnt);
 
@@ -418,6 +420,7 @@ $(document).ready(function(){
         $("ul.ul_product_list_right").find("li[product_part='sangjo']").each(function(index) {
 
             var product_idx = $(this).attr("product_idx");
+            var client_product_idx = $(this).attr("client_product_idx");
             var cnt = parseInt($(this).find("input[name='cnt']").val());
             var product_name = $(this).find(".li_product_name .pn").text();
 
@@ -467,7 +470,7 @@ $(document).ready(function(){
             total_sangjo_price_sum_calcu = total_sangjo_price_sum_calcu + client_price_calcu + client_price_tax_calcu;
 
 
-            var pcnt = {product_idx,cnt,product_name,option_name,option_price,client_price_sum,client_price,client_price_tax,client_price_sum_calcu};
+            var pcnt = {client_product_idx,cnt,product_name,option_name,option_price,client_price_sum,client_price,client_price_tax,client_price_sum_calcu};
             if(cnt > 0){
                 sangjo_product_list.push(pcnt);
 
@@ -504,6 +507,7 @@ $(document).ready(function(){
 
             out_order_idx     : out_order_idx    ,
 
+            order_date        : order_date       ,
             order_name        : order_name       ,
             order_tel         : order_tel        ,
             order_company_tel : order_company_tel,
@@ -529,6 +533,8 @@ $(document).ready(function(){
         };
 
         console.log(data);
+
+
 
                 
 

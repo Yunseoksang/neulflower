@@ -172,6 +172,7 @@ if($_REQUEST['mode'] == "order"){
 
 array_push($th_info,["order_product_title","상품명"]);
 array_push($th_info,["address1","배송지/리본/보내는분"]);
+array_push($th_info,["r_name","받는분"]);
 
 
 if($_REQUEST['mode'] == "order"){
@@ -311,6 +312,7 @@ array_push($css_array,["address1",["min-width","160px"]]);
 array_push($css_array,["company_name",["max-width","100px"],["min-width","80px"]]);
 array_push($css_array,["order_product_title",["min-width","80px"]]);
 array_push($css_array,["out_order_status",["min-width","125px"]]);
+array_push($css_array,["r_name",["min-width","50px"]]);
 
 // array_push($css_array,["update_datetime",["min-width","130px"]]);
 // array_push($css_array,["exec",["min-width","50px"]]);

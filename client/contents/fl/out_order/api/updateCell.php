@@ -75,7 +75,7 @@ if($_POST['mode'] == "out_order_status"){
          break;
       case "배송완료":
          $date_sql .= ",complete_datetime   =now()";
-         $date_sql .= ",complete_dmin_idx   ='".$admin_info['admin_idx']."'";
+         $date_sql .= ",complete_admin_idx   ='".$admin_info['admin_idx']."'";
          $date_sql .= ",complete_admin_name ='".$admin_info['admin_name']."'";
          break;
       case "주문취소":

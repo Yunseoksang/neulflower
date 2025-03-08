@@ -50,25 +50,47 @@ if ($sel_num > 0) {
 
 $sel = mysqli_query($dbcon,"
 
-select * from (
+SELECT * FROM (
+    -- 꽃 상품 정보
+    SELECT 
+        'flower' AS product_part,
+        display_order,
+        b.consulting_idx,
+        a.product_idx,
+        a.product_name, 
+        a.options,
+        b.client_product_idx,
+        COALESCE(b.client_price_sum, a.product_price) AS client_price_sum,
+        COALESCE(b.client_price, a.product_price) AS client_price,
+        IFNULL(b.client_price_tax, 0) AS client_price_tax
+    FROM flower.product a
+    LEFT JOIN (
+        SELECT * 
+        FROM flower.client_product 
+        WHERE consulting_idx = '".$consulting_idx."'
+    ) b ON a.product_idx = b.product_idx
+
+    UNION ALL
+
+
     
-    select 
 
-    'flower' as product_part,display_order,b.consulting_idx,a.product_idx,a.product_name,a.options,b.client_product_idx,COALESCE(b.client_price_sum,a.product_price) as client_price_sum,COALESCE(b.client_price,a.product_price) as client_price,ifnull(b.client_price_tax,0) as client_price_tax
-    from 
-        flower.product a
-        left join (select * from flower.client_product where consulting_idx='".$consulting_idx."' ) b
-        on a.product_idx=b.product_idx 
-        
-
-
-union all
-
-
-select 'sangjo' as product_part,display_order,consulting_idx,product_idx,product_name,'' as options,'0' as client_product_idx,'0' as client_price_sum,'0' as client_price,'0' as client_price_tax from
-sangjo.product where consulting_idx='".$consulting_idx."' 
-
-and display='on'
+    SELECT 
+        'sangjo' AS product_part,
+        display_order,
+        b.consulting_idx,
+        a.product_idx,
+        a.product_name,
+        '' AS options,
+        b.client_product_idx,
+        b.client_price_sum,
+        b.client_price,
+        b.client_price_tax
+    FROM sangjo_new.client_product b
+    INNER JOIN sangjo_new.product a ON a.product_idx = b.product_idx
+    WHERE b.consulting_idx = '".$consulting_idx."'
+    AND b.display = 'on'
+    AND a.display = 'on'
 
 ) c
 

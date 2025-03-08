@@ -1,0 +1,49 @@
+.form-inline .form-control {
+  /*width:100%;*/
+}
+
+input.to_place_name, input.to_name, input.to_hp, input.to_receiver_name{
+  width: unset !important;
+  width:50px !important;
+}
+
+
+
+td.io_status .btn{
+  min-width:110px;
+}
+
+
+td.exec_td .btn{
+  min-width:90px;
+}
+
+.attach_alink i{
+  font-size:14pt;
+}
+
+
+input[name="to_place_name"]{
+  max-width:100px;
+}
+
+
+input[name="to_name"]{
+  max-width:100px;
+}
+
+input[name="to_hp"]{
+  max-width:120px;
+}
+
+input[name="receiver_name"]{
+  max-width:120px;
+}
+textarea[name="memo"]{
+  max-width:120px;
+  min-height: 75px;
+}
+
+textarea[name="to_address"]{
+  min-height: 75px;
+}

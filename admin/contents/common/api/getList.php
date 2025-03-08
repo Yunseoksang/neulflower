@@ -1,7 +1,7 @@
 <?php
 
 
-$http_referer = "https://neulflower.kr/admin/dashboard_flower.php?page=flower/out_order/list&mode=complete";
+//$http_referer = "https://neulflower.kr/admin/dashboard_flower.php?page=flower/out_order/list&mode=complete";
 
 $rData= $_REQUEST;
 
@@ -491,7 +491,6 @@ $sql_join_plus = $add_query2." where 1=1 ".$sql_where_after;
 
 $sql_join_xls = " select  a.* ".$add_query1." from (".$sql_all.") a ";
 
-
 $sql_join_xls .= $sql_join_plus.$sql_order_after; //엑셀 다운받을 쿼리 => limit 제한 없음.
 
 
@@ -508,13 +507,31 @@ $sql_join = str_replace("  "," ",$sql_join);
 
 
 
+// echo $sql_join;
 
-$query_result=mysqli_query($dbcon, $sql_join) or die(mysqli_error($dbcon));
+// exit;
 
+// 1. 쿼리 실행 전 디버깅을 위한 로그 추가
+error_log("table_name: " . $table_name);
+error_log("other_table_column: " . $rData['other_table_column']);
+error_log("filter_query: " . $rData['filter_query']);
+error_log("Original SQL Query: " . $sql_join);
 
-//********************************************************************************************************************************************************************************** */
-$time_check .= "sql_join 이후: $sql_join:".microtime(true).":".(microtime(true) - $start_check_time);
-$time_check .= "\n";
+try {
+    // 실제 쿼리만 실행
+    $query_result = mysqli_query($dbcon, $sql_join);
+    if (!$query_result) {
+        throw new Exception("Query failed: " . mysqli_error($dbcon));
+    }
+} catch (Exception $e) {
+    error_log("SQL Error: " . $e->getMessage());
+    error_log("Query: " . $sql_join);
+    http_response_code(500);
+    die(json_encode([
+        'error' => true,
+        'message' => $e->getMessage()
+    ]));
+}
 
 
 

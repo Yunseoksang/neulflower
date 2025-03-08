@@ -203,8 +203,13 @@
         </tr>
         <tr class="tr_flower">
             <th scope="row" class="mth">지점 발주액</th>
-            <td class="agency_order_price" >
+            <!-- <td class="agency_order_price" >
+            </td> -->
+
+            <td class="agency_order_price">
+               <input type="text" id="agency_order_price" class="form-control" name="agency_order_price"  >
             </td>
+
             <th scope="row" class="mth"></th>
             <td class="">
                
@@ -310,7 +315,7 @@
                             <option value="0">상조 출고지 선택</option>
                             <?php
                             
-                            $sel_storage = mysqli_query($dbcon, "select * from ".$db_sangjo.".storage order by storage_name ") or die(mysqli_error($dbcon));
+                            $sel_storage = mysqli_query($dbcon, "select * from ".$db_sangjo_new.".storage order by storage_name ") or die(mysqli_error($dbcon));
                             $sel_storage_num = mysqli_num_rows($sel_storage);
 
                             if ($sel_storage_num > 0) {
@@ -331,7 +336,7 @@
                 ?>
             
             </td>
-            <th scope="row" class="mth">지점<br>발주금액</th>
+            <th scope="row" class="mth">지점<br>발주액</th>
             <td class="agency_order_price">
                <input type="text" id="agency_order_price" class="form-control" name="agency_order_price"  >
             </td>
@@ -427,17 +432,21 @@ if($_REQUEST['mode'] == "order"){?>
 <div class="div_button tr_req">
     <button class="btn  btn-success btn_save_out_order_complete" >배송완료</button>
     <button class="btn  btn-danger btn_cancel_out_order" >주문취소</button>
+    <button class="btn btn-primary btn_update_out_order" >정보 업데이트</button>
 
 </div>
 
 <?}else if($_REQUEST['mode'] == "complete"){
-    if($admin_info['super_flower_permission'] == 1 ){?>
+    //if($admin_info['super_flower_permission'] == 1 ){?>
     
         <div class="div_button tr_req">
-            <button class="btn  btn-info btn_save_out_order_branch" >협력사 발주정보 저장</button>
-        </div>
+            <!-- <button class="btn  btn-info btn_save_out_order_branch" >협력사 발주정보 저장</button> -->
+            <button class="btn btn-primary btn_update_out_order" >정보 업데이트</button>
 
-<?}}
+        </div>
+    
+<?
+}
 
 
 ?>

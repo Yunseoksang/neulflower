@@ -46,7 +46,7 @@ if($_POST['mode'] == "배송요청"){
 
 
         $sel_output = mysqli_query($dbcon, "
-            select product_idx,order_count as cnt,oocp_idx from ".$db_sangjo.".out_order_client_product where flower_out_order_idx='".$_POST['out_order_idx']."'
+            select product_idx,order_count as cnt,oocp_idx from ".$db_sj.".out_order_client_product where flower_out_order_idx='".$_POST['out_order_idx']."'
 
 
         ") or die(mysqli_error($dbcon));

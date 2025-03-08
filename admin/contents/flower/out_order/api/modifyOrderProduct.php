@@ -11,7 +11,7 @@ if($_POST['mode'] == "del"){
 
     if($_POST['out_order_part'] == "상조"){
 
-        $sel = mysqli_query($dbcon, "select * from ".$db_sangjo.".out_order_client_product where out_order_idx='".$_POST['out_order_idx']."' ") or die(mysqli_error($dbcon));
+        $sel = mysqli_query($dbcon, "select * from ".$db_sangjo_new.".out_order_client_product where out_order_idx='".$_POST['out_order_idx']."' ") or die(mysqli_error($dbcon));
         $sel_num = mysqli_num_rows($sel);
         if($sel_num == 1){
             mysqli_rollback($dbcon);
@@ -29,12 +29,12 @@ if($_POST['mode'] == "del"){
 
 
 
-        $del = mysqli_query($dbcon, "delete from ".$db_sangjo.".out_order_client_product where oocp_idx='".$_POST['oocp_idx']."' ") or die(mysqli_error($dbcon));
+        $del = mysqli_query($dbcon, "delete from ".$db_sangjo_new.".out_order_client_product where oocp_idx='".$_POST['oocp_idx']."' ") or die(mysqli_error($dbcon));
         $del_num = mysqli_affected_rows($dbcon);
 
 
         if($del_num >= 0){ //쿼리 성공 // 0이면 쿼리성공이지만 변경데이터 없음.
-            $sel1 = mysqli_query($dbcon, "select product_name,count(*) as total_order_kinds, sum(order_count) as total_order_count,sum(price_calcu) as total_client_price_sum from ".$db_sangjo.".out_order_client_product where flower_out_order_idx='".$flower_out_order_idx."' ") or die(mysqli_error($dbcon));
+            $sel1 = mysqli_query($dbcon, "select product_name,count(*) as total_order_kinds, sum(order_count) as total_order_count,sum(price_calcu) as total_client_price_sum from ".$db_sangjo_new.".out_order_client_product where flower_out_order_idx='".$flower_out_order_idx."' ") or die(mysqli_error($dbcon));
             $sel1_num = mysqli_num_rows($sel1);
 
             
@@ -175,18 +175,18 @@ if($_POST['mode'] == "del"){
 
     if($_POST['out_order_part'] == "상조"){
 
-        $sel = mysqli_query($dbcon, "select * from ".$db_sangjo.".out_order_client_product where oocp_idx='".$_POST['oocp_idx']."' ") or die(mysqli_error($dbcon));
+        $sel = mysqli_query($dbcon, "select * from ".$db_sangjo_new.".out_order_client_product where oocp_idx='".$_POST['oocp_idx']."' ") or die(mysqli_error($dbcon));
         $data = mysqli_fetch_assoc($sel);
         $flower_out_order_idx = $data['flower_out_order_idx'];
 
 
 
-        $del = mysqli_query($dbcon, "update ".$db_sangjo.".out_order_client_product 
+        $del = mysqli_query($dbcon, "update ".$db_sangjo_new.".out_order_client_product 
             set order_count=".$_POST['order_count'].",price_calcu=order_count*unit_price
             where oocp_idx='".$_POST['oocp_idx']."' ") or die(mysqli_error($dbcon));
         $up_num = mysqli_affected_rows($dbcon);
         if($up_num >= 0){ //쿼리 성공 // 0이면 쿼리성공이지만 변경데이터 없음.
-            $sel1 = mysqli_query($dbcon, "select product_name,count(*) as total_order_kinds, sum(order_count) as total_order_count,sum(price_calcu) as total_client_price_sum from ".$db_sangjo.".out_order_client_product where flower_out_order_idx='".$flower_out_order_idx."' ") or die(mysqli_error($dbcon));
+            $sel1 = mysqli_query($dbcon, "select product_name,count(*) as total_order_kinds, sum(order_count) as total_order_count,sum(price_calcu) as total_client_price_sum from ".$db_sangjo_new.".out_order_client_product where flower_out_order_idx='".$flower_out_order_idx."' ") or die(mysqli_error($dbcon));
             $sel1_num = mysqli_num_rows($sel1);
 
             

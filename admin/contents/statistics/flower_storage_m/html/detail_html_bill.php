@@ -47,23 +47,23 @@
                                 </tr>
                                 <tr>
                                     <th class="sth">등록번호</th>
-                                    <td class="std">625-86-00138</td>
+                                    <td class="std">812-87-03546</td>
                                     <th class="sth">대표</th>
-                                    <td class="std">권영</td>
+                                    <td class="std">오정환</td>
                                 </tr>
                                 <tr>
                                     <th class="sth">주소</th>
-                                    <td class="std"  colspan="3">부산광역시 사상구 낙동대로 1390번길 73(삼락동)</td>
+                                    <td class="std"  colspan="3">부산광역시 북구 백양대로 1025, 229호(구포동, 협진태양쇼핑프라자)</td>
                                 </tr>
                                 <tr>
                                     <th class="sth">업태</th>
-                                    <td class="std">제조,서비스</td>
+                                    <td class="std">도소매,서비스업</td>
                                     <th class="sth">종목</th>
-                                    <td class="std">일회용품</td>
+                                    <td class="std">화환,화훼류및식물</td>
                                 </tr>
                                 <tr>
                                     <th class="sth">TEL</th>
-                                    <td class="std">051-206-0191</td>
+                                    <td class="std"></td>
                                     <th class="sth">FAX</th>
                                     <td class="std"></td>
                                 </tr>

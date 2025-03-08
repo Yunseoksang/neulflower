@@ -39,7 +39,7 @@ if($_POST['out_order_part'] == "화훼"){
    }
     
 }else if($_POST['out_order_part'] == "상조"){
-    $sel1 = mysqli_query($dbcon, "select * from ".$db_sangjo.".out_order_client_product where flower_out_order_idx='".$_POST['out_order_idx']."' ") or die(mysqli_error($dbcon));
+    $sel1 = mysqli_query($dbcon, "select * from ".$db_sangjo_new.".out_order_client_product where flower_out_order_idx='".$_POST['out_order_idx']."' ") or die(mysqli_error($dbcon));
     $sel_num1 = mysqli_num_rows($sel1);
     
     if ($sel_num1 > 0) {

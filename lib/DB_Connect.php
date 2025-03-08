@@ -63,6 +63,11 @@ if(strpos($url,"sfullfillment/client") !== false ||  strpos($url,"flower/client"
 	//echo "Matched: sj condition<br>";
 
 	$dbcon = $db->sj_connect();
+}else if(strpos($url,"sangjo") !== false){
+
+	//echo "Matched: sangjo_new condition<br>";
+
+	$dbcon = $db->sangjo_new_connect();
 
 }else{
 	//echo "Matched: default sj condition<br>";

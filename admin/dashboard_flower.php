@@ -209,20 +209,20 @@ if ($sel_num == 0) {
                 <li><a><i class="fa fa-cubes"></i> 정산 <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu" style="display:none;">
 
-                      <!-- <li><a href="<?=$PHP_SELF?>?page=statistics/flower_consulting_monthly/list">거래처별 매출현황</a>
+                      <li><a href="<?=$PHP_SELF?>?page=statistics/flower_consulting_monthly/list">거래처별 매출현황</a>
                       </li>
 
                       <li><a href="<?=$PHP_SELF?>?page=statistics/flower_consulting_m/list">거래처별 매출현황(월별)</a>
-                      </li> -->
+                      </li>
 
 
                       <li><a href="<?=$PHP_SELF?>?page=statistics/flower_storage_monthly/list">협력사별 매출현황</a>
                       </li>
                       <li><a href="<?=$PHP_SELF?>?page=statistics/flower_storage_m/list">협력사별 매출현황(월별)</a>
                       </li>
-
+<!-- 
                       <li><a href="<?=$PHP_SELF?>?page=statistics/flower_yearly_p/list">지역별 매출현황</a>
-                      </li>
+                      </li> -->
                     </ul>
 
                 </li>

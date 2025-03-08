@@ -1,4 +1,3 @@
-
 <?php
 
 
@@ -28,7 +27,7 @@ if($_REQUEST['out_order_idx'] != ""){
     if($out_order_part == "상조"){
 
       $sel4 = mysqli_query($dbcon, "select product_idx,order_count from
-      ".$db_sangjo.".out_order_client_product where flower_out_order_idx='".$_REQUEST['out_order_idx']."' 
+      ".$db_sangjo_new.".out_order_client_product where flower_out_order_idx='".$_REQUEST['out_order_idx']."' 
         ") or die(mysqli_error($dbcon));
       $sel_num4 = mysqli_num_rows($sel4);
       
@@ -70,21 +69,8 @@ if($_REQUEST['out_order_idx'] != ""){
 // 한국 시간대로 설정
 date_default_timezone_set('Asia/Seoul');
 
-// 오늘의 날짜와 한글 요일을 구함
-$today_date = strftime('%Y년 %m월 %d일 (%A)');
-
-// 요일을 한글로 변환
-$weekday_korean = array(
-    'Monday' => '월요일',
-    'Tuesday' => '화요일',
-    'Wednesday' => '수요일',
-    'Thursday' => '목요일',
-    'Friday' => '금요일',
-    'Saturday' => '토요일',
-    'Sunday' => '일요일'
-);
-$today_date = strtr($today_date, $weekday_korean);
-
+// 오늘의 날짜를 YYYY-MM-DD 형식으로 설정
+$today_date = date('Y-m-d');
 
 ?>
 
@@ -179,6 +165,18 @@ $today_date = strtr($today_date, $weekday_korean);
 
               <div class="x_content ">
                 <div class="" id="out_form">
+
+                        <div class="col-md-12 col-sm-12 col-xs-12" style="padding-left: 4px; border-bottom: 2px solid #E6E9ED; margin-bottom:20px;">
+                          <div class="col-md-2 col-sm-2 col-xs-12 align-right">
+                              <label for="order_date">주문일</label>
+                          </div>
+                          <div class="col-md-4 col-sm-4 col-xs-12" style="margin-bottom: 10px;">
+                              <input type="date" id="order_date" class="form-control no-datepicker" name="order_date" value="<?=$today_date?>">
+                          </div>
+                          <div class="col-md-6 col-sm-6 col-xs-12">
+                              <!-- 빈 공간 -->
+                          </div>
+                        </div>
 
                         <div class="col-md-6 col-sm-12 col-xs-12" style="padding-left: 4px; border-bottom: 2px solid #E6E9ED; margin-bottom:20px; border-right: 1px solid #E6E9ED;">
 
@@ -747,6 +745,20 @@ $today_date = strtr($today_date, $weekday_korean);
 <script type="text/javascript" src="js/moment/moment.min.js"></script>
 <script type="text/javascript" src="js/datepicker/daterangepicker.js"></script>
 
+<!-- 모달창 방지를 위한 스크립트 추가 -->
+<script type="text/javascript">
+  $(document).ready(function() {
+    // no-datepicker 클래스를 가진 요소에 대해 daterangepicker 이벤트 제거
+    $('#order_date').off('click');
+    $('#order_date').off('focus');
+    
+    // 기본 HTML5 date input 사용
+    $('#order_date').on('click', function(e) {
+      e.stopPropagation();
+    });
+  });
+</script>
+
 <!-- Autocomplete -->
 <script type="text/javascript" src="js/autocomplete/countries.js"></script>
 
@@ -871,10 +883,6 @@ $today_date = strtr($today_date, $weekday_korean);
         $('#r_date').val($('#r_date').val()+" ("+getDayOfWeek(start)+")");
         //console.log(start.toISOString(), end.toISOString(), label);
       });
-
-
-
-
 
     });
 

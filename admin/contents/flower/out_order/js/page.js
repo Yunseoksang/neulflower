@@ -1,4 +1,3 @@
-
 //var categoryList = {}; //배열이 아닌 객체로 선언
 $(document).ready(function(){
 
@@ -373,33 +372,31 @@ $(document).ready(function(){
                             $(".tr_branch").hide();
                             $(".tr_storage").hide();
                         }else{
-                            $("#admin_notice").closest("td").text(order_info.admin_notice);
-                            $("#head_officer").closest("td").text(order_info.head_officer);
-                            $("#admin_memo").closest("td").text(order_info.admin_memo);
+                            $("#admin_notice").closest("td").text(order_info.admin_notice || '');
+                            $("#head_officer").closest("td").text(order_info.head_officer || '');
+                            $("#admin_memo").closest("td").text(order_info.admin_memo || '');
 
                             //출고점 정보 넣기
-                            $("#detail_section").find(".tr_storage").removeClass("hide").find(".out_storage span.out_storage_name").text(order_info.t_storage_name);
-                            $("#detail_section").find(".storage_info_detail").text(order_info.manager+" / "+order_info.hp + " / " + order_info.address);
+                            $("#detail_section").find(".tr_storage").removeClass("hide").find(".out_storage span.out_storage_name").text(order_info.t_storage_name || '');
+                            $("#detail_section").find(".storage_info_detail").text(
+                                ((order_info.manager || '') + " / " + (order_info.hp || '') + " / " + (order_info.address || '')).replace(/^\s*\/\s*\/\s*$/, '')
+                            );
 
-                            $("#detail_section").find(".out_order_status").text(order_info.out_order_status);
+                            $("#detail_section").find(".out_order_status").text(order_info.out_order_status || '');
 
 
 
-                            if(order_info.agency_order_price != ""){
-                                $("#agency_order_price").closest("td").text(number_format(order_info.agency_order_price)+" 원");
-                                $("#detail_section").find(".agency_order_price").html(number_format(order_info.agency_order_price)+" 원"); //표시영역 문제로 두군데임.
-                            }
 
                             if(order_info.t_branch_name != undefined){
-                                $("#detail_section").find("td.out_branch").text(order_info.t_branch_name);
+                                $("#detail_section").find("td.out_branch").text(order_info.t_branch_name || '');
                             }else{
-                                $("#detail_section").find("td.out_branch").text("");
+                                $("#detail_section").find("td.out_branch").text('');
                             }
 
-                            if(order_info.branch_price != "0"){
+                            if(order_info.branch_price != "0" && order_info.branch_price){
                                 $("#detail_section").find("td.branch_price").text(number_format(order_info.branch_price)+" 원");
                             }else{
-                                $("#detail_section").find("td.branch_price").text("");
+                                $("#detail_section").find("td.branch_price").text('');
                             }
                             
 
@@ -411,19 +408,25 @@ $(document).ready(function(){
 
                             }
 
-                            if(order_info.out_order_status == "배송완료"){
-                                $("#detail_section").find(".receiver_name").html(order_info.receiver_name).attr("receiver_name",order_info.receiver_name);
-                                $("#detail_section").find(".received_time").html(order_info.received_time).attr("received_time",order_info.received_time);
+                            // if(order_info.out_order_status == "배송완료"){
+                            //     $("#detail_section").find(".receiver_name").html(order_info.receiver_name).attr("receiver_name",order_info.receiver_name);
+                            //     $("#detail_section").find(".received_time").html(order_info.received_time).attr("received_time",order_info.received_time);
 
-                                $(".tr_branch").show();
+                            //     $(".tr_branch").show();
 
 
 
-                            }else if(order_info.out_order_status == "본부접수" ||order_info.out_order_status == "주문접수" || order_info.out_order_status == "배송중"){
-                                $("#detail_section").find(".receiver_name").html('<input type="text" id="receiver_name" class="form-control col-md-5 col-xs-12" name="receiver_name" >');
-                                $("#detail_section").find(".received_time").html('<input type="text" id="received_time" class="form-control col-md-5 col-xs-12" name="received_time" >');
+                            // }else if(order_info.out_order_status == "본부접수" ||order_info.out_order_status == "주문접수" || order_info.out_order_status == "배송중"){
+                            //     $("#detail_section").find(".receiver_name").html('<input type="text" id="receiver_name" class="form-control col-md-5 col-xs-12" name="receiver_name" >');
+                            //     $("#detail_section").find(".received_time").html('<input type="text" id="received_time" class="form-control col-md-5 col-xs-12" name="received_time" >');
 
-                            }
+                            // }
+
+                            $("#detail_section").find(".receiver_name").html('<input type="text" id="receiver_name" class="form-control col-md-5 col-xs-12" name="receiver_name" value="'+(order_info.receiver_name || '')+'" >');
+                            $("#detail_section").find(".received_time").html('<input type="text" id="received_time" class="form-control col-md-5 col-xs-12" name="received_time" value="'+(order_info.received_time || '')+'" >');
+                            $("#detail_section").find(".agency_order_price").html('<input type="text" id="agency_order_price" class="form-control col-md-5 col-xs-12" name="received_time" value="'+(order_info.agency_order_price || '')+'" >');
+
+
     
                         }
 
@@ -713,6 +716,55 @@ $(document).ready(function(){
 
     });
 
+    $(document).on("click",".btn_update_out_order",function(){
+        var receiver_name = checkNull($("#receiver_name").val());
+        var received_time = checkNull($("#received_time").val());
+        var agency_order_price = checkNull($("#agency_order_price").val());
+        var out_order_idx = checkNull($("#detail_section").attr("out_order_idx"));
+
+        if(out_order_idx == ""){
+            toast('주문정보 고유번호가 없습니다.');
+            return;
+        }
+
+        var dataJson = {
+            receiver_name: receiver_name,
+            received_time: received_time,
+            agency_order_price: agency_order_price,
+            out_order_idx : out_order_idx,
+            mode: 'update_info'
+        };
+
+        var data = JSON.stringify(dataJson);
+        var formData = new FormData();
+        formData.append("data", data);
+
+        // ajax 처리 부분
+        var url = "./contents/flower/out_order/api/completeOutOrderStatus.php";
+
+        $.ajax({
+            url : url
+            , type : "POST"
+            , processData : false
+            , contentType : false
+            , data : formData
+            , dataType: "json"
+            , success: function(result){
+                if(result.status == 1) {
+                    toast(result.msg);
+                    // 화면 업데이트
+                    $("#detail_section").find(".receiver_name").html(receiver_name);
+                    $("#detail_section").find(".received_time").html(received_time);
+                    $("#detail_section").find(".agency_order_price").html(number_format(agency_order_price)+" 원");
+                } else {
+                    toast(result.msg);
+                }
+            }
+            , error : function(jqXHR, textStatus, errorThrown) {
+                alert("오류가 발생했습니다: " + textStatus);
+            }
+        });
+    });
 
 });
 
@@ -725,6 +777,7 @@ $(document).ready(function(){
 
 function saveOocpStatus(mode,out_order_idx){
     var out_order_part = $("#detail_section").attr("out_order_part");
+    var consulting_idx = $("#detail_section .company_name").attr("consulting_idx");
 
 
 
@@ -776,7 +829,7 @@ function saveOocpStatus(mode,out_order_idx){
         }
 
 
-        var str = "mode="+mode+"&out_order_idx="+out_order_idx+"&storage_idx="+storage_idx+"&branch_storage_idx="+branch_storage_idx+"&branch_price="+branch_price; //
+        var str = "mode="+mode+"&consulting_idx="+consulting_idx+"&out_order_idx="+out_order_idx+"&storage_idx="+storage_idx+"&branch_storage_idx="+branch_storage_idx+"&branch_price="+branch_price; //
         str += "&admin_notice="+admin_notice+"&head_officer="+head_officer+"&admin_memo="+admin_memo+"&agency_order_price="+agency_order_price+"&out_order_part="+out_order_part+"&move_check="+move_check;
 
     }else if(mode == "발주정보저장"){
@@ -937,33 +990,14 @@ function modifyOrderProduct(out_order_part,oocp_idx,mode){
 
 
 function goNextOutOrderStatus(out_order_idx,out_order_status){
-    
     var url = "./contents/flower/out_order/api/updateCell.php";
-    var str = "mode=out_order_status&out_order_status="+out_order_status+"&out_order_idx="+out_order_idx; //
-
-    //console.log(str);
-
-
-    $.ajax( { 
-            type: "POST",url: url,data: str,cache: false,dataType: "json", beforeSend: function() {},context: this,
-            success: function(result){
-                
-                var result_status = result.status;
-                if(result_status == 1)
-                {
-                    toast(result.msg);
-                    $("#datatable-main").find("tr[out_order_idx='"+out_order_idx+"']").find("td.out_order_status").attr("out_order_status",out_order_status);
-                    if(out_order_status == "주문취소" || out_order_status == "주문접수반려"){
-                        $("#datatable-main").find("tr[out_order_idx='"+out_order_idx+"']").remove();
-                    }
-                }else{
-                    var msg = result.msg;
-                    window.alert(msg);
-                }
-            }, //success
-            error : function( jqXHR, textStatus, errorThrown ) {
-                alert( "jqXHR.status: " + jqXHR.status + "\n"+"jqXHR.statusText: " +jqXHR.statusText + "\n" + "jqXHR.responseText: " +  jqXHR.responseText + "\n" + "jqXHR.readyState:" + jqXHR.readyState + "\n" );
-            }
-    }); //ajax
+    var str = "mode=out_order_status&out_order_status="+out_order_status+"&out_order_idx="+out_order_idx;
+    
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: str,
+        // ...
+    });
 }
 

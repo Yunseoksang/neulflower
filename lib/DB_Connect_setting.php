@@ -8,7 +8,9 @@ $db_hrm = "hrm";
 
 $db_flower = "flower";
 $db_fullfillment = "fullfillment";
-$db_sangjo = "sangjo";
+$db_sj = "sj";
+$db_sangjo_new = "sangjo_new";
+
 $db_statistics = "statistics";
 $db_framework = "framework";
 
@@ -93,21 +95,21 @@ if(strpos($url,"sfullfillment/") !== false || strpos($url,"dashboard_sffm") !== 
     }
 
 //상조물류접근권한
-}else if(strpos($url,"sj/") !== false || strpos($url,"dashboard_sj") !== false){
+}else if(strpos($url,"sj/") !== false || strpos($url,"dashboard_sj") !== false || strpos($url,"sangjo/") !== false || strpos($url,"dashboard_sangjo") !== false){
 	
     if($admin_info['pm_super'] != "종합관리자" && $admin_info['pm_sangjo'] != "상조물류관리자"  && $admin_info['pm_sangjo'] != "상조물류창고관리자" ){
         echo "Permission Error: 403";
         exit;
     }
 
-    if(strpos($url,"sj/") !== false){
+    if(strpos($url,"sj/") !== false || strpos($url,"sangjo/") !== false){
         if($admin_info['pm_super'] != "종합관리자" && $admin_info['pm_sangjo'] != "상조물류관리자" ){
             echo "Permission Error: 403";
             exit;
         }
     }
 
-    if(strpos($url,"sj_local/") !== false){
+    if(strpos($url,"sj_local/") !== false || strpos($url,"sangjo_local/") !== false){
         if($admin_info['pm_sangjo'] != "상조물류창고관리자"){
             echo "Permission Error: 403";
             exit;

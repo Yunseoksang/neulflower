@@ -1,0 +1,39 @@
+.input_area{
+    max-width:1000px;
+}
+
+.input_area .x_title h2{
+   margin-top:30px;
+}
+.control-label {
+
+    text-align: left !important;
+
+}
+
+
+h2{
+    color: #00b8ff;
+}
+
+.td_x{
+    width:50px;
+}
+td.td_x{
+
+    color:dodgerblue;
+}
+
+td.td_x{
+
+   cursor:pointer;
+}
+
+.btn_manager_add{
+    cursor:pointer;
+
+}
+.btn_manager_add:hover{
+   color:#00d9ff;
+
+}

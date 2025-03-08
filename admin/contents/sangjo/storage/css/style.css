@@ -1,0 +1,43 @@
+th.column-title{
+  min-width: 50px;
+  text-align: center;
+}
+
+
+.th_filter_bg{
+  background-color: rgb(40, 60, 68);
+}
+.td_filter_bg{
+  background-color: rgb(194 226 255);
+  /*color:rgb(255, 255, 255) !important;*/
+}
+
+.td_safe_alert{
+  background-color: #5bc0de;
+}
+
+/* th.th_long{
+  min-width: 130px !important;
+} */
+
+.th_product_name{
+  min-width: 200px !important;
+}
+
+
+
+.datatable_wrap{
+  /*overflow:auto;*/
+  max-height: 800px;
+}
+
+
+#datatable_static th,#datatable_static td{
+  width:30px;
+  border-right:1px solid #ddd;
+}
+
+
+table.dataTable thead .sorting:after {
+   content:unset !important;
+}

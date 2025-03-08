@@ -5,7 +5,7 @@ ini_set('display_errors', '0');
 
 $http_referer = "https://neulflower.kr/admin/dashboard_flower.php?page=flower/out_order/list&mode=complete";
 
-exit;
+//exit;
 
 // error_reporting(E_ALL);
 // ini_set("display_errors", 1);

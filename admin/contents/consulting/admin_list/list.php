@@ -249,7 +249,7 @@ $admin_status_array = make_options_array("승인:승인/승인대기:승인대�
 
 
 //근무지는 DB에서 가져오기
-$sel0 = mysqli_query($dbcon, "select * from ".$db_sangjo.".storage order by storage_name  ") or die(mysqli_error($dbcon));
+$sel0 = mysqli_query($dbcon, "select * from ".$db_sj.".storage order by storage_name  ") or die(mysqli_error($dbcon));
 $sel_num0 = mysqli_num_rows($sel0);
 
 $storage_idx_array = [];
@@ -397,7 +397,7 @@ require('./contents/common/datatable_html.php');
    }
 
 
-   $sel_ss = mysqli_query($dbcon, "select * from ".$db_sangjo.".storage order by display_order desc, storage_name ") or die(mysqli_error($dbcon));
+   $sel_ss = mysqli_query($dbcon, "select * from ".$db_sj.".storage order by display_order desc, storage_name ") or die(mysqli_error($dbcon));
    $sel_ss_num = mysqli_num_rows($sel_ss);
    
    $sangjo_storage = "";

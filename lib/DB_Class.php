@@ -14,17 +14,26 @@ class DB_Connect{
 		// $this->close();
 	}
 
-	public function sj_connect(){
+	public function sangjo_new_connect(){
 
 		$con = mysqli_connect('alwaysflower.sldb.iwinv.net' , 'root' , 'r42kTwGYuF97') or die("Failed to connect database"); 		
-		mysqli_select_db($con, "sangjo" );
+		mysqli_select_db($con, "sangjo_new" );
 
 		return $con;
 	}
+
+	public function sj_connect(){
+
+		$con = mysqli_connect('alwaysflower.sldb.iwinv.net' , 'root' , 'r42kTwGYuF97') or die("Failed to connect database"); 		
+		mysqli_select_db($con, "sj" );
+
+		return $con;
+	}
+
 	public function connect(){
 
 		$con = mysqli_connect('alwaysflower.sldb.iwinv.net' , 'root' , 'r42kTwGYuF97') or die("Failed to connect database"); 		
-		mysqli_select_db($con, "sangjo" );
+		mysqli_select_db($con, "sj" );
 
 		return $con;
 	}

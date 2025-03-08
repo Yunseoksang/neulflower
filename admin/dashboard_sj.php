@@ -92,7 +92,7 @@ if(strpos($_SERVER['QUERY_STRING'],"sangjo/") || strpos($_SERVER['QUERY_STRING']
   <link rel="shortcut icon" href="/favicon_32.ico">
   <link rel="icon" type="image/png" href="/favicon_32.ico">
 
-  <title>더휴 물류생산관리 시스템</title>
+  <title>(주)늘 물류생산관리 시스템</title>
 
   <!-- Bootstrap core v3.3.6 CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -127,7 +127,7 @@ if(strpos($_SERVER['QUERY_STRING'],"sangjo/") || strpos($_SERVER['QUERY_STRING']
 
 	<link rel="stylesheet" type="text/css" href="js/datatables//fixedColumns.dataTables.min.css">
 
-  <!--- 더휴 CSS ---->
+  <!--- (주)늘 CSS ---->
   <link href="css/main.css?time=?ver=<?=time()?>" rel="stylesheet">
   <link href="css/modal_add.css?time=?ver=<?=time()?>" rel="stylesheet">
 

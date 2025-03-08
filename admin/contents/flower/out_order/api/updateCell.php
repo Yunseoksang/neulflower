@@ -75,13 +75,13 @@ if($_POST['mode'] == "out_order_status"){
          break;
       case "배송완료":
          $date_sql .= ",complete_datetime   =now()";
-         $date_sql .= ",complete_dmin_idx   ='".$admin_info['admin_idx']."'";
+         $date_sql .= ",complete_admin_idx   ='".$admin_info['admin_idx']."'";
          $date_sql .= ",complete_admin_name ='".$admin_info['admin_name']."'";
          break;
       case "주문취소":
          $date_sql .= ",cancel_datetime     =now()";
-         $date_sql .= ",cancel_manager_idx    ='".$admin_info['admin_idx']."'";
-         $date_sql .= ",cancel_manager_name   ='".$admin_info['admin_name']."'";
+         $date_sql .= ",cancel_admin_idx    ='".$admin_info['admin_idx']."'";
+         $date_sql .= ",cancel_admin_name   ='".$admin_info['admin_name']."'";
          break;
       case "주문접수반려":
          $date_sql .= ",storage_idx=null, t_storage_name=null";
@@ -95,9 +95,13 @@ if($_POST['mode'] == "out_order_status"){
 
 
 
+   $sql_update = "update out_order set out_order_status='".$_POST['out_order_status']."'".$date_sql." where out_order_idx='".$_POST['out_order_idx']."' ";
+   // echo $sql_update;
+   // exit;
 
+   
 
-   $up = mysqli_query($dbcon, "update out_order set out_order_status='".$_POST['out_order_status']."'".$date_sql." where out_order_idx='".$_POST['out_order_idx']."' ") or die(mysqli_error($dbcon));
+   $up = mysqli_query($dbcon, $sql_update) or die(mysqli_error($dbcon));
    $up_num = mysqli_affected_rows($dbcon);
    if($up_num >= 0){ //업데이트 성공 // 0이면 쿼리성공이지만 변경데이터 없음.
 

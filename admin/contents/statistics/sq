@@ -6,7 +6,7 @@ date_format(input_datetime,'%Y-%m-01'),
 product_idx,
 t_product_name,
 sum(in_count) 
-from ".$db_sangjo.".in_out 
+from ".$db_sj.".in_out 
 where io_status='입고완료'
 group by date_format(input_datetime,'%Y-%m-%d'),product_idx 
 order by date_format(input_datetime,'%Y-%m-%d');
@@ -19,7 +19,7 @@ select
 date_format(input_datetime,'%Y-%m-%d'),
 date_format(input_datetime,'%Y-%m-01'),
 sum(in_count) 
-from ".$db_sangjo.".in_out 
+from ".$db_sj.".in_out 
 where io_status='입고완료'
 group by date_format(input_datetime,'%Y-%m-%d')
 order by date_format(input_datetime,'%Y-%m-%d');
@@ -31,7 +31,7 @@ update ".$db_statistics.".sj_daily_group a ,
 date_format(output_datetime,'%Y-%m-%d') b_ymd,
 date_format(output_datetime,'%Y-%m-01') b_ym,
 sum(out_count) b_cnt
-from ".$db_sangjo.".in_out 
+from ".$db_sj.".in_out 
 where io_status='출고완료'
 group by date_format(output_datetime,'%Y-%m-%d')
 order by date_format(output_datetime,'%Y-%m-%d')

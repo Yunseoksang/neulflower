@@ -349,7 +349,18 @@ function get_curl($url,$param){  //$param = "'name':'gildong'";
   }
 
 
-
+/**
+ * SQL 쿼리에서 조건부로 필드를 추가하는 헬퍼 함수
+ * @param string $fieldName 필드명
+ * @param mixed $value 필드값
+ * @return string 조건을 만족하면 "field='value'," 형식의 문자열, 아니면 빈 문자열
+ */
+function addConditionalField($fieldName, $value) {
+    if (!empty($value)) {
+        return "$fieldName='".mysqli_real_escape_string($GLOBALS['dbcon'], $value)."', ";
+    }
+    return '';
+}
 
 
 

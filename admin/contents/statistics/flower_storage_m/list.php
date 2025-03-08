@@ -574,7 +574,7 @@ function datatableRender(column,data,full){
 
 
       case "exec_bill":
-        rValue = "<button class='btn btn-dark btn-xs btn-bill'>거래명세서</button>";
+        rValue = "<button class='btn btn-success btn-xs btn-bill'>거래명세서</button>";
         //rValue += "<button class='btn btn-success btn-xs btn-tax'>세금계산서</button>";
 
 

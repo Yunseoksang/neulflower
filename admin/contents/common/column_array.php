@@ -127,21 +127,28 @@ for ($i=0;$i<count($th_info);$i++ )
 
 
 
+
+
   //join 된 테이블칼럼의 값을 직접 수정하도록 할 경우
   if(is_iterable($other_table_column_edit_array)){
 
     for ($j=0;$j<count($other_table_column_edit_array);$j++ )
     {
       if($column == $other_table_column_edit_array[$j][0]){
+          // table_name에서 db명 추출
+          $db_name = "";
+          if(strpos($table_name, ".") !== false){
+              $db_name = explode(".", $table_name)[0] . ".";
+          }
 
-          $column_array[$i]['join_table_name'] = $other_table_column_edit_array[$j][1];
+          $column_array[$i]['join_table_name'] = $db_name . $other_table_column_edit_array[$j][1];
           $column_array[$i]['join_table_key_name'] = $other_table_column_edit_array[$j][2];
-
       }
     }
   }
 
 
+  
 
   //한 칼럼 에 다수의 css 추가 가능
   if(is_iterable($css_array)){

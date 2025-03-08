@@ -110,19 +110,98 @@ if(isset($_FILES['files']['name'])){
 
 }
 
+// 정보 업데이트 모드 추가
+if($arr['mode'] == 'update_info') {
+    $update_fields = array();
+    
+    if($arr['receiver_name'] != '') {
+        $update_fields[] = "receiver_name='".mysqli_real_escape_string($dbcon, $arr['receiver_name'])."'";
+    }
+    
+    if($arr['received_time'] != '') {
+        $update_fields[] = "received_time='".mysqli_real_escape_string($dbcon, $arr['received_time'])."'";
+    }
+    
+    if($arr['agency_order_price'] != '') {
+        // 금액에서 콤마와 원 제거하고 숫자만 추출
+        $agency_order_price = preg_replace("/[^0-9]/", "", $arr['agency_order_price']);
+        if(is_numeric($agency_order_price)) {
+            $update_fields[] = "agency_order_price='".$agency_order_price."'";
+        }
+    }
+    
+    if(!empty($update_fields)) {
+        $update_query = "UPDATE ".$db_flower.".out_order SET ".implode(", ", $update_fields)." WHERE out_order_idx='".$arr['out_order_idx']."'";
+        
+        error_log("Update Query: " . $update_query); // 쿼리 로깅 추가
+        
+        $up = mysqli_query($dbcon, $update_query);
+        if(!$up) {
+            $result = array();
+            $result['status'] = 0;
+            $result['msg'] = "업데이트 중 오류가 발생했습니다: " . mysqli_error($dbcon);
+            $result['query'] = $update_query; // 디버깅용 쿼리 추가
+            echo json_encode($result);
+            exit;
+        }
+        
+        $result = array();
+        $result['status'] = 1;
+        $result['msg'] = "정보가 업데이트되었습니다";
+        echo json_encode($result);
+        exit;
+    } else {
+        $result = array();
+        $result['status'] = 0;
+        $result['msg'] = "업데이트할 내용이 없습니다";
+        echo json_encode($result);
+        exit;
+    }
+}
+
 
 
  if($arr['onlyPhotoOption'] == 0){
-     $up = mysqli_query($dbcon, "update out_order set receiver_name='".$arr['receiver_name']."',received_time='".$arr['received_time']."',out_order_status='배송완료' where out_order_idx='".$arr['out_order_idx']."' ") or die(mysqli_error($dbcon));
- }
+     $update_fields = array(
+         "out_order_status='배송완료'"
+     );
 
+    if(isset($arr['receiver_name']) && $arr['receiver_name'] != '') {
+        $update_fields[] = "receiver_name='" . mysqli_real_escape_string($dbcon, $arr['receiver_name']) . "'";
+    }
+    
+    if(isset($arr['received_time']) && $arr['received_time'] != '') {
+        $update_fields[] = "received_time='" . mysqli_real_escape_string($dbcon, $arr['received_time']) . "'";
+    }
+    
+    if(isset($arr['agency_order_price']) && $arr['agency_order_price'] != '') {
+        // 금액에서 콤마와 원 제거하고 숫자만 추출
+        $agency_order_price = preg_replace("/[^0-9]/", "", $arr['agency_order_price']);
+        if(is_numeric($agency_order_price)) {
+            $update_fields[] = "agency_order_price='" . $agency_order_price . "'";
+        }
+    }
+
+    $update_query = "UPDATE ".$db_flower.".out_order SET " . implode(", ", $update_fields) . " WHERE out_order_idx='" . $arr['out_order_idx'] . "'";
+    
+    error_log("Complete Order Update Query: " . $update_query); // 쿼리 로깅 추가
+    
+    $up = mysqli_query($dbcon, $update_query);
+    if(!$up) {
+        $result = array();
+        $result['status'] = 0;
+        $result['msg'] = "업데이트 중 오류가 발생했습니다: " . mysqli_error($dbcon);
+        $result['query'] = $update_query;
+        echo json_encode($result);
+        exit;
+    }
+}
 
 $result = array();
 $result['status'] = 1;
-$result['data']['receiver_name']=$arr['receiver_name'] ;
-$result['data']['received_time']=$arr['received_time'] ;
-
-$result['attachment'] = $files_arr;
+$result['data']['receiver_name'] = isset($arr['receiver_name']) ? $arr['receiver_name'] : '';
+$result['data']['received_time'] = isset($arr['received_time']) ? $arr['received_time'] : '';
+$result['attachment'] = isset($files_arr) ? $files_arr : array();
 $result['msg'] = "저장되었습니다";
 echo json_encode($result);
 exit;

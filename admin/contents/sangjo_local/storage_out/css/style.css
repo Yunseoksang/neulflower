@@ -1,0 +1,95 @@
+
+
+@media only screen and (max-width: 480px) {
+  .modal_add_wrapper{
+    width: 90%;
+  }
+
+  #dialog{
+    overflow: hidden;
+  }
+
+  .div_btn{
+    width:100%;
+    text-align: center;
+    
+  }
+
+}
+
+
+.form-inline .form-control {
+  width:100%;
+}
+
+.btn_show_detail{
+  font-size: 16pt;
+  color:#337ab7;
+  cursor:pointer;
+}
+
+
+
+.btn_hide_detail{
+  font-size: 16pt;
+  color:#d9534f;
+  cursor:pointer;
+}
+
+
+.ui-dialog-titlebar-close {
+  background-position: -96px -128px;
+  border: 1px solid #c5c5c5;
+
+  background-image: url(https://code.jquery.com/ui/1.13.1/themes/base/images/ui-icons_777777_256x240.png);
+}
+
+.ui-button-icon-only .ui-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -8px;
+  margin-left: -8px;
+}
+.ui-icon-closethick {
+  background-position: -96px -128px;
+}
+.ui-icon {
+  width: 16px;
+  height: 16px;
+}
+.ui-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: -0.25em;
+  position: relative;
+  text-indent: -99999px;
+  overflow: hidden;
+  background-repeat: no-repeat;
+}
+
+input[name='receiver_name']{
+  width:100%;
+
+}
+
+
+input.to_place_name, input.to_name, input.to_hp, input.to_receiver_name{
+  width: unset !important;
+  width:50px !important;
+}
+
+
+
+td.io_status .btn{
+  min-width:110px;
+}
+
+
+td.exec_td .btn{
+  min-width:90px;
+}
+
+.attach_alink i{
+  font-size:14pt;
+}

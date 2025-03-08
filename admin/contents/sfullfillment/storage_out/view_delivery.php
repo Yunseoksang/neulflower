@@ -135,7 +135,6 @@ if($function_keyword_search == "on"){
   // array_push($th_info,["out_date","출고일"]);
   array_push($th_info,["delivery_memo","주문자메모"]);
   array_push($th_info,["memo","관리자메모"]);
-  array_push($th_info,["filename","첨부파일"]);
 
   //array_push($th_info,["io_status","출고상태"]);
 
@@ -185,10 +184,15 @@ array_push($th_info,["exec_td","실행",]);
 //$other_table_column = "a:cache_url(brand_img_url) as cache_img_url/a:category_idx:category:category_name/a:brand_idx:brand_explain:brand_ex"; //메인테이블이 아닌 다른 테이블에서 join을 통해 가져와야 하는 칼럼 => sorting 할때 뒤쪽에 붙여야 함.
 
 
-$other_table_column = "a:out_order_idx:out_order:consulting_idx+t_company_name as company_name+out_order_idx+to_place_name+to_address+to_name+to_hp+to_phone+receiver_name+delivery_memo"; //메인테이블이 아닌 다른 테이블에서 join을 통해 가져와야 하는 칼럼 => sorting 할때 뒤쪽에 붙여야 함.
-$other_table_column .= "/a:out_order_idx:attachment:filename";
+
+
+$other_table_column = "a:out_order_idx:fullfillment.out_order:consulting_idx+t_company_name as company_name+out_order_idx+to_place_name+to_address+to_name+to_hp+to_phone+receiver_name+delivery_memo"; //메인테이블이 아닌 다른 테이블에서 join을 통해 가져와야 하는 칼럼 => sorting 할때 뒤쪽에 붙여야 함.
+$other_table_column .= "/a:out_order_idx:fullfillment.attachment:filename";
 //$other_table_column = "a:io_idx:in_out:t_product_name+out_count+io_status+t_write_admin_name"; //메인테이블이 아닌 다른 테이블에서 join을 통해 가져와야 하는 칼럼 => sorting 할때 뒤쪽에 붙여야 함.
 //$other_table_column = "a:user_idx:user:user_name+user_phone/a:user_idx:order_list:menu_name/order_list:order_list_idx:order_coupon:order_price"; //메인테이블이 아닌 다른 테이블에서 join을 통해 가져와야 하는 칼럼 => sorting 할때 뒤쪽에 붙여야 함.
+
+
+
 
 
 
