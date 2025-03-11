@@ -6,7 +6,7 @@ ini_set('display_errors', '0');
 
 $rData= $_REQUEST;
 
-require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect.php'; //DB 접속
+require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect_sangjo_new.php'; //DB 접속
 require($_SERVER["DOCUMENT_ROOT"].'/lib/lib.php');
 //session_start();
 admin_check_ajax();
@@ -63,7 +63,7 @@ select a.*,b.category1_name from (
 
 select bill_idx,date(regist_datetime) as rdate,bill_month,unique_number,category1_idx from consulting.client_bill 
 where consulting_idx='".$_POST['consulting_idx']."' and bill_month='".$yyyymm."' 
-and bill_part='종합물류' and category1_idx='".$_POST['category1_idx']."' and bill_status != '폐기'   ) a 
+and bill_part='상조물류' and category1_idx='".$_POST['category1_idx']."' and bill_status != '폐기'   ) a 
 
 left join sangjo_new.category1 b 
 on a.category1_idx=b.category1_idx

@@ -289,8 +289,8 @@ var lang_kor = {
                     <li><a href="<?=$PHP_SELF?>?page=sangjo/storage_in/list">입고내역</a>
                     </li>
 
-                    <li><a href="<?=$PHP_SELF?>?page=statistics/daily/list">일별생산통계</a>
-                    </li>
+                    <!-- <li><a href="<?=$PHP_SELF?>?page=statistics/daily/list">일별생산통계</a>
+                    </li> -->
 
                   </ul>
                 </li>
@@ -300,8 +300,8 @@ var lang_kor = {
                   <ul class="nav child_menu" style="display:none;">
                     <li><a href="<?=$PHP_SELF?>?page=sangjo/client_input/order">주문서 등록</a>
                     </li>
-                    <li><a href="<?=$PHP_SELF?>?page=sangjo/out_order/list&mode=order">주문내역</a>
-                    </li>
+                    <!-- <li><a href="<?=$PHP_SELF?>?page=sangjo/out_order/list&mode=order">주문내역</a>
+                    </li> -->
 
                     <!-- <li><a href="<?=$PHP_SELF?>?page=sangjo/storage_input/out">출고지시서 등록</a>
                     </li> -->
@@ -364,6 +364,10 @@ var lang_kor = {
                 <li><a><i class="fa fa-bar-chart-o"></i> 재고분석 <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu" style="display:none;">
                     <li><a href="<?=$PHP_SELF?>?page=sangjo/storage/list">전체재고</a>
+                    </li>
+                    <li><a href="<?=$PHP_SELF?>?page=sangjo/storage/list_branch">더존재고</a>
+                    </li>
+                    <li><a href="<?=$PHP_SELF?>?page=sangjo/storage/list_branch2">대성재고</a>
                     </li>
                     <li><a href="<?=$PHP_SELF?>?page=sangjo/storage/perStorage">창고별재고</a>
                     </li>

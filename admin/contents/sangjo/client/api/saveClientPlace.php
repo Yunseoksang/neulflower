@@ -1,11 +1,13 @@
 <?php
 
 
-require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect.php'; //DB 접속
+require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect_sangjo_new.php'; //DB 접속
 require($_SERVER["DOCUMENT_ROOT"].'/lib/lib.php');
 //session_start();
 admin_check_ajax();
 
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 
 
 // mysqli_query($dbcon, "START TRANSACTION") or die(mysqli_error($dbcon));
@@ -22,7 +24,7 @@ if($_POST['mode'] == "insert"){
     }
     
 
-    $in = mysqli_query($dbcon, "insert into client_place
+    $in = mysqli_query($dbcon, "insert into consulting.client_place
     set
     consulting_idx='".$_POST['consulting_idx']."',
     place_name='".mysqli_real_escape_string($dbcon, $_POST['place_name'])."',
@@ -37,7 +39,7 @@ if($_POST['mode'] == "insert"){
     $client_place_idx = mysqli_insert_id($dbcon);
     if($client_place_idx){//쿼리성공
 
-        $sel = mysqli_query($dbcon, "select * from client_place where client_place_idx='".$client_place_idx."' ") or die(mysqli_error($dbcon));
+        $sel = mysqli_query($dbcon, "select * from consulting.client_place where client_place_idx='".$client_place_idx."' ") or die(mysqli_error($dbcon));
         $sel_num = mysqli_num_rows($sel);
         
         if ($sel_num > 0) {
@@ -70,7 +72,7 @@ if($_POST['mode'] == "insert"){
         exit;
     }
     
-    $up = mysqli_query($dbcon, "update client_place set 
+    $up = mysqli_query($dbcon, "update consulting.client_place set 
     
     place_name='".mysqli_real_escape_string($dbcon, $_POST['place_name'])."',
     receiver_name='".mysqli_real_escape_string($dbcon, $_POST['receiver_name'])."',
@@ -84,7 +86,7 @@ if($_POST['mode'] == "insert"){
     $up_num = mysqli_affected_rows($dbcon);
     if($up_num >= 0){ //업데이트 성공 // 0이면 쿼리성공이지만 변경데이터 없음.
      
-        $sel = mysqli_query($dbcon, "select * from client_place where client_place_idx='".$_POST['client_place_idx']."' ") or die(mysqli_error($dbcon));
+        $sel = mysqli_query($dbcon, "select * from consulting.client_place where client_place_idx='".$_POST['client_place_idx']."' ") or die(mysqli_error($dbcon));
         $sel_num = mysqli_num_rows($sel);
         
         if ($sel_num > 0) {
@@ -117,7 +119,7 @@ if($_POST['mode'] == "insert"){
     }
     
 
-     $del = mysqli_query($dbcon, "delete from client_place where client_place_idx='".$_POST['client_place_idx']."'  ") or die(mysqli_error($dbcon));
+     $del = mysqli_query($dbcon, "delete from consulting.client_place where client_place_idx='".$_POST['client_place_idx']."'  ") or die(mysqli_error($dbcon));
      $del_num = mysqli_affected_rows($dbcon);
      if($del_num >= 0){ //쿼리 성공 // 0이면 쿼리성공이지만 변경데이터 없음.
         $result = array();

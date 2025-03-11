@@ -49,6 +49,34 @@ h2{
   text-align: center;
 }
 
+/* 가격 표기 칼럼의 타이틀 셀 너비 조정 */
+.table_order_info .mth {
+  width: 120px;
+  background-color:#2a3f5417;
+  text-align: center;
+}
+
+/* 가격 표기 2줄에만 높이 및 정렬 적용 */
+.table_order_info tr:nth-child(3),
+.table_order_info tr:nth-child(4) {
+  height: 50px;
+}
+
+.table_order_info tr:nth-child(3) th,
+.table_order_info tr:nth-child(3) td,
+.table_order_info tr:nth-child(4) th,
+.table_order_info tr:nth-child(4) td {
+  vertical-align: middle !important;
+}
+
+/* 가격 표시 영역 스타일 통일 */
+.client_price, .vat_amount, .total_unit_price, 
+.total_purchase, .total_vat, .total_payment {
+  text-align: right;
+  padding: 8px 15px !important;
+  vertical-align: middle !important;
+}
+
 .consulting_history{
   background: rgba(52, 73, 94, 0.94);
   color:white;
@@ -171,11 +199,24 @@ td.consulting_status button.io_status{
 
 .info_td_right{
   width:150px;
+  text-align: right;
+  padding: 8px 15px !important;
 }
 
-.client_price,.price_calcu{
+/* 기존 스타일 제거 (새로운 통합 스타일로 대체) */
+/* .client_price,.price_calcu{
   text-align: right;
   padding-right:20px !important;
+} */
+.price_calcu {
+  text-align: right;
+  padding: 8px 15px !important;
+}
+
+/* 수량 표시 영역 왼쪽 정렬 */
+.order_count_left {
+  text-align: left;
+  padding: 8px 15px !important;
 }
 
 .select2-container{
@@ -204,3 +245,10 @@ td.consulting_status button.io_status{
   height:100px;
   margin-right:5px;
 }
+
+/* 품목 표시 영역 스타일 */
+/* .product_name {
+  vertical-align: middle !important;
+  height: 50px;
+  padding: 8px 15px !important;
+} */

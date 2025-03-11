@@ -47,6 +47,8 @@ $(document).ready(function() {
             outpart = "out_complete";
         }
 
+        var out_storage = checkNull($("#out_storage option:selected").text());
+        var storage_idx = $("#out_storage").val();
 
         var to_place_name = checkNull($("#to_place_name option:selected").text());
         var address = checkNull($("#address").val());
@@ -107,6 +109,8 @@ $(document).ready(function() {
             hp:hp,
             memo:memo,
             order_date:order_date,
+            storage_idx:storage_idx,
+            out_storage:out_storage,
 
             total_client_price:total_client_price,
             total_client_price_tax:total_client_price_tax,

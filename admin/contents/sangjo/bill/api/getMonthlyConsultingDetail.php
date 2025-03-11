@@ -3,7 +3,7 @@ ini_set('display_errors', '0');
 
 $rData= $_REQUEST;
 
-require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect.php'; //DB 접속
+require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect_sangjo_new.php'; //DB 접속
 require($_SERVER["DOCUMENT_ROOT"].'/lib/lib.php');
 //session_start();
 admin_check_ajax();
@@ -80,15 +80,15 @@ from
 
 
 left join sangjo_new.in_out b 
-on a.oocp_idx=b.oocp_idx 
+on a.out_order_idx=b.out_order_idx 
 
 left join sangjo_new.out_order c 
 on a.out_order_idx=c.out_order_idx
 
 left join consulting.client_bill d 
-on a.bill_idx=d.bill_idx and d.bill_part='종합물류' and d.bill_status != '폐기'
+on a.bill_idx=d.bill_idx and d.bill_part='상조물류' and d.bill_status != '폐기'
 
-where b.io_status <> '출고취소'
+where (b.io_status <> '출고취소')
 
 ORDER BY 
     a.bill_idx IS NULL, 

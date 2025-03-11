@@ -82,6 +82,31 @@ if ($sel4_num > 0) {
 }
 
 
+// 상조거래품목 정보 가져오기
+require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect_sangjo_new.php'; //상조 DB 접속
+
+// 디버깅 로그 추가
+error_log("상조거래품목 정보 가져오기 시작: consulting_idx = " . $_POST['consulting_idx']);
+
+$sel_sangjo = mysqli_query($dbcon, "select a.*,b.product_name from 
+    (select * from ".$db_sangjo_new.".client_product where consulting_idx='".$_POST['consulting_idx']."') a 
+    left join ".$db_sangjo_new.".product b 
+    on a.product_idx=b.product_idx 
+    order by a.client_product_idx desc
+") or die(mysqli_error($dbcon));
+
+$sel_sangjo_num = mysqli_num_rows($sel_sangjo);
+error_log("상조거래품목 조회 결과 개수: " . $sel_sangjo_num);
+
+$sangjo_client_product_list = array();
+if ($sel_sangjo_num > 0) {
+    while($data_sangjo = mysqli_fetch_assoc($sel_sangjo)) {
+        array_push($sangjo_client_product_list, $data_sangjo);
+    }
+    error_log("상조거래품목 데이터 처리 완료");
+} else {
+    error_log("상조거래품목 데이터가 없습니다");
+}
 
 
 $sel5 = mysqli_query($dbcon, "select * from flower.client_flower_sender where consulting_idx='".$_POST['consulting_idx']."' order by client_flower_sender_idx") or die(mysqli_error($dbcon));
@@ -105,6 +130,7 @@ $result['data']['memo_list']=$memo_list;
 $result['data']['attachment_list']=$attachment_list;
 
 $result['data']['client_product_list']=$client_product_list;
+$result['data']['sangjo_client_product_list']=$sangjo_client_product_list; // 상조거래품목 정보 추가
 $result['data']['sender_list']=$sender_list;
 
 

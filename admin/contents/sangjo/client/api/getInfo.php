@@ -10,7 +10,7 @@ $log_file = $_SERVER["DOCUMENT_ROOT"].'/debug_log.txt';
 file_put_contents($log_file, date('Y-m-d H:i:s') . " - API 호출 시작\n", FILE_APPEND);
 
 try {
-    require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect.php'; //DB 접속
+    require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect_sangjo_new.php'; //DB 접속
     require($_SERVER["DOCUMENT_ROOT"].'/lib/lib.php');
     //session_start();
     admin_check_ajax();

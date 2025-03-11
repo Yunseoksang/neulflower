@@ -44,6 +44,8 @@
   
   #MonthPicker_Button_yyyymm{
     display:inline-block;
+    height: 34px; /* 버튼 높이 고정 */
+    vertical-align: middle; /* 세로 정렬 조정 */
   }
   
   .yyyymm_div{
@@ -128,8 +130,12 @@
 
   
 .ui-icon-circle-triangle-w,.ui-icon-circle-triangle-e{
-  margin-top:-20px;
-  margin-left:-10px;
+  margin-top: 0 !important; /* 상단 마진 제거 */
+  margin-left: 0 !important; /* 좌측 마진 제거 */
+  position: absolute !important; /* 절대 위치 설정 */
+  top: 50% !important; /* 상단에서 50% 위치 */
+  left: 50% !important; /* 좌측에서 50% 위치 */
+  transform: translate(-50%, -50%) !important; /* 중앙 정렬을 위한 변환 */
 }
 
 
@@ -353,4 +359,124 @@ td.exec_view button {
 
 .m_email{
   width: 155px;
+}
+
+/* MonthPicker 팝업 스타일 수정 */
+#MonthPicker_yyyymm {
+  width: 240px !important; /* 가로 길이 고정 */
+  max-width: 240px !important; /* 최대 가로 길이 제한 */
+}
+
+/* MonthPicker 월 선택 버튼 스타일 */
+.month-picker-month-table .ui-button {
+  width: 100% !important; /* 버튼 가로 길이를 100%로 설정 */
+  margin: 0 !important; /* 버튼 간격 제거 */
+  padding: 8px 0 !important; /* 버튼 패딩 추가 */
+  font-size: 14px !important; /* 글자 크기 조정 */
+  white-space: nowrap !important; /* 글자 줄바꿈 방지 */
+}
+
+/* MonthPicker 월 선택 테이블 셀 스타일 */
+.month-picker-month-table td {
+  padding: 2px !important; /* 셀 패딩 추가 */
+  width: 33.33% !important; /* 셀 가로 길이를 균등하게 분배 */
+}
+
+/* MonthPicker 팝업 컨테이너 스타일 */
+.month-picker {
+  width: 240px !important; /* 가로 길이 고정 */
+  max-width: 240px !important; /* 최대 가로 길이 제한 */
+}
+
+/* MonthPicker 월 선택 테이블 스타일 */
+.month-picker-month-table {
+  width: 100% !important; /* 테이블 가로 길이를 100%로 설정 */
+  table-layout: fixed !important; /* 테이블 레이아웃 고정 */
+}
+
+/* MonthPicker 버튼 텍스트 스타일 */
+.month-picker .ui-button-text {
+  padding: .4em 0 !important;
+  font-size: 14px !important; /* 글자 크기 조정 */
+  white-space: nowrap !important; /* 글자 줄바꿈 방지 */
+  overflow: visible !important; /* 텍스트 오버플로우 허용 */
+  text-overflow: clip !important; /* 텍스트 오버플로우 클립 */
+}
+
+/* MonthPicker 버튼 스타일 추가 */
+.month-picker button.ui-button {
+  height: auto !important; /* 버튼 높이 자동 조정 */
+  min-height: 35px !important; /* 최소 높이 설정 */
+}
+
+
+/* MonthPicker 타이틀 스타일 */
+.month-picker-year-table .month-picker-title {
+  width: 100% !important; /* 타이틀 가로 길이를 100%로 설정 */
+}
+
+/* MonthPicker 타이틀 버튼 스타일 */
+.month-picker-year-table .month-picker-title .ui-button,
+.month-picker-year-table .month-picker-title a {
+  width: 100% !important; /* 버튼 가로 길이를 100%로 설정 */
+  display: block !important; /* 블록 요소로 표시 */
+}
+
+/* 연도 좌우 화살표 아이콘 스타일 */
+.month-picker-year-table .ui-button {
+  position: relative !important; /* 상대 위치 설정 */
+  display: flex !important; /* 플렉스 박스로 설정 */
+  align-items: center !important; /* 세로 중앙 정렬 */
+  justify-content: center !important; /* 가로 중앙 정렬 */
+  height: 100% !important; /* 높이 100% 설정 */
+}
+
+/* 화살표 아이콘 스타일 */
+.month-picker-year-table .ui-button .ui-icon {
+  position: absolute !important; /* 절대 위치 설정 */
+  top: 50% !important; /* 상단에서 50% 위치 */
+  left: 50% !important; /* 좌측에서 50% 위치 */
+  transform: translate(-50%, -50%) !important; /* 중앙 정렬을 위한 변환 */
+  margin: 0 !important; /* 마진 제거 */
+}
+
+/* 좌측 화살표 아이콘 스타일 */
+.ui-icon-circle-triangle-w {
+  margin-top: 0 !important; /* 상단 마진 제거 */
+  margin-left: 0 !important; /* 좌측 마진 제거 */
+}
+
+/* 우측 화살표 아이콘 스타일 */
+.ui-icon-circle-triangle-e {
+  margin-top: 0 !important; /* 상단 마진 제거 */
+  margin-right: 0 !important; /* 우측 마진 제거 */
+}
+
+/* bill_month 셀 스타일 */
+td.bill_month,
+th.bill_month,
+.bill_month {
+  min-width: 118px !important; /* 최소 너비 설정 */
+  width: 118px !important; /* 너비 설정 */
+  max-width: 118px !important; /* 최대 너비 설정 */
+}
+
+/* 테이블 셀 스타일 */
+#datatable-main td.bill_month,
+#datatable-bill-popup td.bill_month,
+table td.bill_month,
+.dataTable td.bill_month {
+  min-width: 118px !important; /* 최소 너비 설정 */
+  width: 118px !important; /* 너비 설정 */
+  max-width: 118px !important; /* 최대 너비 설정 */
+}
+
+/* 테이블 헤더 스타일 */
+#datatable-main th.bill_month,
+#datatable-bill-popup th.bill_month,
+table th.bill_month,
+.dataTable th.bill_month {
+  min-width: 118px !important; /* 최소 너비 설정 */
+  width: 118px !important; /* 너비 설정 */
+  max-width: 118px !important; /* 최대 너비 설정 */
 }

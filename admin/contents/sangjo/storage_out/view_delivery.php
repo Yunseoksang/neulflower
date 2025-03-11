@@ -435,13 +435,152 @@ require('./contents/common/datatable.js.php');
 //require('./contents/'.$folder_name.'/columnDefs.js.php');
 ?>
 
+<!-- 테스트 모달 -->
+<div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="testModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="testModalLabel">출고 상세정보</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="testModalBody">
+                <!-- 데이터가 여기에 동적으로 삽입됩니다 -->
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-primary" onclick="printModalContent()"><i class="fa fa-print"></i> 인쇄하기</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+<style>
+/* 인쇄 스타일 */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #testModalBody, #testModalBody * {
+    visibility: visible;
+  }
+  #testModalBody {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  .modal-footer, .modal-header, .close {
+    display: none;
+  }
+}
+
+/* 삭제 버튼 숨기기 */
+.dataTables_wrapper .btn_delete {
+    display: none !important;
+}
+</style>
 
 <script>
+// 데이터 저장용 객체 (공통 JS에서 사용)
+var deliveryData = {};
+
+// 사용자 정의 타이틀 맵 (그룹화 순서 지정)
+var customTitleMap = {
+    // 그룹 1: 고유번호/주문일/출고지
+    'io_idx': '고유번호',
+    'regist_datetime': '주문일',
+    't_storage_name': '출고지',
+    
+    // 그룹 2: 품목/수량/주문자메모
+    't_product_name': '품목',
+    'out_count': '수량',
+    'delivery_memo': '주문자메모',
+    
+    // 그룹 3: 고객사/받는분/휴대폰/주소
+    'company_name': '고객사',
+    'to_place_name': '배송지',
+    'to_name': '받는분',
+    'to_hp': '휴대폰',
+    'to_address': '주소',
+    
+    // 별도 섹션: 관리자메모
+    'admin_memo': '관리자메모'
+};
+
+// 페이지 로드 완료 후 실행
+$(document).ready(function() {
+    console.log('view_delivery.php 페이지 로드 완료');
+    console.log('사용자 정의 타이틀 맵:', customTitleMap);
+});
+
+// 테스트 모달 표시 함수
+function testModal() {
+    try {
+        // 테스트 데이터 준비
+        var testData = {
+            '고유번호': '123456',
+            '주문일': '2023-05-15 14:30:00',
+            '출고지': '서울 창고',
+            '품목': '테스트 상품',
+            '수량': '10',
+            '고객사': '테스트 고객사',
+            '배송지': '테스트 배송지',
+            '받는분': '홍길동',
+            '휴대폰': '010-1234-5678',
+            '주소': '서울시 강남구 테스트로 123',
+            '주문자메모': '테스트 주문자 메모',
+            '관리자메모': '테스트 관리자 메모'
+        };
+        
+        // 모달 내용 생성 - 표 형식으로
+        var contentHtml = '<div class="container-fluid p-0">';
+        contentHtml += '<div class="row">';
+        contentHtml += '<div class="col-12">';
+        contentHtml += '<table class="table table-bordered table-sm">';
+        contentHtml += '<tbody>';
+        
+        // 데이터 항목 순서대로 표시
+        for (var key in testData) {
+            if (testData.hasOwnProperty(key)) {
+                contentHtml += '<tr>';
+                contentHtml += '<th width="25%" class="bg-light">' + key + '</th>';
+                contentHtml += '<td width="75%">' + (testData[key] || '') + '</td>';
+                contentHtml += '</tr>';
+            }
+        }
+        
+        contentHtml += '</tbody>';
+        contentHtml += '</table>';
+        contentHtml += '</div>'; // col-12
+        contentHtml += '</div>'; // row
+        contentHtml += '</div>'; // container-fluid
+        
+        // 모달 내용 삽입
+        $('#testModalBody').html(contentHtml);
+        
+        // 모달 표시
+        $('#testModal').modal('show');
+    } catch (err) {
+        alert('오류 발생: ' + err.message);
+    }
+}
+
+// 모달 내용 인쇄 함수
+function printModalContent() {
+    window.print();
+}
 
 function datatableRender(column,data,full){
 
   var rValue;
+  
+  // 데이터 저장 (io_idx를 키로 사용)
+  if (full && full.io_idx) {
+    deliveryData[full.io_idx] = full;
+  }
+  
   switch (column) {
 
     case "to_hp":
@@ -458,7 +597,8 @@ function datatableRender(column,data,full){
       
     case "io_status":
         rValue = '<button type="button" class="btn btn-danger btn_io_status"  next_io_status="출고완료">출고하기</button>';
-        rValue += '<br><button type="button" class="btn btn-info btn_qr_out "  next_io_status="출고완료">QR출고하기</button>';
+        rValue += '<br><button type="button" class="btn btn-info" onclick="showDetail(\''+full.io_idx+'\')"><i class="fa fa-search"></i> 상세보기</button>';
+        // rValue += '<br><button type="button" class="btn btn-info btn_qr_out "  next_io_status="출고완료">QR출고하기</button>';
 
       break;
     case "filename":
@@ -476,7 +616,7 @@ function datatableRender(column,data,full){
       break;
     case "exec_td":
         rValue = '<button type="button" class="btn btn-dark btn_modify"  >수정</button>';
-        rValue += '<br><button type="button" class="btn btn-primary btn_io_status_cancel"  next_io_status="출고취소">취소하기</button>';
+        rValue += '<br><button type="button" class="btn btn-primary btn_io_status_cancel"  next_io_status="출고취소">주문취소</button>';
 
       break;
   
@@ -510,7 +650,84 @@ function datatableCreatedCell(column,$td,rowData){
   }
 }
 
+// 상세 정보 표시 함수
+function showDetail(io_idx) {
+    try {
+        // 데이터 찾기
+        var rowData = deliveryData[io_idx];
+        
+        if (!rowData) {
+            alert('데이터를 찾을 수 없습니다.');
+            return;
+        }
+        
+        // 출력할 데이터 준비 - 요청한 그룹화 순서대로
+        var printData = {
+            // 그룹 1: 고유번호/주문일/출고지
+            '고유번호': rowData.io_idx,
+            '주문일': rowData.regist_datetime,
+            '출고지': rowData.t_storage_name,
+            
+            // 그룹 2: 품목/수량/주문자메모
+            '품목': rowData.t_product_name,
+            '수량': rowData.out_count,
+            '주문자메모': rowData.delivery_memo || '',
+            
+            // 그룹 3: 고객사/받는분/휴대폰/주소
+            '고객사': rowData.company_name,
+            '배송지': rowData.to_place_name || '',
+            '받는분': rowData.to_name,
+            '휴대폰': rowData.to_hp,
+            '주소': rowData.to_address,
+            
+            // 별도 섹션: 관리자메모
+            '관리자메모': rowData.admin_memo || ''
+        };
+        
+        // 모달 내용 생성 - 표 형식으로
+        var contentHtml = '<div class="container-fluid p-0">';
+        contentHtml += '<div class="row">';
+        contentHtml += '<div class="col-12">';
+        contentHtml += '<table class="table table-bordered table-sm">';
+        contentHtml += '<tbody>';
+        
+        // 데이터 항목 순서대로 표시
+        for (var key in printData) {
+            if (printData.hasOwnProperty(key)) {
+                contentHtml += '<tr>';
+                contentHtml += '<th width="25%" class="bg-light">' + key + '</th>';
+                contentHtml += '<td width="75%">' + (printData[key] || '') + '</td>';
+                contentHtml += '</tr>';
+            }
+        }
+        
+        contentHtml += '</tbody>';
+        contentHtml += '</table>';
+        contentHtml += '</div>'; // col-12
+        contentHtml += '</div>'; // row
+        contentHtml += '</div>'; // container-fluid
+        
+        // 모달 내용 삽입
+        $('#testModalBody').html(contentHtml);
+        
+        // 모달 표시
+        $('#testModal').modal('show');
+    } catch (err) {
+        console.error('상세 정보 표시 중 오류:', err);
+        alert('오류 발생: ' + err.message);
+        
+        // 오류 발생 시 테스트 모달 표시
+        testModal();
+    }
+}
 
+// 수정 버튼 클릭 시 삭제 버튼 숨기기
+$(document).ready(function() {
+    $(document).on("click", ".btn_modify", function() {
+        // 삭제 버튼 숨기기
+        $(this).closest("tr").find(".btn_delete").hide();
+    });
+});
 
 </script>
 

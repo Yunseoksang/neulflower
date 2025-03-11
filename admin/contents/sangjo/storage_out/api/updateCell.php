@@ -2,7 +2,7 @@
 
 
 
-require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect.php'; //DB 접속
+require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect_sangjo_new.php'; //DB 접속
 require($_SERVER["DOCUMENT_ROOT"].'/lib/lib.php');
 //session_start();
 admin_check_ajax();
@@ -33,7 +33,7 @@ if($_POST['mode'] == "io_status"){
          if($data['io_status'] == "배송완료"){
 
 
-            $up = mysqli_query($dbcon, "update in_out set io_status='".$_POST['io_status']."', receive_date=null where io_idx='".$_POST['io_idx']."' ") or die(mysqli_error($dbcon));
+            $up = mysqli_query($dbcon, "update in_out set io_status='".$_POST['io_status']."', receive_date=date(now()) where io_idx='".$_POST['io_idx']."' ") or die(mysqli_error($dbcon));
             $up_num = mysqli_affected_rows($dbcon);
             if($up_num >= 0){ //업데이트 성공 // 0이면 쿼리성공이지만 변경데이터 없음.
    
@@ -107,7 +107,7 @@ if($_POST['mode'] == "io_status"){
    }else if($_POST['io_status'] == "배송완료"){
 
 
-         $up = mysqli_query($dbcon, "update in_out set io_status='".$_POST['io_status']."', receive_date='".$_POST['receive_date']."' where io_idx='".$_POST['io_idx']."' ") or die(mysqli_error($dbcon));
+         $up = mysqli_query($dbcon, "update in_out set io_status='".$_POST['io_status']."' where io_idx='".$_POST['io_idx']."' ") or die(mysqli_error($dbcon));
          $up_num = mysqli_affected_rows($dbcon);
          if($up_num >= 0){ //업데이트 성공 // 0이면 쿼리성공이지만 변경데이터 없음.
 
@@ -152,7 +152,7 @@ if($_POST['mode'] == "io_status"){
          }
 
 
-         $up = mysqli_query($dbcon, "update in_out set io_status='".$_POST['io_status']."',current_count='".$next_count."',cancel_manager_idx='".$admin_info['admin_idx']."',t_cancel_manager_name='".$admin_info['admin_name']."',cancel_datetime=now() where io_idx='".$_POST['io_idx']."' ") or die(mysqli_error($dbcon));
+         $up = mysqli_query($dbcon, "update in_out set io_status='".$_POST['io_status']."',receive_date=null,current_count='".$next_count."',cancel_manager_idx='".$admin_info['admin_idx']."',t_cancel_manager_name='".$admin_info['admin_name']."',cancel_datetime=now() where io_idx='".$_POST['io_idx']."' ") or die(mysqli_error($dbcon));
          $up_num = mysqli_affected_rows($dbcon);
          if($up_num >= 0){ //업데이트 성공 // 0이면 쿼리성공이지만 변경데이터 없음.
 
@@ -207,7 +207,7 @@ if($_POST['mode'] == "io_status"){
 
 
 
-         $up = mysqli_query($dbcon, "update in_out set io_status='".$_POST['io_status']."',current_count='".$next_count."',bill_yyyymm=null, cancel_manager_idx='".$admin_info['admin_idx']."',t_cancel_manager_name='".$admin_info['admin_name']."',cancel_datetime=now() where io_idx='".$_POST['io_idx']."' ") or die(mysqli_error($dbcon));
+         $up = mysqli_query($dbcon, "update in_out set io_status='".$_POST['io_status']."',receive_date=null,current_count='".$next_count."',bill_yyyymm=null, cancel_manager_idx='".$admin_info['admin_idx']."',t_cancel_manager_name='".$admin_info['admin_name']."',cancel_datetime=now() where io_idx='".$_POST['io_idx']."' ") or die(mysqli_error($dbcon));
          $up_num = mysqli_affected_rows($dbcon);
          if($up_num >= 0){ //업데이트 성공 // 0이면 쿼리성공이지만 변경데이터 없음.
 
@@ -338,7 +338,7 @@ if($_POST['mode'] == "io_status"){
 
 
       if($_POST['receiver_name'] != "" && $_POST['io_status'] == "출고완료"){
-         $up = mysqli_query($dbcon, "update out_order set receiver_name='".$_POST['receiver_name']."'  where out_order_idx='".$data['out_order_idx']."' ") or die(mysqli_error($dbcon));
+         $up = mysqli_query($dbcon, "update out_order set receiver_name='".$_POST['receiver_name']."',receive_date=date(now()) where out_order_idx='".$data['out_order_idx']."' ") or die(mysqli_error($dbcon));
       }
 
 

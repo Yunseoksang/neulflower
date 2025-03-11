@@ -118,7 +118,7 @@ if($function_keyword_search == "on"){
 $th_info = [];
 
 array_push($th_info,["oocp_idx","주문번호"]);
-array_push($th_info,["regist_datetime","주문날짜"]);
+array_push($th_info,["regist_datetime","주문입력시간"]);
 array_push($th_info,["order_date","발주일"]);
 
 array_push($th_info,["company_name","회사명"]);
@@ -419,10 +419,10 @@ function datatableRender(column,data,full){
   switch (column) {
 
       
-    case "regist_datetime":
-        rValue = data.split(" ")[0];
+    // case "regist_datetime":
+    //     rValue = data.split(" ")[0];
 
-      break;
+    //   break;
     default:
           rValue = data;
           break;

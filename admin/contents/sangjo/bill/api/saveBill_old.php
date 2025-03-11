@@ -3,7 +3,7 @@
 
 // $rData= $_REQUEST;
 
-require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect.php'; //DB 접속
+require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect_sangjo_new.php'; //DB 접속
 require($_SERVER["DOCUMENT_ROOT"].'/lib/lib.php');
 //session_start();
 admin_check_ajax();
@@ -105,7 +105,7 @@ $in = mysqli_query($dbcon, "insert into consulting.client_bill
 set
 bill_month='".$yyyymm."',
 uuid=UUID(),
-bill_part='종합물류',
+bill_part='상조물류',
 category1_idx='".$_POST['category1_idx']."',
 t_category1_name='".$category1_name."',
 consulting_idx='".$_POST['consulting_idx']."',

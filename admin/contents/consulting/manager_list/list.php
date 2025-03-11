@@ -139,6 +139,7 @@ array_push($th_info,["consulting_status","계약단계"]);
 array_push($th_info,["manager_id","아이디"]);
 array_push($th_info,["manager_name","이름"]);
 array_push($th_info,["manager_hp","휴대폰"]);
+array_push($th_info,["manager_email","이메일"]);
 
 
 array_push($th_info,["item_in_charge","담당품목"]);
@@ -152,7 +153,7 @@ array_push($th_info,["exec_pw_reset","비밀번호초기화"]);
 
 array_push($th_info,["manager_status","승인단계","selectDropDown",[  ["미등록","미등록","btn-primary"], ["승인대기","승인대기","btn-info"],["승인","승인","btn-success"],["승인거절","승인거절","btn-dark","divider"] ,["탈퇴","탈퇴","btn-dark"]  ] ]);
 
-array_push($th_info,["manager_login_count","로그인횟수"]);
+//array_push($th_info,["manager_login_count","로그인횟수"]);
 
 array_push($th_info,["regist_datetime","등록일<br>수정일","datetime2line"]);
 
@@ -222,12 +223,12 @@ $edit_hide_columns = [];
 //css 설정
 $css_array = [];
 
-array_push($css_array,["manager_status",["min-width","140px"]]);
+array_push($css_array,["manager_status",["width","140px"]]);
 //array_push($css_array,["",["min-width","70px"]]);
 
-array_push($css_array,["regist_datetime",["min-width","130px"]]);
-array_push($css_array,["update_datetime",["min-width","130px"]]);
-array_push($css_array,["exec",["min-width","50px"]]);
+array_push($css_array,["regist_datetime",["width","130px"]]);
+array_push($css_array,["update_datetime",["width","130px"]]);
+array_push($css_array,["exec",["width","50px"]]);
 
 
 
@@ -243,6 +244,7 @@ array_push($edit_array,["manager_name","text",["direct_save","1"]]);
 array_push($edit_array,["manager_position","text",["direct_save","1"]]);
 array_push($edit_array,["manager_department","text",["direct_save","1"]]);
 array_push($edit_array,["manager_hp","text",["direct_save","1"]]);
+array_push($edit_array,["manager_email","text",["direct_save","1"]]);
 
 // array_push($edit_array,["manager_tel","text",["direct_save","1"]]);
 // array_push($edit_array,["manager_email","text",["direct_save","1"]]);

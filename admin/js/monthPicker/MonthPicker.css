@@ -22,15 +22,18 @@ along with this program.  If not, see
     display: inline-block;
     position: absolute;
     z-index: 9999;
+    width: 240px !important;
+    max-width: 240px !important;
 }
 
 .month-picker table {
   border-collapse: separate;
   border-spacing: 2px 2px;
+  width: 100% !important;
 }
 
 .month-picker td {
-    padding: 0px;
+    padding: 2px !important;
 }
 
 /*
@@ -40,6 +43,8 @@ See: .month-picker-month-table button { width: 4.3em; }
 */
 .month-picker .ui-button-text {
   padding: .4em 0;
+  font-size: 14px !important;
+  white-space: nowrap !important;
 }
 
 .month-picker-header {
@@ -47,7 +52,8 @@ See: .month-picker-month-table button { width: 4.3em; }
 }
 
 .month-picker-year-table {
-    width: 100%;
+    width: 100% !important;
+    table-layout: fixed !important;
     /*
     Makes sure the next/previous/jump years buttons are not unnecessarily
     selected if the user clicks them a couple of times fast.
@@ -77,6 +83,8 @@ in the same size, but it doesen't hide the borders that .ui-state-hover/actove g
 */
 .month-picker-year-table a {
     border: 1px solid transparent;
+    width: 100% !important;
+    display: block !important;
 }
 
 /*
@@ -90,17 +98,32 @@ and removes the pointer cursor from the buttons in the heading (year-table).
     height: 1.5em;
     cursor: default;
     margin: 0;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* 화살표 아이콘 스타일 */
+.month-picker-year-table .ui-button .ui-icon {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
 }
 
 .month-picker-year-table .month-picker-title {
     text-align: center;
+    width: 100% !important;
 }
 
 .month-picker-year-table .month-picker-title .ui-button {
     font-size: 1em;
     padding: .1em 0;
-    width: 100%;
+    width: 100% !important;
     font-weight: bold;
+    display: block !important;
 }
 
 /*
@@ -121,6 +144,8 @@ the jump years button will be vericaly centred.
 .month-picker-month-table td {
     height: 35px;
     text-align: center;
+    padding: 2px !important;
+    width: 33.33% !important;
 }
 
 /*
@@ -130,14 +155,23 @@ this also ensures that the entire menu dosen't resize itself
 in response to the slightly bigger buttons in the Jump years menu.
  */
 .month-picker-month-table .ui-button {
-    width: 4.3em;
-    margin: .2em;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 8px 0 !important;
+    font-size: 14px !important;
+    white-space: nowrap !important;
+}
+
+/* 월 선택 테이블 스타일 */
+.month-picker-month-table {
+    width: 100% !important;
+    table-layout: fixed !important;
 }
 
 .month-picker-open-button {
-    height: 30px;
+    height: 34px !important;
     width: 20px;
-    vertical-align: bottom;
+    vertical-align: middle !important;
 }
 
 .month-picker-invalid-message {
@@ -151,5 +185,5 @@ in response to the slightly bigger buttons in the Jump years menu.
 
 
 .month-picker-title{
-    width:50%;
+    width: 100% !important;
 }

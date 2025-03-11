@@ -260,6 +260,39 @@ if($_POST['mode'] == "출고지시"){
                 exit;
              }
 
+
+        // out_order 테이블의 storage_idx 업데이트
+        $update_out_order_query = "update out_order set 
+            storage_idx='".$_POST['storage_idx']."',
+            update_datetime=NOW() 
+            where out_order_idx=(
+                select out_order_idx 
+                from out_order_client_product 
+                where oocp_idx='".$_POST['oocp_idx']."'
+            )";
+        error_log("출고지 정보 업데이트 쿼리: " . $update_out_order_query);
+        $up2 = execute_query($dbcon, $update_out_order_query, "출고지시 - 출고지 정보 업데이트 실패");
+        $up_num2 = mysqli_affected_rows($dbcon);
+        error_log("출고지 정보 업데이트 영향받은 행 수: " . $up_num2);
+        if($up_num2 <= 0){ //업데이트 실패
+            mysqli_rollback($dbcon);
+            error_log("출고지 정보 업데이트 실패: oocp_idx=" . $_POST['oocp_idx']);
+
+            $result = array();
+            $result['status'] = 0;
+            $result['msg'] = "출고지 정보 업데이트 실패 - oocp_idx: " . $_POST['oocp_idx'] . " - 영향받은 행 수: " . $up_num2 . " - 쿼리: " . $update_out_order_query;
+            $result['error_code'] = md5(date('H:i:s') . rand(1000, 9999));
+    
+            echo json_encode($result);
+            exit;
+        }
+
+
+
+
+
+
+
         }else{ //쿼리실패
             mysqli_rollback($dbcon);
             error_log("출고 정보 저장 실패: 영향받은 행 수가 0보다 작음");

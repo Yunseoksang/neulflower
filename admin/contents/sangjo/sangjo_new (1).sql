@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: alwaysflower.sldb.iwinv.net
--- 생성 시간: 25-03-07 07:16
+-- 생성 시간: 25-03-08 13:02
 -- 서버 버전: 10.9.4-MariaDB
 -- PHP 버전: 8.2.26
 
@@ -36,19 +36,6 @@ CREATE TABLE `attachment` (
   `admin_idx` int(11) DEFAULT NULL,
   `admin_name` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='첨부파일관리';
-
--- --------------------------------------------------------
-
---
--- 테이블 구조 `category`
---
-
-CREATE TABLE `category` (
-  `category_idx` int(11) NOT NULL,
-  `category_name` varchar(50) DEFAULT NULL,
-  `regist_datetime` datetime NOT NULL DEFAULT current_timestamp(),
-  `update_datetime` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='제품 카테고리';
 
 -- --------------------------------------------------------
 
@@ -202,7 +189,7 @@ CREATE TABLE `in_out` (
   `out_date` date DEFAULT NULL COMMENT '출고,이동출고날짜',
   `receive_date` date DEFAULT NULL COMMENT '이동도착날짜,출고후배송완료날짜',
   `current_count` int(11) DEFAULT NULL,
-  `memo` varchar(250) DEFAULT NULL COMMENT '관리자 메모',
+  `admin_memo` varchar(250) DEFAULT NULL COMMENT '관리자 메모',
   `admin_notice` varchar(500) DEFAULT NULL COMMENT '본사요청사항',
   `head_officer` varchar(50) DEFAULT NULL COMMENT '본사담당자',
   `agency_order_price` int(11) NOT NULL DEFAULT 0 COMMENT '협력사발주금액',
@@ -243,7 +230,7 @@ CREATE TABLE `in_out` (
 --
 DELIMITER $$
 CREATE TRIGGER `in_out_insert_before` BEFORE INSERT ON `in_out` FOR EACH ROW BEGIN
-/*
+
 set 
 NEW.category1_idx=(select category1_idx from product where product_idx=NEW.product_idx),
 NEW.t_storage_name=(select storage_name from storage where storage_idx=NEW.storage_idx),
@@ -270,13 +257,13 @@ if NEW.out_order_idx is not null THEN
 end if;
 
 
-*/
+
 END
 $$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `in_out_update_before1` BEFORE UPDATE ON `in_out` FOR EACH ROW BEGIN
-/*
+
 
 if NEW.storage_idx <> OLD.storage_idx THEN
    set NEW.t_storage_name=(select storage_name from storage where storage_idx=NEW.storage_idx);
@@ -340,7 +327,7 @@ if NEW.io_status <> OLD.io_status THEN
   
 end if;
 
-*/
+
 
 END
 $$
@@ -382,7 +369,7 @@ CREATE TABLE `out_order` (
 --
 DELIMITER $$
 CREATE TRIGGER `out_order_insert_before` BEFORE INSERT ON `out_order` FOR EACH ROW BEGIN
-/*
+
 if NEW.storage_idx is not null then
 SET NEW.t_storage_name = (select storage_name from storage where storage_idx=NEW.storage_idx);
 end if;
@@ -390,13 +377,13 @@ end if;
 if NEW.consulting_idx is not null THEN
 SET NEW.t_company_name = (select company_name from consulting.consulting where consulting_idx=NEW.consulting_idx);
 end if;
-*/
+
 END
 $$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `out_order_update_before` BEFORE UPDATE ON `out_order` FOR EACH ROW BEGIN
-/*
+
 if NEW.storage_idx is not null then
 SET NEW.t_storage_name = (select storage_name from storage where storage_idx=NEW.storage_idx);
 end if;
@@ -404,7 +391,7 @@ end if;
 if NEW.consulting_idx is not null THEN
 SET NEW.t_company_name = (select company_name from consulting.consulting where consulting_idx=NEW.consulting_idx);
 end if;
-*/
+
 END
 $$
 DELIMITER ;
@@ -418,13 +405,10 @@ DELIMITER ;
 CREATE TABLE `out_order_client_product` (
   `oocp_idx` int(11) NOT NULL,
   `flower_out_order_idx` int(11) DEFAULT NULL,
-  `sangjo_out_order_idx` int(11) DEFAULT NULL,
-  `out_order_idx_deprecated` int(11) DEFAULT NULL,
+  `out_order_idx` int(11) DEFAULT NULL,
   `consulting_idx` int(11) NOT NULL,
-  `category1_idx` int(11) DEFAULT NULL,
-  `t_category1_name` varchar(50) DEFAULT NULL,
-  `client_product_idx` int(11) NOT NULL,
-  `order_date` date DEFAULT NULL COMMENT '발주일',
+  `client_product_idx` int(11) DEFAULT NULL,
+  `order_date` varchar(20) DEFAULT NULL COMMENT '발주일',
   `bill_idx` int(11) DEFAULT NULL,
   `bill_yyyymm` int(11) DEFAULT NULL COMMENT '거래명세서 발행했거나 발행예정월, -1:발행제외',
   `oocp_status` enum('주문접수','출고지시','주문취소') DEFAULT '주문접수',
@@ -436,8 +420,6 @@ CREATE TABLE `out_order_client_product` (
   `total_client_price` int(11) NOT NULL DEFAULT 0,
   `total_client_price_tax` int(11) NOT NULL DEFAULT 0,
   `total_client_price_sum` int(11) NOT NULL DEFAULT 0,
-  `unit_price` int(11) DEFAULT NULL,
-  `price_calcu` int(11) DEFAULT NULL COMMENT '상품별합계',
   `bigo` varchar(100) DEFAULT NULL COMMENT '거래명세서 비고',
   `admin_idx` int(11) NOT NULL,
   `admin_name` varchar(30) NOT NULL,
@@ -451,17 +433,17 @@ CREATE TABLE `out_order_client_product` (
 --
 DELIMITER $$
 CREATE TRIGGER `oocp_insert_before` BEFORE INSERT ON `out_order_client_product` FOR EACH ROW BEGIN 
-/*
+
 set NEW.client_price_sum = NEW.client_price + NEW.client_price_tax;
-*/
+
 END
 $$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `oocp_update_before` BEFORE UPDATE ON `out_order_client_product` FOR EACH ROW BEGIN 
-/*
+
 set NEW.client_price_sum = NEW.client_price + NEW.client_price_tax;
-*/
+
 END
 $$
 DELIMITER ;
@@ -722,12 +704,6 @@ ALTER TABLE `attachment`
   ADD PRIMARY KEY (`attachment_idx`);
 
 --
--- 테이블의 인덱스 `category`
---
-ALTER TABLE `category`
-  ADD PRIMARY KEY (`category_idx`);
-
---
 -- 테이블의 인덱스 `category1`
 --
 ALTER TABLE `category1`
@@ -769,7 +745,7 @@ ALTER TABLE `out_order`
 --
 ALTER TABLE `out_order_client_product`
   ADD PRIMARY KEY (`oocp_idx`),
-  ADD KEY `out_order_idx` (`out_order_idx_deprecated`),
+  ADD KEY `out_order_idx` (`out_order_idx`),
   ADD KEY `client_idx` (`consulting_idx`);
 
 --
@@ -820,12 +796,6 @@ ALTER TABLE `storage_safe`
 --
 ALTER TABLE `attachment`
   MODIFY `attachment_idx` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- 테이블의 AUTO_INCREMENT `category`
---
-ALTER TABLE `category`
-  MODIFY `category_idx` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- 테이블의 AUTO_INCREMENT `category1`

@@ -15,7 +15,7 @@
 
     <thead>
         <tr>
-            <th colspan="4" class="company_info mtitle">
+            <th colspan="6" class="company_info mtitle">
                 주문정보 <span class="manager">(주문자:  )</span>
             </th>
         </tr>
@@ -24,18 +24,32 @@
     <tbody>
         <tr>
             <th scope="row" class="mth">품목</th>
-            <td class="product_name"></td>
-            <th scope="row" class="mth">단가</td>
-            <td class="client_price info_td_right"></td>
+            <td colspan="5" class="product_name"></td>
         </tr>
 
         <tr>
             <th scope="row" class="mth">수량</th>
-            <td class="order_count"></td>
-            <th scope="row" class="mth">합계</td>
-            <td class="price_calcu info_td_right"></td>
+            <td colspan="5" class="order_count order_count_left"></td>
         </tr>
 
+        <tr>
+            <th scope="row" class="mth">공급가액 단가</th>
+            <td class="client_price info_td_right"></td>
+            <th scope="row" class="mth">부가세</th>
+            <td class="vat_amount info_td_right"></td>
+            <th scope="row" class="mth">총 단가<br>(부가세 포함)</th>
+            <td class="total_unit_price info_td_right"></td>
+        </tr>
+
+        <tr>
+            <th scope="row" class="mth">공급가액 합계</th>
+            <td class="total_purchase info_td_right"></td>
+            <th scope="row" class="mth">부가세 합계</th>
+            <td class="total_vat info_td_right"></td>
+            <th scope="row" class="mth">합계금액</th>
+            <td class="total_payment info_td_right"></td>
+        </tr>
+    </tbody>
 
     </tbody>
 </table>

@@ -1,4 +1,3 @@
-
 <?php
 
 
@@ -8,7 +7,8 @@ $folder_name = "sangjo/client_input";
 $sel_client = mysqli_query($dbcon, "select * from ".$db_consulting.".consulting where consulting_status='계약완료' order by company_name ") or die(mysqli_error($dbcon));
 $sel_client_num = mysqli_num_rows($sel_client);
 
-
+$sel_storage = mysqli_query($dbcon, "select * from storage order by storage_name ") or die(mysqli_error($dbcon));
+$sel_storage_num = mysqli_num_rows($sel_storage);
 
 
 ?>
@@ -106,6 +106,23 @@ $sel_client_num = mysqli_num_rows($sel_client);
 
               <div class="x_content ">
                 <div class="" id="out_form">
+                        <div class="col-md-2 col-sm-2 col-xs-12 align-right">
+                           <label for="out_storage">출고지 선택</label>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12" style="margin-bottom: 10px;">
+                            <select id="out_storage" class="select2_single form-control" tabindex="-1" style="display: none;">
+                                <option value="">출고지</option>
+                                <?php
+                                if ($sel_storage_num > 0) {
+                                  while($data_storage = mysqli_fetch_assoc($sel_storage)) {?>
+                                    <option value="<?=$data_storage['storage_idx']?>"><?=$data_storage['storage_name']?></option>
+                                  <?}
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="clear"></div>
+
                         <div class="col-md-2 col-sm-2 col-xs-12 align-right">
                            <label for="to_place_name">배송지 선택</label>
 
@@ -445,6 +462,11 @@ $sel_client_num = mysqli_num_rows($sel_client);
 
     $("#to_place_name.select2_single").select2({
       placeholder: "배송지 선택",
+      allowClear: true
+    });
+    
+    $("#out_storage.select2_single").select2({
+      placeholder: "출고지 선택",
       allowClear: true
     });
     

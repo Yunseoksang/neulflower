@@ -164,7 +164,7 @@ array_push($th_info,["exec","실행","exec"]);
 //$other_table_column = "a:cache_url(brand_img_url) as cache_img_url/a:category_idx:category:category_name/a:brand_idx:brand_explain:brand_ex"; //메인테이블이 아닌 다른 테이블에서 join을 통해 가져와야 하는 칼럼 => sorting 할때 뒤쪽에 붙여야 함.
 
 
-$other_table_column = "a:io_idx:out_order:out_order_idx+storage_idx+t_storage_name+to_place_name+to_address+to_name+to_hp+to_phone+receiver_name"; //메인테이블이 아닌 다른 테이블에서 join을 통해 가져와야 하는 칼럼 => sorting 할때 뒤쪽에 붙여야 함.
+$other_table_column = "a:io_idx:sangjo_new.out_order:out_order_idx+storage_idx+t_storage_name+to_place_name+to_address+to_name+to_hp+to_phone+receiver_name"; //메인테이블이 아닌 다른 테이블에서 join을 통해 가져와야 하는 칼럼 => sorting 할때 뒤쪽에 붙여야 함.
 
 //$other_table_column = "a:io_idx:in_out:t_product_name+out_count+io_status+t_write_admin_name"; //메인테이블이 아닌 다른 테이블에서 join을 통해 가져와야 하는 칼럼 => sorting 할때 뒤쪽에 붙여야 함.
 //$other_table_column = "a:user_idx:user:user_name+user_phone/a:user_idx:order_list:menu_name/order_list:order_list_idx:order_coupon:order_price"; //메인테이블이 아닌 다른 테이블에서 join을 통해 가져와야 하는 칼럼 => sorting 할때 뒤쪽에 붙여야 함.

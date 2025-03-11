@@ -1,4 +1,3 @@
-
 <?php
 
 $folder_name = "sangjo/storage";
@@ -8,7 +7,9 @@ $folder_name = "sangjo/storage";
 $storage_sum_sql = "
     select sum(current_count) as sum_current_count,sum(pr_sum) as sum_pr_count,storage_idx,t_storage_name as storage_name from (
     select *,count(*) as pr_sum from (
-    select * from in_out where io_idx in (select max(io_idx) as max_io_idx from in_out group by storage_idx, product_idx)  
+    select * from in_out 
+    where io_idx in (select max(io_idx) as max_io_idx from in_out group by storage_idx, product_idx)
+    and t_product_name NOT LIKE '%test%'
     ) y group by storage_idx, product_idx
 
     ) x group by storage_idx

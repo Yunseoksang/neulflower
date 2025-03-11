@@ -1,10 +1,51 @@
 <?php
 
-ini_set('display_errors', '0');
+// 에러 로깅 설정
+ini_set('display_errors', '1');
+ini_set('log_errors', '1');
+ini_set('error_log', $_SERVER['DOCUMENT_ROOT'] . '/php_errors.log');
+error_reporting(E_ALL);
 
+// 에러 핸들러 등록
+function customErrorHandler($errno, $errstr, $errfile, $errline) {
+    $error_message = date('Y-m-d H:i:s') . " - Error: [$errno] $errstr in $errfile on line $errline\n";
+    error_log($error_message);
+    
+    // 심각한 에러인 경우 JSON 형식으로 오류 반환
+    if ($errno == E_ERROR || $errno == E_PARSE || $errno == E_CORE_ERROR || 
+        $errno == E_COMPILE_ERROR || $errno == E_USER_ERROR) {
+        $result = array(
+            'status' => 'error',
+            'message' => "[$errno] $errstr",
+            'file' => $errfile,
+            'line' => $errline
+        );
+        echo json_encode($result);
+        exit(1);
+    }
+    
+    // true를 반환하면 PHP 내장 에러 핸들러가 실행되지 않음
+    return true;
+}
+set_error_handler("customErrorHandler");
 
-// error_reporting(E_ALL);
-// ini_set("display_errors", 1);
+// 예외 핸들러 등록
+function customExceptionHandler($exception) {
+    $error_message = date('Y-m-d H:i:s') . " - Exception: " . $exception->getMessage() . 
+                     " in " . $exception->getFile() . " on line " . $exception->getLine() . "\n";
+    error_log($error_message);
+    
+    // JSON 형식으로 오류 반환
+    $result = array(
+        'status' => 'error',
+        'message' => $exception->getMessage(),
+        'file' => $exception->getFile(),
+        'line' => $exception->getLine()
+    );
+    echo json_encode($result);
+    exit(1);
+}
+set_exception_handler("customExceptionHandler");
 
 ///require_once $_SERVER["DOCUMENT_ROOT"].'/admin/contents/common/api/getList_common.php'; //DB 접속
 
@@ -14,8 +55,7 @@ $rData= $_REQUEST;
 
 //print_r($rData);
 
-require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect.php'; //DB 접속
-
+require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect_sangjo_new.php'; //DB 접속
 
 
 
@@ -42,7 +82,11 @@ for ($i=0;$i<count($cl_ex);$i++ )
 
 
 
-$custom_filter = $rData['custom_filter'];
+$custom_filter = isset($rData['custom_filter']) ? $rData['custom_filter'] : '';
+
+// 디버깅 정보 제거
+// echo "custom_filter 초기 설정: " . (isset($rData['custom_filter']) ? htmlspecialchars($rData['custom_filter']) : "설정되지 않음") . "<br>";
+// echo "rData 내용: <pre>" . htmlspecialchars(print_r($rData, true)) . "</pre><br>";
 
 // if(!empty($rData['sval'])){
 //   $rData['search']['value'] = $rData['sval'];
@@ -84,8 +128,27 @@ $yyyymm = date("Ym",time());
 
 $rows = [];
 
+
+
+//지점01
 if($custom_filter != ""){
-  parse_str($custom_filter, $parseArr); //key-value로 변환
+
+
+  
+  try {
+    if(strpos($custom_filter, '%') !== false) {
+      $custom_filter = urldecode($custom_filter);
+    }
+    
+    if(strpos($custom_filter, '=') === false) {
+      $parseArr = array();
+    } else {
+      $parseArr = array();
+      parse_str($custom_filter, $parseArr);
+    }
+  } catch (Exception $e) {
+    $parseArr = array();
+  }
 
 
 
@@ -110,6 +173,10 @@ if($custom_filter != ""){
     $category1_sql = "";
   }
   ////=======================================================================================//
+
+
+
+
 
   if(isset($parseArr['payment_method'])){  
     if($parseArr['payment_method'] == "view_all" || $parseArr['payment_method'] == ""){  
@@ -185,7 +252,6 @@ if($custom_filter != ""){
 
 
 
-
   ////=======================================================================================//
 
 
@@ -227,12 +293,24 @@ $end_date = $year . '-' . $month . '-' . $last_day_of_month . ' 23:59:59';
 */
 
 
+// 연도와 월 추출
+$year = substr($yyyymm, 0, 4);
+$month = substr($yyyymm, 4, 2);
+
 // 시작 날짜
-$start_date = date("Y-m-d H:i:s", strtotime($yyyymm . "01 00:00:00"));
+$start_date = date("Y-m-d H:i:s", strtotime($year . "-" . $month . "-01 00:00:00"));
 
 // 마지막 날짜
-$last_day_of_month = date("t", strtotime($yyyymm . "01"));  // 해당 월의 마지막 날짜를 가져옴
-$end_date = date("Y-m-$last_day_of_month 23:59:59");
+$last_day_of_month = date("t", strtotime($year . "-" . $month . "-01"));  // 해당 월의 마지막 날짜를 가져옴
+$end_date = date("Y-m-d H:i:s", strtotime($year . "-" . $month . "-" . $last_day_of_month . " 23:59:59"));
+
+// 디버깅을 위한 로그 추가
+error_log("yyyymm: " . $yyyymm);
+error_log("year: " . $year);
+error_log("month: " . $month);
+error_log("last_day_of_month: " . $last_day_of_month);
+error_log("start_date: " . $start_date);
+error_log("end_date: " . $end_date);
 
 
 
@@ -270,7 +348,7 @@ where ((order_date >= '".$start_date."' and order_date <= '".$end_date."' and (b
 
 $sql1_1= "
 
-select count(*) as cnt, b.company_name,b.consulting_idx,a.bill_idx, a.category1_idx, a.t_category1_name, c.bill_month, date(c.regist_datetime) as bill_date,
+select count(*) as cnt, b.company_name,b.consulting_idx,a.bill_idx, a.category1_idx, h.category1_name as t_category1_name, c.bill_month, date(c.regist_datetime) as bill_date,
 c.manager_idx,c.manager_name, c.manager_email,
 e.sdate, sum(IFNULL(a.total_client_price,0)) as sum_total_client_price,c.bill_status, e.payment_method,
 g.manager_idx as origin_manager_idx, 
@@ -315,10 +393,10 @@ left join consulting.consulting b
 on a.consulting_idx=b.consulting_idx 
 
 left join consulting.client_bill c
-on a.bill_idx=c.bill_idx and c.bill_part='종합물류' 
+on a.bill_idx=c.bill_idx and c.bill_part='상조물류' 
 
 left join sangjo_new.in_out d
-on a.oocp_idx=d.oocp_idx
+on a.out_order_idx=d.out_order_idx
 
 left join sangjo_new.settlement_sdate e
 on a.consulting_idx=e.consulting_idx and a.category1_idx=e.category1_idx
@@ -330,9 +408,13 @@ on a.consulting_idx=f.consulting_idx and f.category1_idx=e.category1_idx
 left join consulting.manager g
 on f.manager_idx=g.manager_idx
 
+
+left join sangjo_new.category1 h
+on a.category1_idx=h.category1_idx
+
 where 1=1
 
-and d.io_status <> '출고취소'
+and (d.io_status <> '출고취소')
 
 ".$category1_sql;
 

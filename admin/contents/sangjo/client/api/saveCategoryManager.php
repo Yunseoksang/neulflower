@@ -1,10 +1,13 @@
 <?php
 
 
-require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect.php'; //DB 접속
+require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect_sangjo_new.php'; //DB 접속
 require($_SERVER["DOCUMENT_ROOT"].'/lib/lib.php');
 //session_start();
 admin_check_ajax();
+
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 
 
 if($_POST['mode'] == "manager_set"){
@@ -173,7 +176,7 @@ if($_POST['mode'] == "manager_set"){
             if($in_id){//쿼리성공
 
 
-                $sel3 = mysqli_query($dbcon, "select * from manager where consulting_idx='".$_POST['consulting_idx']."' order by manager_idx") or die(mysqli_error($dbcon));
+                $sel3 = mysqli_query($dbcon, "select * from consulting.manager where consulting_idx='".$_POST['consulting_idx']."' order by manager_idx") or die(mysqli_error($dbcon));
                 $sel3_num = mysqli_num_rows($sel3);
                 
                 $manager_list = array();

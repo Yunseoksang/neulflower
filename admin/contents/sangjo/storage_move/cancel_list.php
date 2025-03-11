@@ -153,7 +153,7 @@ array_push($th_info,["exec","실행","exec2"]);
 
 
 
-$other_table_column = "a:to_storage_idx:storage:storage_idx:manager+hp+address"; 
+$other_table_column = "a:to_storage_idx:sangjo_new.storage:storage_idx:manager+hp+address"; 
 //$other_table_column = "a:cache_url(brand_img_url) as cache_img_url/a:category_idx:category:category_name/a:brand_idx:brand_explain:brand_ex"; //메인테이블이 아닌 다른 테이블에서 join을 통해 가져와야 하는 칼럼 => sorting 할때 뒤쪽에 붙여야 함.
 
 //$other_table_column = "a:brand_img_url as cache_img_url/a:category_idx:category:category_name/a:brand_idx:brand_explain:brand_ex"; //메인테이블이 아닌 다른 테이블에서 join을 통해 가져와야 하는 칼럼 => sorting 할때 뒤쪽에 붙여야 함.

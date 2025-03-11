@@ -3,7 +3,7 @@
 $folder_name = "sj/storage_in";  //폴더명
 $title ="생산 내역";
 
-$table_name ="in_out";
+$table_name ="sj.in_out";
 $key_column_name ="io_idx";
 
 $function_date_search  = "on";   // 날짜검색기능 on ,off

@@ -141,3 +141,7 @@ var lang_kor = {
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+
+<!-- 프린트 팝업 공통 스타일 및 스크립트 -->
+<link href="/admin/js/printPopup/pp.css" rel="stylesheet">
+<script src="/admin/js/printPopup/pp.js"></script>

@@ -239,13 +239,16 @@ $(document).ready(function(){
 function change_status($btn){
 
     var old_io_status = $btn.text();
-    // if(old_io_status == "출고완료"){
-    //     return;
-    // }
+    if(old_io_status == "출고완료"){
+        return;
+    }
 
     var io_status = $btn.attr("next_io_status");
     //var old_val = $btn.closest("td").attr("io_status");
     
+    if(io_status == "배송완료"){
+        return;
+    }
 
     var $tr = $btn.closest("tr");
     var io_idx = $tr.attr("io_idx");
@@ -264,11 +267,11 @@ function change_status($btn){
 
     var str = "mode=io_status&io_status="+io_status+qr_parameter+"&io_idx="+io_idx; //
     if(io_status == "배송완료"){
-        var receive_date = $tr.find("input.receive_date").val();
-        if(receive_date == ""){
-            window.alert("배송일을 입력해주세요");
-            return;
-        }
+        // var receive_date = $tr.find("input.receive_date").val();
+        // if(receive_date == ""){
+        //     window.alert("배송일을 입력해주세요");
+        //     return;
+        // }
         str = "mode=io_status&io_status="+io_status+qr_parameter+"&io_idx="+io_idx+"&receive_date="+receive_date; //
     }
 

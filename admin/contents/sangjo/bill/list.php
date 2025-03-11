@@ -40,7 +40,7 @@ $function_add = "off";    // 추가하기 on ,off
 
 
 if($_GET['st'] == "미발행"){$st = "미발행";
-  //$main_filter_query = " part='종합물류' ";
+  //$main_filter_query = " part='상조물류' ";
   $main_filter_query = "bill_status is null";
 
 }else{
@@ -248,7 +248,7 @@ if($_GET['st'] != "" && $_GET['st'] != "미발행"){
 
 //$other_table_column = "a:consulting_idx:".$db_consulting.".consulting:company_name";
 //$other_table_column = "a:date_format(regist_datetime,'%Y-%m-%d %H;%i') as reg_datetime/a:out_order_idx:out_order:t_company_name as company_name+r_date+date_format(r_date,'%m-%d') as r_md+r_hour+address1+address2+msgTitle+msgTitle2+msgTitle3+sender_name";
-$other_table_column = "a:consulting_idx:consulting.consulting:consulting_idx:company_name";
+//$other_table_column = "a:consulting_idx:consulting.consulting:consulting_idx:company_name";
 //$other_table_column .= "";
 
 

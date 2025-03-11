@@ -3,8 +3,8 @@ $(document).ready(function(){
 
     //수정
     $(document).on("click",".datatable .btn_modify",function(){
-        
-
+        // 삭제 버튼 숨기기
+        $(this).closest("tr").find(".btn_delete").hide();
     });
 
 

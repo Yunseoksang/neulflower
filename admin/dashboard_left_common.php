@@ -18,12 +18,12 @@
               <li><a href="dashboard_flower.php" target="_blank"><i class="fa fa-laptop"></i> 화훼관리 <span class="label label-success pull-right">Link</span></a>
               </li>
 
-
-              <li><a href="dashboard_sj.php" target="_blank"><i class="fa fa-laptop"></i> 상조물류관리 <span class="label label-success pull-right">Link</span></a>
+              <li><a href="dashboard_sangjo.php" target="_blank"><i class="fa fa-laptop"></i> 상조물류관리(신버전) <span class="label label-success pull-right">Link</span></a>
               </li>
 
-              <li><a href="dashboard_sangjo.php" target="_blank"><i class="fa fa-laptop"></i> 상조물류관리(이전작업중) <span class="label label-success pull-right">Link</span></a>
-              </li>
+
+
+
 
               <li><a href="dashboard_cnst.php" target="_blank"><i class="fa fa-laptop"></i> 계약업체관리 <span class="label label-success pull-right">Link</span></a>
               </li>
@@ -39,7 +39,8 @@
               <li><a  href="<?=$PHP_SELF?>?page=admin_list/list"><i class="fa fa-user"></i> 관리자 목록 </a>
               </li>
 
-
+              <li><a href="dashboard_sj.php" target="_blank"><i class="fa fa-laptop"></i> 상조물류관리(구버전) <span class="label label-success pull-right">Link</span></a>
+              </li>
 
 
 <!-- 
@@ -82,16 +83,19 @@
               </li>
               <?}?>
 
-            <? if($admin_info['pm_sangjo'] != null){?>
-              <li><a href="dashboard_sj.php" target="_blank"><i class="fa fa-laptop"></i> 상조물류관리 <span class="label label-success pull-right">Link</span></a>
-              </li>
-              <?}?>
-
-
               <? if($admin_info['pm_sangjo'] != null){?>
-              <li><a href="dashboard_sangjo.php" target="_blank"><i class="fa fa-laptop"></i> 상조물류관리(이전작업중) <span class="label label-success pull-right">Link</span></a>
+              <li><a href="dashboard_sangjo.php" target="_blank"><i class="fa fa-laptop"></i> 상조물류관리(신버전) <span class="label label-success pull-right">Link</span></a>
               </li>
               <?}?>
+
+
+            <? if($admin_info['pm_sangjo'] != null){?>
+              <li><a href="dashboard_sj.php" target="_blank"><i class="fa fa-laptop"></i> 상조물류관리(구버전) <span class="label label-success pull-right">Link</span></a>
+              </li>
+              <?}?>
+
+
+
 
             <? if($admin_info['pm_consulting'] != null){?>
               <li><a href="dashboard_cnst.php" target="_blank"><i class="fa fa-laptop"></i> 계약업체관리 <span class="label label-success pull-right">Link</span></a>

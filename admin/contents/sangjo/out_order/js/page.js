@@ -52,7 +52,26 @@ $(document).ready(function(){
                         $("#detail_section").find(".company_name").attr("consulting_idx", safeGet(order_info, "consulting_idx"));
                         $("#detail_section").find(".product_name").html(safeGet(order_info, "product_name"));
                         $("#detail_section").find(".order_count").html(safeGet(order_info, "order_count"));
+                        
+                        // 가격 정보 표시 - 테이블 필드 사용
+                        // 기본단가 (공급단가)
                         $("#detail_section").find(".client_price").html(number_format(safeGet(order_info, "client_price", 0)) + " 원");
+                        
+                        // 부가세액
+                        $("#detail_section").find(".vat_amount").html(number_format(safeGet(order_info, "client_price_tax", 0)) + " 원");
+                        
+                        // 총단가 (공급단가 + 부가세)
+                        $("#detail_section").find(".total_unit_price").html(number_format(safeGet(order_info, "client_price_sum", 0)) + " 원");
+                        
+                        // 총구매금액 (총 공급단가)
+                        $("#detail_section").find(".total_purchase").html(number_format(safeGet(order_info, "total_client_price", 0)) + " 원");
+                        
+                        // 총부가세액 (총 부가세)
+                        $("#detail_section").find(".total_vat").html(number_format(safeGet(order_info, "total_client_price_tax", 0)) + " 원");
+                        
+                        // 총결제금액 (총 공급단가 + 총 부가세)
+                        $("#detail_section").find(".total_payment").html(number_format(safeGet(order_info, "total_client_price_sum", 0)) + " 원");
+                        
                         $("#detail_section").find(".price_calcu").html(number_format(safeGet(order_info, "price_calcu", 0)) + " 원");
 
                         $("#detail_section").find(".to_place_name").html(safeGet(order_info, "to_place_name"));

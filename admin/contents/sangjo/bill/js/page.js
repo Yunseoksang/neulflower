@@ -1,5 +1,23 @@
-
 $(document).ready(function(){
+
+    // DataTable 초기화 후 bill_month 셀의 너비 설정
+    $(document).ajaxComplete(function(event, xhr, settings) {
+        if (settings.url.includes('getList.php')) {
+            // DataTable이 로드된 후 bill_month 셀의 너비 설정
+            setTimeout(function() {
+                $('td.bill_month, th.bill_month').css({
+                    'min-width': '118px',
+                    'width': '118px',
+                    'max-width': '118px'
+                });
+                
+                // 테이블 레이아웃 재계산
+                if ($.fn.dataTable.tables) {
+                    $($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+                }
+            }, 100);
+        }
+    });
 
 
     
@@ -376,8 +394,9 @@ $(document).ready(function(){
     $("select[name='search_column']").eq(2).hide();
 
     $(document).on("click","#datatable-main tr td:not(.exec_bill,.exec_next,.exec_checkbox,.exec_view,.manager_email,.origin_manager_info)",function(){
-
-
+        // bill_month 셀의 너비 설정
+        $('td.bill_month, th.bill_month').attr('style', 'min-width: 118px !important; width: 118px !important; max-width: 118px !important;');
+        
         //var fcm_idx = $(this).closest("tr").attr("fcm_idx");
         var yyyymm = $("#yyyymm").val();
         var consulting_idx = $(this).closest("tr").attr("consulting_idx");
@@ -547,7 +566,6 @@ $(document).ready(function(){
       });
 
     $('#yyyymm').MonthPicker({
-
         dateFormat: 'yymmdd',
         prevText: '이전 달',
         nextText: '다음 달',
@@ -557,6 +575,10 @@ $(document).ready(function(){
         dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
         dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
         showMonthAfterYear: true,
+        Button: false, // 버튼 사용 여부
+        IsRTL: false, // RTL 방향 사용 여부
+        MonthFormat: 'yy년 mm월', // 월 표시 형식
+        Position: { my: 'left top', at: 'left bottom', collision: 'none' }, // 팝업 위치 설정
         OnAfterChooseMonth: function() {  //onSelect 이벤트
             //alert($(this).val());
             

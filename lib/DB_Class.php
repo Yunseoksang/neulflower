@@ -33,7 +33,7 @@ class DB_Connect{
 	public function connect(){
 
 		$con = mysqli_connect('alwaysflower.sldb.iwinv.net' , 'root' , 'r42kTwGYuF97') or die("Failed to connect database"); 		
-		mysqli_select_db($con, "sj" );
+		mysqli_select_db($con, "sangjo_new" );
 
 		return $con;
 	}

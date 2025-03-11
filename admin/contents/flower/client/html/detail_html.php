@@ -3,6 +3,9 @@
 <link href="css/editor/external/google-code-prettify/prettify.css" rel="stylesheet">
 <link href="css/editor/index.css" rel="stylesheet">
 <script type="text/javascript" src="js/bootstrap-filestyle.min.js"> </script>
+<!-- select2 라이브러리 명시적 로드 -->
+<link href="/admin/css/select/select2.min.css" rel="stylesheet">
+<script type="text/javascript" src="/admin/js/select/select2.full.js"></script>
 
 <table class="table table-bordered table_company_key_info">
 
@@ -110,6 +113,89 @@
 </table>
 
 
+
+
+
+<!-- 상조거래품목 섹션 추가 -->
+<div class="x_panel x_panel_sangjo_product_info" style="min-height: auto;">
+        
+        <div class="col-md-6 title_right_col" style=" padding-right:0px;">
+            <h2>상조거래품목 <small></small></h2>
+        </div>
+        <!-- 추가 버튼 제거 -->
+</div>
+
+<table class="table table-bordered table_sangjo_product_info">
+    <thead>
+        <tr>
+            <th scope="row" class="mth product_name">품명</th>
+            <th scope="row" class="mth product_price">단가</th>
+            <th scope="row" class="mth tax">부가세</th>
+            <th scope="row" class="mth price_sum">합계</th>
+            <th scope="row" class="product_setting">관리</th>
+        </tr>
+        
+        <tr class="new_sangjo_tr">
+            <td class="product_name">
+                        <select id="new_sangjo_product" name="product_idx" class="select2_single form-control" tabindex="-1">
+                            <option value="0">전체</option>
+                            <?php
+                            $sel_product = mysqli_query($dbcon, "select product_idx,product_name,product_price from ".$db_sangjo_new.".product where display='on' order by product_name ") or die(mysqli_error($dbcon));
+                            $sel_product_num = mysqli_num_rows($sel_product);
+                            
+                            if ($sel_product_num > 0) {
+                            while($data_product = mysqli_fetch_assoc($sel_product)) {?>
+                                <option value="<?=$data_product['product_idx']?>" price="<?=$data_product['product_price']?>"><?=$data_product['product_name']?></option>
+                            <?}
+                            }
+                            ?>
+                        </select>
+            </td>
+            <td class="client_price"><input type="text" name="client_price" class="form-control col-xs-12"></td>
+            <td class="client_price_tax"><input type="text" name="client_price_tax" class="form-control col-xs-12"></td>
+            <td class="client_price_sum"><input type="text" name="client_price_sum" class="form-control col-xs-12"></td>
+            <td class="product_setting">
+                <button class="btn btn-info btn_save_sangjo_product">추가</button>
+                <!-- 취소 버튼 제거 -->
+            </td>
+        </tr>
+    </thead>
+
+    <tbody>
+        <!-- 상조거래품목 목록이 여기에 표시됩니다 -->
+    </tbody>
+</table>
+
+<!-- 상조거래품목 샘플 -->
+<div id="sangjo_product_sample" class="hide">
+    <table>
+        <tbody>
+            <tr>
+                <td class="product_name"></td>
+                <td class="client_price"></td>
+                <td class="client_price_tax"></td>
+                <td class="client_price_sum"></td>
+                <td class="product_setting">
+                    <ul class="nav navbar-right panel_toolbox" style="min-width:unset;">
+                        <li class="dropdown" style="border-bottom:unset;">
+                        <a href="#" class="dropdown-toggle ellipsis" data-toggle="dropdown" role="button" aria-expanded="false" ><i class="fa fa-ellipsis-v" style="color: #0fdef3;"></i></a>
+                        <ul class="dropdown-menu" role="menu" >
+                            <li><a href="javascript:" class="sangjo_product_del">삭제</a>
+                            </li>
+                            <li><a href="javascript:" class="sangjo_product_edit">수정</a>
+                            </li>
+                        </ul>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
 <div class="x_panel x_panel_product_info">
         
         <div class="col-md-6 title_right_col" style=" padding-right:0px;">
@@ -119,6 +205,8 @@
              <button class="btn btn-info  btn_add_product">추가</button>
         </div> -->
 </div>
+
+
 
 <table class="table table-bordered table_product_info hide">
     <thead>

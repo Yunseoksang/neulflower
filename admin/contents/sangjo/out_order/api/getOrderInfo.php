@@ -7,7 +7,7 @@ error_log("getOrderInfo.php 호출 시작: " . date('Y-m-d H:i:s'), 0);
 // 요청 파라미터 로깅
 error_log("POST 데이터: " . print_r($_POST, true), 0);
 
-require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect.php'; //DB 접속
+require_once $_SERVER["DOCUMENT_ROOT"].'/lib/DB_Connect_sangjo_new.php'; //DB 접속
 require($_SERVER["DOCUMENT_ROOT"].'/lib/lib.php');
 //session_start();
 admin_check_ajax();

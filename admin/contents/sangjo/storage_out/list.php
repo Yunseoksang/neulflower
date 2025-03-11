@@ -128,7 +128,7 @@ array_push($th_info,["t_product_name","품목"]);
 array_push($th_info,["out_count","수량"]);
 
 array_push($th_info,["company_name","고객사"]);
-array_push($th_info,["to_place_name","배송지"]);
+//array_push($th_info,["to_place_name","배송지"]);
 array_push($th_info,["to_name","받는분"]);
 array_push($th_info,["to_hp","휴대폰"]);
 array_push($th_info,["to_address","주소"]);
@@ -140,14 +140,14 @@ array_push($th_info,["output_datetime","출고일"]);
 
 //array_push($th_info,["receive_date","출고수령일"]);
 
-array_push($th_info,["delivery_memo","주문자메모"]);
-array_push($th_info,["memo","관리자메모"]);
+//array_push($th_info,["delivery_memo","주문자메모"]);
+array_push($th_info,["admin_memo","관리자메모"]);
 array_push($th_info,["filename","첨부파일"]);
 
 array_push($th_info,["t_update_admin_name","관리자"]);
 
 array_push($th_info,["io_status","출고상태"]);
-array_push($th_info,["receive_date","배송일"]);
+//array_push($th_info,["receive_date","배송일"]);
 
 //array_push($th_info,["exec","실행","exec"]);
 
@@ -239,7 +239,7 @@ array_push($edit_array,["to_address","주소","","text"]);
 array_push($edit_array,["to_name","받는분","","text"]);
 array_push($edit_array,["to_hp","휴대폰","","text"]);
 array_push($edit_array,["receiver_name","실수령인","","text"]);
-array_push($edit_array,["memo","textarea"]);
+array_push($edit_array,["admin_memo","관리자메모","","textarea"]);
 array_push($edit_array,["out_date","date",""]);
 
 //$io_status_array = make_options_array("미출고:미출고:SELECTED/출고완료:출고완료");
@@ -411,6 +411,10 @@ function datatableRender(column,data,full){
 
       
     case "io_status":
+
+      rValue = '<button type="button" class="btn btn-success btn_io_status" next_io_status="출고완료">'+data+'</button>';
+
+      /*
       if(full.qr_output_datetime == undefined || full.qr_output_datetime == "" || full.qr_output_datetime == null){
 
           if(data == "출고완료"){
@@ -434,20 +438,21 @@ function datatableRender(column,data,full){
           }
 
         }
+          */
 
 
       break;
 
-    case "receive_date":
-      if(data != undefined && data != "" ){
-        rValue = data;
+    // case "receive_date":
+    //   if(data != undefined && data != "" ){
+    //     rValue = data;
 
-      }else{
-        rValue = "<input type='text' class='form-control input-sm receive_date' name='receive_date' placeholder='yyyy-mm-dd'>";
-        rValue +="<input type='date' class='date-picker' >";
-      }
+    //   }else{
+    //     rValue = "<input type='text' class='form-control input-sm receive_date' name='receive_date' placeholder='yyyy-mm-dd'>";
+    //     rValue +="<input type='date' class='date-picker' >";
+    //   }
 
-      break;
+    //   break;
 
 
     case "filename":
@@ -576,71 +581,71 @@ function datatableCreatedCell(column,$td,rowData){
             }
         };
 
-        $(document).on('input', '.receive_date', function(event) {
-            const input = this;
-            const cursorPosition = input.selectionStart;
-            let timeout = null;
-            clearTimeout(timeout);
+        // $(document).on('input', '.receive_date', function(event) {
+        //     const input = this;
+        //     const cursorPosition = input.selectionStart;
+        //     let timeout = null;
+        //     clearTimeout(timeout);
 
-            if (event.originalEvent.inputType === 'deleteContentBackward') {
-                timeout = setTimeout(() => {
-                    formatInput(input);
-                    input.setSelectionRange(cursorPosition, cursorPosition);
-                }, 200);
-            } else {
-                if (cursorPosition !== null && cursorPosition === 7) {
-                    formatInput(input); // 월 입력 후 즉시 포맷 적용
-                } else {
-                    timeout = setTimeout(() => formatInput(input), 200);
-                }
-            }
-        });
+        //     if (event.originalEvent.inputType === 'deleteContentBackward') {
+        //         timeout = setTimeout(() => {
+        //             formatInput(input);
+        //             input.setSelectionRange(cursorPosition, cursorPosition);
+        //         }, 200);
+        //     } else {
+        //         if (cursorPosition !== null && cursorPosition === 7) {
+        //             formatInput(input); // 월 입력 후 즉시 포맷 적용
+        //         } else {
+        //             timeout = setTimeout(() => formatInput(input), 200);
+        //         }
+        //     }
+        // });
 
-        $(document).on('keydown', '.receive_date', function(event) {
-            const key = event.key;
-            const input = this;
+        // $(document).on('keydown', '.receive_date', function(event) {
+        //     const key = event.key;
+        //     const input = this;
 
-            // 숫자, 백스페이스, 화살표, delete 키만 허용
-            if (!/[0-9]/.test(key) && key !== 'Backspace' && key !== 'ArrowLeft' && key !== 'ArrowRight' && key !== 'Delete') {
-                event.preventDefault();
-                return;
-            }
+        //     // 숫자, 백스페이스, 화살표, delete 키만 허용
+        //     if (!/[0-9]/.test(key) && key !== 'Backspace' && key !== 'ArrowLeft' && key !== 'ArrowRight' && key !== 'Delete') {
+        //         event.preventDefault();
+        //         return;
+        //     }
 
-            // 현재 커서 위치
-            const cursorPosition = input.selectionStart;
-            const value = $(input).val();
+        //     // 현재 커서 위치
+        //     const cursorPosition = input.selectionStart;
+        //     const value = $(input).val();
 
-            // '-'가 올바른 위치에 있는지 확인하고 삽입
-            if (key !== 'Backspace' && key !== 'Delete') {
-                if ((cursorPosition === 4 && value.length >= 4) || (cursorPosition === 7 && value.length >= 7)) {
-                    $(input).val(value.slice(0, cursorPosition) + '-' + value.slice(cursorPosition));
-                    input.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
-                }
-            }
-        });
+        //     // '-'가 올바른 위치에 있는지 확인하고 삽입
+        //     if (key !== 'Backspace' && key !== 'Delete') {
+        //         if ((cursorPosition === 4 && value.length >= 4) || (cursorPosition === 7 && value.length >= 7)) {
+        //             $(input).val(value.slice(0, cursorPosition) + '-' + value.slice(cursorPosition));
+        //             input.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
+        //         }
+        //     }
+        // });
 
-        $(document).on('focusin', '.receive_date', function() {
-            const input = this;
-            const datePicker = $(input).next('.date-picker')[0];
-            $(datePicker).css({
-                visibility: 'visible',
-                left: $(input).position().left + 'px',
-                top: ($(input).position().top + $(input).outerHeight()) + 'px'
-            });
-            setTodayDateIfEmpty(input);
-        });
+        // $(document).on('focusin', '.receive_date', function() {
+        //     const input = this;
+        //     const datePicker = $(input).next('.date-picker')[0];
+        //     $(datePicker).css({
+        //         visibility: 'visible',
+        //         left: $(input).position().left + 'px',
+        //         top: ($(input).position().top + $(input).outerHeight()) + 'px'
+        //     });
+        //     setTodayDateIfEmpty(input);
+        // });
 
-        $(document).on('focusout', '.receive_date', function() {
-            const datePicker = $(this).next('.date-picker')[0];
-            setTimeout(() => {
-                $(datePicker).css('visibility', 'hidden');
-            }, 200);
-        });
+        // $(document).on('focusout', '.receive_date', function() {
+        //     const datePicker = $(this).next('.date-picker')[0];
+        //     setTimeout(() => {
+        //         $(datePicker).css('visibility', 'hidden');
+        //     }, 200);
+        // });
 
-        $(document).on('change', '.date-picker', function() {
-            const datePicker = this;
-            const input = $(datePicker).prev('.receive_date')[0];
-            $(input).val($(datePicker).val());
-            $(datePicker).css('visibility', 'hidden');
-        });
+        // $(document).on('change', '.date-picker', function() {
+        //     const datePicker = this;
+        //     const input = $(datePicker).prev('.receive_date')[0];
+        //     $(input).val($(datePicker).val());
+        //     $(datePicker).css('visibility', 'hidden');
+        // });
     </script>

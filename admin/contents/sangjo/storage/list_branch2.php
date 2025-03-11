@@ -15,6 +15,23 @@ if($sel_storage_num > 0){
     }
 }
 
+// 더존 명칭이 들어가지 않은 지사만 필터링
+$non_douzone_storage_arr = array();
+foreach($storage_arr as $storage) {
+    if(strpos($storage['storage_name'], '더존') === false && strpos($storage['storage_name'], '본사') === false) {
+        array_push($non_douzone_storage_arr, $storage);
+    }
+}
+
+// 본사 찾기
+$headquarters_storage = null;
+foreach($storage_arr as $storage) {
+    if(strpos($storage['storage_name'], '본사') !== false) {
+        $headquarters_storage = $storage;
+        break;
+    }
+}
+
 
 
 
@@ -58,6 +75,15 @@ if ($sel_st_sum_num > 0) {
         //array_push($storage_sum_arr,$data_st_sum);
         $storage_sum_arr[$col_name] = $data_st_sum;
         $st_sum_total += $data_st_sum['sum_current_count'];
+    }
+}
+
+// 더존 명칭이 들어가지 않은 지사 합계 계산
+$non_douzone_sum_total = 0;
+foreach($non_douzone_storage_arr as $non_douzone_storage) {
+    $storage_column = "storage_idx_".$non_douzone_storage['storage_idx'];
+    if(isset($storage_sum_arr[$storage_column])) {
+        $non_douzone_sum_total += $storage_sum_arr[$storage_column]['sum_current_count'];
     }
 }
 
@@ -205,7 +231,7 @@ if ($sel_st_in_wait_num > 0) {
           <div class="page-title">
             <div class="title_left">
               <h3>
-                    전체 재고
+                    대성 재고
                     <small>
                         
                     </small>
@@ -270,186 +296,147 @@ if ($sel_st_in_wait_num > 0) {
                         <th class="column-title th_display_group"  style="background: #405467;">관리그룹 </th>
 
                         <th class="column-title th_sum">재고<br>합계<br>(<?=$st_sum_total?>) </th>
-                        <!-- <th class="column-title th_memo">메모</th> -->
-
-                          <?php
-                          for ($i=0;$i<count($storage_arr);$i++ )
-                          {
-
-                            //해당 창고의 총 재고량 파악
-                            // $this_st_sum = 0;
-                            // for($j=0; $j<count($storage_sum_arr);$j++){
-                            //   if($storage_sum_arr[$j]['storage_idx'] == $storage_arr[$i]['storage_idx']){
-                            //     $this_st_sum = $storage_sum_arr[$j]['sum_current_count'];
-                            //   }
-                            // }
-
-                            $storage_column = "storage_idx_".$storage_arr[$i]['storage_idx'];
-
-
-                            $th_class = "";
-                            if(mb_strlen($storage_arr[$i]['storage_name']) > 5){
-                              $th_class = "th_long";
+                        
+                        <?php if($headquarters_storage): ?>
+                        <?php 
+                            $storage_column = "storage_idx_".$headquarters_storage['storage_idx'];
+                            $st_in_wait_num = "";
+                            if(isset($st_in_wait_arr[$storage_column]) && $st_in_wait_arr[$storage_column] > 0){
+                                $st_in_wait_num = "(".$st_in_wait_arr[$storage_column].")";
                             }
-                            
-
-                            if($st_in_wait_arr[$storage_column] > 0){
-                              $st_in_wait_num = "(".$st_in_wait_arr[$storage_column].")";
-                            }
-
-                            
-                          ?>
-                            <th class="column-title <?=$th_class?>"><?=str_replace(" ","<br>",$storage_arr[$i]['storage_name'])?> <br><?=$storage_sum_arr[$storage_column]['sum_current_count']?><?=$st_in_wait_num?></th>
-
-                        <?}
-
                         ?>
+                        <th class="column-title">본사<br><?=$storage_sum_arr[$storage_column]['sum_current_count']?><?=$st_in_wait_num?></th>
+                        <?php endif; ?>
+                        
+                        <th class="column-title">지사합계<br>(대성)<br><?=$non_douzone_sum_total?></th>
 
-                      </tr>
-                      
+                        <?php
+                        // 더존 명칭이 들어가지 않은 지사만 표시
+                        foreach($non_douzone_storage_arr as $storage) {
+                            $storage_column = "storage_idx_".$storage['storage_idx'];
+                            $th_class = "";
+                            if(mb_strlen($storage['storage_name']) > 5){
+                                $th_class = "th_long";
+                            }
                             
+                            $st_in_wait_num = "";
+                            if(isset($st_in_wait_arr[$storage_column]) && $st_in_wait_arr[$storage_column] > 0){
+                                $st_in_wait_num = "(".$st_in_wait_arr[$storage_column].")";
+                            }
+                        ?>
+                            <th class="column-title <?=$th_class?>"><?=str_replace(" ","<br>",$storage['storage_name'])?> <br><?=$storage_sum_arr[$storage_column]['sum_current_count']?><?=$st_in_wait_num?></th>
+                        <?php } ?>
+                      </tr>
                     </thead>
 
                     <tbody>
-
-
                     <?php
+                    for ($i=0;$i<count($product_arr);$i++) {
+                        if($i%2 == 0){
+                            $line_class = "even";
+                        }else{
+                            $line_class = "odd";
+                        }
 
-
-
-
-
-                    for ($i=0;$i<count($product_arr);$i++ )
-                    {
-                      if($i%2 == 0){
-                        $line_class = "even";
-                      }else{
-                        $line_class = "odd";
-                      }
-
-
-
-                      $product_column = "product_idx_".$product_arr[$i]['product_idx'];
-
-
-
-                      ?>
+                        $product_column = "product_idx_".$product_arr[$i]['product_idx'];
+                    ?>
                         <tr class="<?=$line_class?> pointer">
-                            <!--<td class="a-center ">
-                              <div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" name="table_records" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
-                            </td>
-                            <td class=" "><?=$product_arr[$i]['product_idx']?></td> -->
                             <td class=" "><a href="?page=sangjo/storage_adjust/history&product_idx=<?=$product_arr[$i]['product_idx']?>" target="history"><?=$product_arr[$i]['product_name']?></a></td>
                             <td class="display_group"><?=$product_arr[$i]['display_group']?></td>
 
                             <?php
-                            
-                            /*
-
-                            $storage_cnt_arr = array();
-                            //$pr_sum = 0;
-                            for ($k=0;$k<count($storage_arr);$k++)
-                            {
-                                
-                                $sel_io = mysqli_query($dbcon, "select current_count,zero_count from in_out where storage_idx='".$storage_arr[$k]['storage_idx']."' and product_idx='".$product_arr[$i]['product_idx']."'  order by io_idx desc limit 1 ") or die(mysqli_error($dbcon));
-                                $sel_io_num = mysqli_num_rows($sel_io);
-                                if ($sel_io_num > 0) {
-                                    $data_io = mysqli_fetch_assoc($sel_io);
-
-
-
-                                    if($data_io['zero_count'] == 'zero'){
-                                      array_push($storage_cnt_arr,"-");
-
-                                    }else{
-                                      //if($data_io['current_count'] == 0){$data_io['current_count'] = "-";}
-                                        
-                                      array_push($storage_cnt_arr,$data_io['current_count']);
-                                      //$pr_sum = $pr_sum + $data_io['current_count'];
-
-                                    }
-                                    
-
-  
-                                    
-                                }else{
-                                 
-                                  array_push($storage_cnt_arr,"-");
-
-                                }
-
-                            }
-                             */          
-
-                            
-                            
-                            $storage_wait_cnt_arr = array();
-                            $pr_wait_sum = 0;
-
-
-
-
                             $this_pr_sum = 0;
                             if($pr_in_wait_arr[$product_column] == 0){
-                              //$pr_wait_sum = "";
-                              $this_pr_sum = $product_sum_arr[$product_column]['sum_current_count'];
+                                $this_pr_sum = $product_sum_arr[$product_column]['sum_current_count'];
                             }else{
-                              //$pr_wait_sum = "<span style='color:#ff6c00;'>(".$pr_wait_sum.")</span>";
-                              $this_pr_sum = $product_sum_arr[$product_column]['sum_current_count'] + $pr_in_wait_arr[$product_column];
+                                $this_pr_sum = $product_sum_arr[$product_column]['sum_current_count'] + $pr_in_wait_arr[$product_column];
                             }
-
-?>
-                            <td class=" "><?=$this_pr_sum?></td>
-                            <!-- <td class=" "><a href="?page=sangjo/storage_product/list" target="product"><?=$product_arr[$i]['memo']?></td> -->
-
-<?
-
-                            for ($k=0;$k<count($storage_arr);$k++)
-                            {
-                              $safe_alert = ""; //안전재고 미만일때 색상 다르게 표시
-                              $title_alt = "";
-                              $safe_num_w = ""; //안전재고량을 현재 재고량 옆에 동시 표기
-                              //$storage_column = $storage_arr[$k]['storage_idx'];
-                              //$product_column = $product_arr[$i]['product_idx'];
-                              $storage_column = "storage_idx_".$storage_arr[$k]['storage_idx'];
-                              //$product_column = "product_idx_".$product_arr[$i]['product_idx'];
-
-                              $in_sum = "";
-                              if($stpr_in_wait_arr[$storage_column][$product_column] > 0){
-                                $in_sum = "<span style='color:#ff6c00;'>(".$stpr_in_wait_arr[$storage_column][$product_column].")</span>"; //미입고 내역
-                              }
-                              //if($storage_safe_arr[$storage_column][$product_column] > $storage_cnt_arr[$k] && $storage_safe_arr[$storage_column][$product_column] != "0"){
-                              if($storage_safe_arr[$storage_column][$product_column][0] > $storage_safe_arr[$storage_column][$product_column][1] && $storage_safe_arr[$storage_column][$product_column][0] != "0"){
- 
-                                if($storage_cnt_arr[$k] != "-"){
-                                  $safe_alert = "td_safe_alert";
-                                  $title_alt = "안전재고:".$storage_safe_arr[$storage_column][$product_column][0]."개";
-                                  $safe_num_w = "/".$storage_safe_arr[$storage_column][$product_column][0];
-
-
-                                }
-                              }
-
-                              if($storage_cnt_arr[$k] == "--"){
-                                $storage_safe_arr[$storage_column][$product_column][1] = "-";
-                              }
-                              
-                              ?>
-                                    <td class=" <?=$safe_alert?>" title="<?=$title_alt?>"><a href="dashboard_sffm.php?page=sangjo/storage_input/move&storage_idx=<?=$storage_arr[$k]['storage_idx']?>" target="move"><?=$storage_safe_arr[$storage_column][$product_column][1]?><?=$safe_num_w?><?=$in_sum?></a></td>
-                            <?}
                             ?>
-
-
+                            <td class=" "><?=$this_pr_sum?></td>
+                            
+                            <?php if($headquarters_storage): ?>
+                            <?php
+                                $storage_column = "storage_idx_".$headquarters_storage['storage_idx'];
+                                $product_column = "product_idx_".$product_arr[$i]['product_idx'];
+                                
+                                $safe_alert = "";
+                                $title_alt = "";
+                                $safe_num_w = "";
+                                
+                                $in_sum = "";
+                                if(isset($stpr_in_wait_arr[$storage_column][$product_column]) && $stpr_in_wait_arr[$storage_column][$product_column] > 0){
+                                    $in_sum = "<span style='color:#ff6c00;'>(".$stpr_in_wait_arr[$storage_column][$product_column].")</span>";
+                                }
+                                
+                                if(isset($storage_safe_arr[$storage_column][$product_column]) && 
+                                   $storage_safe_arr[$storage_column][$product_column][0] > $storage_safe_arr[$storage_column][$product_column][1] && 
+                                   $storage_safe_arr[$storage_column][$product_column][0] != "0"){
+                                    $safe_alert = "td_safe_alert";
+                                    $title_alt = "안전재고:".$storage_safe_arr[$storage_column][$product_column][0]."개";
+                                    $safe_num_w = "/".$storage_safe_arr[$storage_column][$product_column][0];
+                                }
+                                
+                                $current_count = isset($storage_safe_arr[$storage_column][$product_column]) ? $storage_safe_arr[$storage_column][$product_column][1] : "-";
+                            ?>
+                            <td class=" <?=$safe_alert?>" title="<?=$title_alt?>">
+                                <a href="dashboard_sffm.php?page=sangjo/storage_input/move&storage_idx=<?=$headquarters_storage['storage_idx']?>" target="move">
+                                    <?=$current_count?><?=$safe_num_w?><?=$in_sum?>
+                                </a>
+                            </td>
+                            <?php endif; ?>
+                            
+                            <?php
+                            // 비더존 지사 합계 계산
+                            $non_douzone_product_sum = 0;
+                            foreach($non_douzone_storage_arr as $storage) {
+                                $storage_column = "storage_idx_".$storage['storage_idx'];
+                                $product_column = "product_idx_".$product_arr[$i]['product_idx'];
+                                
+                                if(isset($storage_safe_arr[$storage_column][$product_column])) {
+                                    $non_douzone_product_sum += $storage_safe_arr[$storage_column][$product_column][1];
+                                }
+                                
+                                if(isset($stpr_in_wait_arr[$storage_column][$product_column])) {
+                                    $non_douzone_product_sum += $stpr_in_wait_arr[$storage_column][$product_column];
+                                }
+                            }
+                            ?>
+                            <td class=" "><?=$non_douzone_product_sum?></td>
+                            
+                            <?php
+                            // 비더존 지사별 재고 표시
+                            foreach($non_douzone_storage_arr as $storage) {
+                                $storage_column = "storage_idx_".$storage['storage_idx'];
+                                $product_column = "product_idx_".$product_arr[$i]['product_idx'];
+                                
+                                $safe_alert = "";
+                                $title_alt = "";
+                                $safe_num_w = "";
+                                
+                                $in_sum = "";
+                                if(isset($stpr_in_wait_arr[$storage_column][$product_column]) && $stpr_in_wait_arr[$storage_column][$product_column] > 0){
+                                    $in_sum = "<span style='color:#ff6c00;'>(".$stpr_in_wait_arr[$storage_column][$product_column].")</span>";
+                                }
+                                
+                                if(isset($storage_safe_arr[$storage_column][$product_column]) && 
+                                   $storage_safe_arr[$storage_column][$product_column][0] > $storage_safe_arr[$storage_column][$product_column][1] && 
+                                   $storage_safe_arr[$storage_column][$product_column][0] != "0"){
+                                    $safe_alert = "td_safe_alert";
+                                    $title_alt = "안전재고:".$storage_safe_arr[$storage_column][$product_column][0]."개";
+                                    $safe_num_w = "/".$storage_safe_arr[$storage_column][$product_column][0];
+                                }
+                                
+                                $current_count = isset($storage_safe_arr[$storage_column][$product_column]) ? $storage_safe_arr[$storage_column][$product_column][1] : "-";
+                            ?>
+                            <td class=" <?=$safe_alert?>" title="<?=$title_alt?>">
+                                <a href="dashboard_sffm.php?page=sangjo/storage_input/move&storage_idx=<?=$storage['storage_idx']?>" target="move">
+                                    <?=$current_count?><?=$safe_num_w?><?=$in_sum?>
+                                </a>
+                            </td>
+                            <?php } ?>
                         </tr>
-                    <?}
-
-                    ?>
-                      
-
-
-                      
+                    <?php } ?>
                     </tbody>
-
                   </table>
                 </div>
               </div>
