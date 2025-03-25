@@ -20,7 +20,7 @@ if($sel_storage_num > 0){
 
 
 $product_arr = array();
-$sel = mysqli_query($dbcon, "select product_idx,product_name,display_group,memo from product where product_name NOT LIKE '%test%' order by display_order,product_name ") or die(mysqli_error($dbcon));
+$sel = mysqli_query($dbcon, "select product_idx,product_name,display_group,memo from product where product_name NOT LIKE '%test%' order by product_name") or die(mysqli_error($dbcon));
 $sel_num = mysqli_num_rows($sel);
 $total_cnt = $sel_num;
 
@@ -35,17 +35,15 @@ if ($sel_num > 0) {
 
 
 //창고별 재고 합계
-// $storage_sum_sql = "
-//     select sum(current_count) as sum_current_count,storage_idx,t_storage_name from (
-//     select * from in_out where io_idx in (select max(io_idx) as max_io_idx from in_out group by storage_idx, product_idx)  
-//     ) x group by storage_idx
-//     "
-// ;
 $storage_sum_sql = "
-select sum(current_count) as sum_current_count,storage_idx from storage_safe 
-group by storage_idx order by storage_idx
-    "
-;
+    select sum(storage_safe.current_count) as sum_current_count, storage_safe.storage_idx 
+    from storage_safe 
+    left join storage on storage_safe.storage_idx = storage.storage_idx
+    where storage.storage_idx is not null
+    and storage_safe.product_idx in (select product_idx from product where product_name NOT LIKE '%test%')
+    group by storage_safe.storage_idx 
+    order by storage_safe.storage_idx
+";
 
 $storage_sum_arr = array();
 $sel_st_sum = mysqli_query($dbcon, $storage_sum_sql) or die(mysqli_error($dbcon));
@@ -63,12 +61,17 @@ if ($sel_st_sum_num > 0) {
 
 
 
-//재품별 재고 합계
+//제품별 재고 합계
 $product_sum_sql = "
-select sum(current_count) as sum_current_count,product_idx from storage_safe 
-group by product_idx order by product_idx
-    "
-;
+    select sum(storage_safe.current_count) as sum_current_count, storage_safe.product_idx 
+    from storage_safe 
+    left join storage on storage_safe.storage_idx = storage.storage_idx
+    left join product on storage_safe.product_idx = product.product_idx
+    where storage.storage_idx is not null
+    and product.product_name NOT LIKE '%test%'
+    group by storage_safe.product_idx 
+    order by storage_safe.product_idx
+";
 
 $product_sum_arr = array();
 $sel_pr_sum = mysqli_query($dbcon, $product_sum_sql) or die(mysqli_error($dbcon));
@@ -269,44 +272,35 @@ if ($sel_st_in_wait_num > 0) {
                         <th class="column-title th_product_name"  style="background: #405467;">품목명 </th>
                         <th class="column-title th_display_group"  style="background: #405467;">관리그룹 </th>
 
-                        <th class="column-title th_sum">재고<br>합계<br>(<?=$st_sum_total?>) </th>
+                        <th class="column-title th_sum">재고<br>합계</th>
                         <!-- <th class="column-title th_memo">메모</th> -->
 
                           <?php
                           for ($i=0;$i<count($storage_arr);$i++ )
                           {
-
-                            //해당 창고의 총 재고량 파악
-                            // $this_st_sum = 0;
-                            // for($j=0; $j<count($storage_sum_arr);$j++){
-                            //   if($storage_sum_arr[$j]['storage_idx'] == $storage_arr[$i]['storage_idx']){
-                            //     $this_st_sum = $storage_sum_arr[$j]['sum_current_count'];
-                            //   }
-                            // }
-
-                            $storage_column = "storage_idx_".$storage_arr[$i]['storage_idx'];
-
-
                             $th_class = "";
                             if(mb_strlen($storage_arr[$i]['storage_name']) > 5){
                               $th_class = "th_long";
                             }
-                            
-
-                            if($st_in_wait_arr[$storage_column] > 0){
-                              $st_in_wait_num = "(".$st_in_wait_arr[$storage_column].")";
-                            }
-
-                            
                           ?>
-                            <th class="column-title <?=$th_class?>"><?=str_replace(" ","<br>",$storage_arr[$i]['storage_name'])?> <br><?=$storage_sum_arr[$storage_column]['sum_current_count']?><?=$st_in_wait_num?></th>
-
-                        <?}
-
-                        ?>
-
+                            <th class="column-title <?=$th_class?>"><?=str_replace(" ","<br>",$storage_arr[$i]['storage_name'])?></th>
+                        <?}?>
                       </tr>
-                      
+                      <tr>
+                        <td style="background: #405467; color: white;">합계</td>
+                        <td></td>
+                        <td><?=$st_sum_total?></td>
+                        <?php
+                        for ($i=0;$i<count($storage_arr);$i++ ) {
+                            $storage_column = "storage_idx_".$storage_arr[$i]['storage_idx'];
+                            $st_in_wait_num = "";
+                            if($st_in_wait_arr[$storage_column] > 0){
+                                $st_in_wait_num = "(".$st_in_wait_arr[$storage_column].")";
+                            }
+                        ?>
+                            <td><?=$storage_sum_arr[$storage_column]['sum_current_count']?><?=$st_in_wait_num?></td>
+                        <?php } ?>
+                      </tr>
                             
                     </thead>
 

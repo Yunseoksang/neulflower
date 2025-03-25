@@ -37,7 +37,7 @@ foreach($storage_arr as $storage) {
 
 
 $product_arr = array();
-$sel = mysqli_query($dbcon, "select product_idx,product_name,display_group,memo from product where product_name NOT LIKE '%test%' order by display_order,product_name ") or die(mysqli_error($dbcon));
+$sel = mysqli_query($dbcon, "select product_idx,product_name,display_group,memo from product where product_name NOT LIKE '%test%' order by display_group, CAST(product_name AS CHAR CHARACTER SET utf8) COLLATE utf8_unicode_ci") or die(mysqli_error($dbcon));
 $sel_num = mysqli_num_rows($sel);
 $total_cnt = $sel_num;
 
@@ -52,17 +52,15 @@ if ($sel_num > 0) {
 
 
 //창고별 재고 합계
-// $storage_sum_sql = "
-//     select sum(current_count) as sum_current_count,storage_idx,t_storage_name from (
-//     select * from in_out where io_idx in (select max(io_idx) as max_io_idx from in_out group by storage_idx, product_idx)  
-//     ) x group by storage_idx
-//     "
-// ;
 $storage_sum_sql = "
-select sum(current_count) as sum_current_count,storage_idx from storage_safe 
-group by storage_idx order by storage_idx
-    "
-;
+    select sum(storage_safe.current_count) as sum_current_count, storage_safe.storage_idx 
+    from storage_safe 
+    left join storage on storage_safe.storage_idx = storage.storage_idx
+    where storage.storage_idx is not null
+    and storage_safe.product_idx in (select product_idx from product where product_name NOT LIKE '%test%')
+    group by storage_safe.storage_idx 
+    order by storage_safe.storage_idx
+";
 
 $storage_sum_arr = array();
 $sel_st_sum = mysqli_query($dbcon, $storage_sum_sql) or die(mysqli_error($dbcon));
@@ -72,13 +70,12 @@ $st_sum_total = 0;
 if ($sel_st_sum_num > 0) {
     while($data_st_sum = mysqli_fetch_assoc($sel_st_sum)) {
         $col_name = "storage_idx_".$data_st_sum['storage_idx'];
-        //array_push($storage_sum_arr,$data_st_sum);
         $storage_sum_arr[$col_name] = $data_st_sum;
         $st_sum_total += $data_st_sum['sum_current_count'];
     }
 }
 
-// 더존 명칭이 들어가지 않은 지사 합계 계산
+// 더존 명칭이 들어가지 않은 지사 합계 계산 (표시용)
 $non_douzone_sum_total = 0;
 foreach($non_douzone_storage_arr as $non_douzone_storage) {
     $storage_column = "storage_idx_".$non_douzone_storage['storage_idx'];
@@ -89,12 +86,17 @@ foreach($non_douzone_storage_arr as $non_douzone_storage) {
 
 
 
-//재품별 재고 합계
+//제품별 재고 합계
 $product_sum_sql = "
-select sum(current_count) as sum_current_count,product_idx from storage_safe 
-group by product_idx order by product_idx
-    "
-;
+    select sum(storage_safe.current_count) as sum_current_count, storage_safe.product_idx 
+    from storage_safe 
+    left join storage on storage_safe.storage_idx = storage.storage_idx
+    left join product on storage_safe.product_idx = product.product_idx
+    where storage.storage_idx is not null
+    and product.product_name NOT LIKE '%test%'
+    group by storage_safe.product_idx 
+    order by storage_safe.product_idx
+";
 
 $product_sum_arr = array();
 $sel_pr_sum = mysqli_query($dbcon, $product_sum_sql) or die(mysqli_error($dbcon));
@@ -241,10 +243,10 @@ if ($sel_st_in_wait_num > 0) {
 
 
             <div class="title_right">
-            <div class="col-md-6 col-sm-6 col-xs-12 form-group pull-right" style="text-align:right;">
-                      <a href='contents/sangjo/storage/api/getSpreadSheet.php'><button type="button" class="btn btn-primary btn_excel_download">엑셀 다운로드</button></a>
+              <div class="col-md-6 col-sm-6 col-xs-12 form-group pull-right" style="text-align:right;">
+                      <a href='contents/sangjo/storage/api/getSpreadSheet_branch2.php'><button type="button" class="btn btn-primary btn_excel_download">엑셀 다운로드</button></a>
+              </div>
             </div>
-          </div>
           <div class="clearfix"></div>
 
 
@@ -295,20 +297,13 @@ if ($sel_st_in_wait_num > 0) {
                         <th class="column-title th_product_name"  style="background: #405467;">품목명 </th>
                         <th class="column-title th_display_group"  style="background: #405467;">관리그룹 </th>
 
-                        <th class="column-title th_sum">재고<br>합계<br>(<?=$st_sum_total?>) </th>
+                        <th class="column-title th_sum">재고<br>합계</th>
                         
                         <?php if($headquarters_storage): ?>
-                        <?php 
-                            $storage_column = "storage_idx_".$headquarters_storage['storage_idx'];
-                            $st_in_wait_num = "";
-                            if(isset($st_in_wait_arr[$storage_column]) && $st_in_wait_arr[$storage_column] > 0){
-                                $st_in_wait_num = "(".$st_in_wait_arr[$storage_column].")";
-                            }
-                        ?>
-                        <th class="column-title">본사<br><?=$storage_sum_arr[$storage_column]['sum_current_count']?><?=$st_in_wait_num?></th>
+                        <th class="column-title">본사</th>
                         <?php endif; ?>
                         
-                        <th class="column-title">지사합계<br>(대성)<br><?=$non_douzone_sum_total?></th>
+                        <th class="column-title">지사합계<br>(대성)</th>
 
                         <?php
                         // 더존 명칭이 들어가지 않은 지사만 표시
@@ -318,13 +313,37 @@ if ($sel_st_in_wait_num > 0) {
                             if(mb_strlen($storage['storage_name']) > 5){
                                 $th_class = "th_long";
                             }
-                            
+                        ?>
+                            <th class="column-title <?=$th_class?>"><?=str_replace(" ","<br>",$storage['storage_name'])?></th>
+                        <?php } ?>
+                      </tr>
+                      <tr>
+                        <td style="background: #405467; color: white;">합계</td>
+                        <td></td>
+                        <td><?=$st_sum_total?></td>
+                        
+                        <?php if($headquarters_storage): ?>
+                        <?php 
+                            $storage_column = "storage_idx_".$headquarters_storage['storage_idx'];
                             $st_in_wait_num = "";
                             if(isset($st_in_wait_arr[$storage_column]) && $st_in_wait_arr[$storage_column] > 0){
                                 $st_in_wait_num = "(".$st_in_wait_arr[$storage_column].")";
                             }
                         ?>
-                            <th class="column-title <?=$th_class?>"><?=str_replace(" ","<br>",$storage['storage_name'])?> <br><?=$storage_sum_arr[$storage_column]['sum_current_count']?><?=$st_in_wait_num?></th>
+                        <td><?=$storage_sum_arr[$storage_column]['sum_current_count']?><?=$st_in_wait_num?></td>
+                        <?php endif; ?>
+                        
+                        <td><?=$non_douzone_sum_total?></td>
+
+                        <?php
+                        foreach($non_douzone_storage_arr as $storage) {
+                            $storage_column = "storage_idx_".$storage['storage_idx'];
+                            $st_in_wait_num = "";
+                            if(isset($st_in_wait_arr[$storage_column]) && $st_in_wait_arr[$storage_column] > 0){
+                                $st_in_wait_num = "(".$st_in_wait_arr[$storage_column].")";
+                            }
+                        ?>
+                            <td><?=$storage_sum_arr[$storage_column]['sum_current_count']?><?=$st_in_wait_num?></td>
                         <?php } ?>
                       </tr>
                     </thead>
