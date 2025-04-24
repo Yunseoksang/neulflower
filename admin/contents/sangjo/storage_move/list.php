@@ -148,7 +148,7 @@ array_push($th_info,["t_write_admin_name","등록관리자"]);
 //array_push($th_info,["delivery_type","배송방법","selectDropDown",[  ["","배송방법","btn-primary"],["택배","택배","btn-success","divider"],["직배송","직배송","btn-success"]  ] ]);//DB에서 디폴트 값이 없을때 대비
 //array_push($th_info,["io_status","처리상태","selectDropDown",[  ["미출고","미출고","btn-primary"],["이동출고완료","이동출고완료","btn-success"],["이동입고완료","이동입고완료","btn-dark","divider"]    ] ]);
 array_push($th_info,["io_status","처리상태"]);
-array_push($th_info,["exec","실행","exec"]);
+array_push($th_info,["exec2","실행","exec2"]);
 
 
 

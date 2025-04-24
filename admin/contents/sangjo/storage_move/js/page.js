@@ -1,25 +1,30 @@
-
 document.body.addEventListener("keydown", function(event) {
-
     if(event.key !== "Enter"){
         $("#barcode_input_all").val($("#barcode_input_all").val()+event.key);
-
     }else{
         if($("#barcode_input_all").val().length == 13){
             go_next_status_all_QR($("#barcode_input_all").val());
-
         }
         $("#barcode_input_all").val("");
-
-
     }
-    //event.preventDefault();
-
-
     console.log("이벤트키:"+$("#barcode_input_all").val());
 }, true);
 
+function selectDropDownReset($obj){
+    //오류로 selectDropDown 원상복귀
+    var column =$obj.closest("td").attr("column");
+    var default_val= $obj.closest("td").attr(column);
+    $targetBox =$obj.closest("div[col_name='"+column+"']");
 
+    $targetBox.find("button").first().text(default_val);
+    $targetBox.find("button").first().removeClass().addClass("btn").addClass(column);
+    $targetBox.find(".dropdown-toggle").removeClass().addClass("btn dropdown-toggle");
+
+    var default_color = $targetBox.find("a:contains('"+default_val+"')").attr("selected_color");
+    console.log(default_color);
+    $targetBox.find("button").first().addClass(default_color);
+    $targetBox.find(".dropdown-toggle").addClass(default_color);
+}
 
 $(document).ready(function(){
 
@@ -126,35 +131,6 @@ $(document).ready(function(){
     //     // //console.log(data.id);  //value 값임.
     // });
 
-
-    function selectDropDownReset($obj){
-        
-        //오류로 selectDropDown 원상복귀
-        var column =$obj.closest("td").attr("column");
-        var default_val= $obj.closest("td").attr(column);
-        $targetBox =$obj.closest("div[col_name='"+column+"']");
-
-
-        $targetBox.find("button").first().text(default_val);
-        $targetBox.find("button").first().removeClass().addClass("btn").addClass(column);
-        $targetBox.find(".dropdown-toggle").removeClass().addClass("btn dropdown-toggle");
-
-
-        var default_color = $targetBox.find("a:contains('"+default_val+"')").attr("selected_color");
-        console.log(default_color);
-        $targetBox.find("button").first().addClass(default_color);
-        $targetBox.find(".dropdown-toggle").addClass(default_color);
-
-    }
-
-
-
-
-
-    //$(document).on("click","div.btn-group[col_name='io_status'] ul.dropdown-menu li a",function(e){
-
-
-    
 
     $(document).on("click", ".btn_io_status",function() {
         
@@ -328,7 +304,7 @@ $(document).ready(function(){
 function status_cancel($btn){
     
     var old_io_status = $btn.text();
-    if(old_io_status == "이동출고완료" || old_io_status == "이동입고완료"){
+    if(old_io_status == "이동출고완료" || old_io_status == "이동입고완료" || old_io_status == "취소완료"){
         return;
     }
 

@@ -55,7 +55,7 @@ if($admin_info['pm_flower'] == "화훼지점관리자"){
 
 
 
-$order_by_column = "r_date";
+$order_by_column = "r_date desc, r_hour";
 $order_by_sort = "desc";
 
 

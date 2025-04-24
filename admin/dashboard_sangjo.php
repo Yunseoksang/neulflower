@@ -365,6 +365,14 @@ var lang_kor = {
                   <ul class="nav child_menu" style="display:none;">
                     <li><a href="<?=$PHP_SELF?>?page=sangjo/storage/list">전체재고</a>
                     </li>
+
+                    <?php
+            if($admin_info['admin_id'] == "triplen123@naver.com"){?>
+                    <li><a href="<?=$PHP_SELF?>?page=sangjo/storage/list_test">전체재고(테스트)</a>
+                    </li>
+            <?}
+              ?>
+
                     <li><a href="<?=$PHP_SELF?>?page=sangjo/storage/list_branch">더존재고</a>
                     </li>
                     <li><a href="<?=$PHP_SELF?>?page=sangjo/storage/list_branch2">대성재고</a>

@@ -10,6 +10,8 @@ $storage_sum_sql = "
     select * from in_out 
     where io_idx in (select max(io_idx) as max_io_idx from in_out group by storage_idx, product_idx)
     and t_product_name NOT LIKE '%test%'
+    and t_storage_name IS NOT NULL 
+    and t_storage_name != ''
     ) y group by storage_idx, product_idx
 
     ) x group by storage_idx

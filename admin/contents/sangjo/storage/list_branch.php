@@ -296,14 +296,7 @@ if ($sel_st_in_wait_num > 0) {
                         <th class="column-title">품목번호 </th>  -->
                         <th class="column-title th_product_name"  style="background: #405467;">품목명 </th>
                         <th class="column-title th_display_group"  style="background: #405467;">관리그룹 </th>
-
-                        <th class="column-title th_sum">재고<br>합계</th>
-                        
-                        <?php if($headquarters_storage): ?>
-                        <th class="column-title">본사</th>
-                        <?php endif; ?>
-                        
-                        <th class="column-title">지사합계<br>(더존)</th>
+                        <th class="column-title" style="background: #3a4a5c;">지사합계<br>(더존)</th>
 
                         <?php
                         // 더존 지사만 표시
@@ -320,21 +313,8 @@ if ($sel_st_in_wait_num > 0) {
                       <tr>
                         <td style="background: #405467; color: white;">합계</td>
                         <td></td>
-                        <td><?=$st_sum_total?></td>
-                        
-                        <?php if($headquarters_storage): ?>
-                        <?php 
-                            $storage_column = "storage_idx_".$headquarters_storage['storage_idx'];
-                            $st_in_wait_num = "";
-                            if(isset($st_in_wait_arr[$storage_column]) && $st_in_wait_arr[$storage_column] > 0){
-                                $st_in_wait_num = "(".$st_in_wait_arr[$storage_column].")";
-                            }
-                        ?>
-                        <td><?=$storage_sum_arr[$storage_column]['sum_current_count']?><?=$st_in_wait_num?></td>
-                        <?php endif; ?>
-                        
                         <td><?=$douzone_sum_total?></td>
-
+                        
                         <?php
                         foreach($douzone_storage_arr as $storage) {
                             $storage_column = "storage_idx_".$storage['storage_idx'];
@@ -351,6 +331,24 @@ if ($sel_st_in_wait_num > 0) {
                     <tbody>
                     <?php
                     for ($i=0;$i<count($product_arr);$i++) {
+                        // 더존 지사 합계 계산
+                        $douzone_product_sum = 0;
+                        foreach($douzone_storage_arr as $storage) {
+                            $storage_column = "storage_idx_".$storage['storage_idx'];
+                            $product_column = "product_idx_".$product_arr[$i]['product_idx'];
+                            
+                            if(isset($storage_safe_arr[$storage_column][$product_column])) {
+                                $douzone_product_sum += $storage_safe_arr[$storage_column][$product_column][1];
+                            }
+                            
+                            if(isset($stpr_in_wait_arr[$storage_column][$product_column])) {
+                                $douzone_product_sum += $stpr_in_wait_arr[$storage_column][$product_column];
+                            }
+                        }
+
+                        // 합계가 0이면 표시하지 않음
+                        if($douzone_product_sum == 0) continue;
+
                         if($i%2 == 0){
                             $line_class = "even";
                         }else{
@@ -362,65 +360,7 @@ if ($sel_st_in_wait_num > 0) {
                         <tr class="<?=$line_class?> pointer">
                             <td class=" "><a href="?page=sangjo/storage_adjust/history&product_idx=<?=$product_arr[$i]['product_idx']?>" target="history"><?=$product_arr[$i]['product_name']?></a></td>
                             <td class="display_group"><?=$product_arr[$i]['display_group']?></td>
-
-                            <?php
-                            $this_pr_sum = 0;
-                            if($pr_in_wait_arr[$product_column] == 0){
-                                $this_pr_sum = $product_sum_arr[$product_column]['sum_current_count'];
-                            }else{
-                                $this_pr_sum = $product_sum_arr[$product_column]['sum_current_count'] + $pr_in_wait_arr[$product_column];
-                            }
-                            ?>
-                            <td class=" "><?=$this_pr_sum?></td>
-                            
-                            <?php if($headquarters_storage): ?>
-                            <?php
-                                $storage_column = "storage_idx_".$headquarters_storage['storage_idx'];
-                                $product_column = "product_idx_".$product_arr[$i]['product_idx'];
-                                
-                                $safe_alert = "";
-                                $title_alt = "";
-                                $safe_num_w = "";
-                                
-                                $in_sum = "";
-                                if(isset($stpr_in_wait_arr[$storage_column][$product_column]) && $stpr_in_wait_arr[$storage_column][$product_column] > 0){
-                                    $in_sum = "<span style='color:#ff6c00;'>(".$stpr_in_wait_arr[$storage_column][$product_column].")</span>";
-                                }
-                                
-                                if(isset($storage_safe_arr[$storage_column][$product_column]) && 
-                                   $storage_safe_arr[$storage_column][$product_column][0] > $storage_safe_arr[$storage_column][$product_column][1] && 
-                                   $storage_safe_arr[$storage_column][$product_column][0] != "0"){
-                                    $safe_alert = "td_safe_alert";
-                                    $title_alt = "안전재고:".$storage_safe_arr[$storage_column][$product_column][0]."개";
-                                    $safe_num_w = "/".$storage_safe_arr[$storage_column][$product_column][0];
-                                }
-                                
-                                $current_count = isset($storage_safe_arr[$storage_column][$product_column]) ? $storage_safe_arr[$storage_column][$product_column][1] : "-";
-                            ?>
-                            <td class=" <?=$safe_alert?>" title="<?=$title_alt?>">
-                                <a href="dashboard_sffm.php?page=sangjo/storage_input/move&storage_idx=<?=$headquarters_storage['storage_idx']?>" target="move">
-                                    <?=$current_count?><?=$safe_num_w?><?=$in_sum?>
-                                </a>
-                            </td>
-                            <?php endif; ?>
-                            
-                            <?php
-                            // 더존 지사 합계 계산
-                            $douzone_product_sum = 0;
-                            foreach($douzone_storage_arr as $storage) {
-                                $storage_column = "storage_idx_".$storage['storage_idx'];
-                                $product_column = "product_idx_".$product_arr[$i]['product_idx'];
-                                
-                                if(isset($storage_safe_arr[$storage_column][$product_column])) {
-                                    $douzone_product_sum += $storage_safe_arr[$storage_column][$product_column][1];
-                                }
-                                
-                                if(isset($stpr_in_wait_arr[$storage_column][$product_column])) {
-                                    $douzone_product_sum += $stpr_in_wait_arr[$storage_column][$product_column];
-                                }
-                            }
-                            ?>
-                            <td class=" "><?=$douzone_product_sum?></td>
+                            <td class=" " style="color: #0066cc;"><?=$douzone_product_sum?></td>
                             
                             <?php
                             // 더존 지사별 재고 표시

@@ -304,7 +304,7 @@ if($_POST['mode'] == "io_status"){
 
 
 
-        }else if($_POST['io_status'] == "이동출고취소"){ //단순히 단계만 업데이트
+        }else if($_POST['io_status'] == "이동출고취소"){ //출고완료전 취소 => 단순히 단계만 업데이트,재고변화 없음
 
             
             if($data['io_status'] == "이동출고완료"){ //출고완료에서 이전으로 돌아갈수 없음  (혹은 재고량 마이너스 시키면서 백가능???)
@@ -321,8 +321,8 @@ if($_POST['mode'] == "io_status"){
             
             }
 
+
      
-    
             $up = mysqli_query($dbcon, "update in_out set io_status='".$_POST['io_status']."',
             cancel_datetime=now(),
             cancel_manager_idx='".$admin_info['admin_idx']."',
@@ -340,6 +340,18 @@ if($_POST['mode'] == "io_status"){
                 exit;
                 
             }
+
+            mysqli_query($dbcon, "COMMIT") or die(mysqli_error($dbcon));
+
+            $result = array();
+            $result['status'] = 1;
+            $result['msg'] = "이동출고취소 되었습니다";
+            $result['msg_text'] = $data['t_storage_name']."에서 ".$data['t_product_name']."의 이동출고가 취소되었습니다";
+
+            echo json_encode($result);
+            exit;
+        
+
 
 
         }
